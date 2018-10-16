@@ -1,0 +1,10 @@
+.card {
+    margin: 0 auto;
+    padding: 10px;
+    float: none;
+    margin-top: 50px;
+}
+
+#dialer {
+    display: none;
+}
