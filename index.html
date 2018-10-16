@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
+  <script src="https://unpkg.com/sip.js"></script>
+  <script src="https://unpkg.com/@wazo/sdk"></script>
+  <script src="./demo.js"></script>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+  <title>Wazo WebRTC Demo</title>
+</head>
+<body>
+  <div class="container-fluid">
+    <audio id="audio"></audio>
+
+    <!--  Authentication -->
+    <div id="login-modal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <form class="modal-content" id="login-form">
+          <div class="modal-header">
+            <h5 class="modal-title">Authentication</h5>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="username">Login</label>
+              <input type="text" class="form-control" id="username" placeholder="Login">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <label for="server">Password</label>
+              <input type="text" class="form-control" id="server" value="demo.wazo.community">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span class="error" id="auth-error"></span>
+            <input type="submit" class="btn btn-primary" value="Login" id="submit-login" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Incoming call -->
+    <div id="incoming-modal" class="modal" tabindex="-2" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Incoming call from <span></span></h5>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="accept">Accept</button>
+            <button class="btn btn-secondary" id="reject">Reject</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dialer -->
+    <form id="dialer" class="card" style="width: 18rem;">
+      Hello, <span id="name"></span>
+      <div class="form-group mb-2">
+        <input type="text" class="form-control" id="number" placeholder="Dial a number">
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">Dial</button>
+      <button class="btn btn-secondary mb-2" id="hangup">Hangup</button>
+      <p id="status"></p>
+    </form>
+  </div>
+</body>
