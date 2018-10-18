@@ -7,8 +7,9 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/@wazo/sdk@0.5.0"></script>
-  <script src="./demo.js"></script>
+  <script src="https://rawgit.com/wazo-pbx/wazo-js-sdk/e31a209831f736efaec9e96e817d266a0aa696b1/dist/wazo-sdk.js"></script>
+  <script src="./src/dialer.js"></script>
+  <script src="./src/authentication.js"></script>
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
   <link href="./styles.css" rel="stylesheet">
@@ -28,15 +29,15 @@
           <div class="modal-body">
             <div class="form-group">
               <label for="username">Login</label>
-              <input type="text" class="form-control" id="username" placeholder="Login">
+              <input type="text" class="form-control" id="username" placeholder="Login" />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password">
+              <input type="password" class="form-control" id="password" placeholder="Password" />
             </div>
             <div class="form-group">
-              <label for="server">Password</label>
-              <input type="text" class="form-control" id="server" value="demo.wazo.community">
+              <label for="server">Server</label>
+              <input type="text" class="form-control" id="server" value="demo.wazo.community" />
             </div>
           </div>
           <div class="modal-footer">
@@ -63,14 +64,18 @@
     </div>
 
     <!-- Dialer -->
+    <h3 id="full-name"></h3>
     <form id="dialer" class="card" style="width: 18rem;">
-      Hello, <span id="name"></span>
       <div class="form-group mb-2">
-        <input type="text" class="form-control" id="number" placeholder="Dial a number">
+        <input type="text" class="form-control number" placeholder="Dial a number">
       </div>
-      <button type="submit" class="btn btn-primary mb-2">Dial</button>
-      <button class="btn btn-secondary mb-2" id="hangup">Hangup</button>
-      <p id="status"></p>
+      <button type="submit" class="btn btn-primary mb-2 dial">Dial</button>
+      <button class="btn btn-secondary mb-2 hangup">Hangup</button>
+      <button class="btn btn-secondary mb-2 unhold">unhold</button>
+      <button class="btn btn-secondary mb-2 hold">hold</button>
+      <p class="status"></p>
     </form>
+
+    <div id="dialers"></div>
   </div>
 </body>
