@@ -2,9 +2,31 @@
     margin: 0 auto;
     padding: 10px;
     float: none;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 #dialer {
     display: none;
+}
+
+#dialer .unhold, #dialer .hold {
+    display: none;
+}
+
+#user {
+    display: none;
+}
+
+#dialers {
+}
+
+h3 {
+    font-size: 16px;
+    text-align: center;
+}
+
+#full-name {
+    font-size: 18px;
+    padding-top: 5px;
+    text-align: center;
 }
