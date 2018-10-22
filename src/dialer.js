@@ -56,7 +56,7 @@ function initializeWebRtc(sipLine, host) {
     bindSessionCallbacks(session);
     openIncomingCallModal(session);
   });
-  webRtcClient.on('connected', onCallAccepted);
+  webRtcClient.on('accepted', onCallAccepted);
   webRtcClient.on('ended', function () {
     resetDialer('Call ended');
   });
@@ -166,6 +166,7 @@ function addDialer(session) {
   const dialButton = $('.dial', newDialer);
   const unholdButton = $('.unhold', newDialer);
   const holdButton = $('.hold', newDialer);
+  $('.form-group', newDialer).hide();
 
   holdButton.hide();
   unholdButton.hide();
