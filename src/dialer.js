@@ -1,5 +1,11 @@
 let currentSession;
 const sessions = {};
+const sdhs = {};
+const mutedSessions = {};
+let inConference = false;
+
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
 
 function setMainStatus(status) {
   $('#dialer .status').html(status);
@@ -116,6 +122,55 @@ function hold(session) {
   updateDialers();
 }
 
+function mute(session) {
+  webRtcClient.mute(session);
+  mutedSessions[session.id] = true;
+
+  updateDialers();
+}
+
+function unmute(session) {
+  webRtcClient.unmute(session);
+  delete mutedSessions[session.id];
+
+  updateDialers();
+}
+
+function startConference(sessionHost) {
+  const hostNumber = getNumber(sessionHost);
+  const hostPc = sdhs[hostNumber].peerConnection;
+  // Mixer
+  const merger = audioContext.createChannelMerger();
+  const localStream = hostPc.getLocalStreams()[0];
+
+  const destination = audioContext.createMediaStreamDestination();
+  const localSource = audioContext.createMediaStreamSource(localStream);
+  localSource.connect(destination);
+
+  localSource.connect(merger, 0, 0); // Send local stream to the mixer
+  localSource.connect(merger, 0, 1); // FF supports stereo
+
+  Object.values(sessions).forEach(session => {
+    const number = getNumber(session);
+    const pc = sdhs[number].peerConnection;
+    console.log('Adding to the conference :', number);
+    const sessionSource = audioContext.createMediaStreamSource(pc.getRemoteStreams()[0]);
+    // sessionSource.connect(destination);
+    sessionSource.connect(merger, 0, 0); // add all participants to the mix
+    sessionSource.connect(merger, 0, 1); // add all participants to the mix
+
+    pc.removeStream(pc.getLocalStreams()[0]);
+    pc.addStream(destination.stream);
+  });
+
+  merger.connect(destination);
+
+  hostPc.removeStream(hostPc.getLocalStreams()[0]);
+  hostPc.addStream(destination.stream);
+  inConference = true;
+  updateDialers();
+}
+
 function resetDialer(status) {
   const dialer = $('#dialer');
   const numberField = $('#dialer .number');
@@ -157,6 +212,9 @@ function bindSessionCallbacks(session) {
     onCallTerminated(session);
     setMainStatus('Call with ' + number + ' canceled');
   });
+  session.on('SessionDescriptionHandler-created', function (sdh) {
+    sdhs[number] = sdh;
+  });
 }
 
 function addDialer(session) {
@@ -166,15 +224,31 @@ function addDialer(session) {
   const dialButton = $('.dial', newDialer);
   const unholdButton = $('.unhold', newDialer);
   const holdButton = $('.hold', newDialer);
-  $('.form-group', newDialer).hide();
+  const muteButton = $('.mute', newDialer);
+  const unmuteButton = $('.unmute', newDialer);
+  const conferenceButton = $('.conference', newDialer);
 
+  $('.form-group', newDialer).hide();
   holdButton.hide();
   unholdButton.hide();
+  muteButton.hide();
+  unmuteButton.hide();
+  conferenceButton.hide();
 
   if (session.local_hold) {
     unholdButton.show();
   } else {
     holdButton.show();
+  }
+  
+  if (session.id in mutedSessions) {
+    unmuteButton.show();
+  } else {
+    muteButton.show();
+  }
+
+  if(Object.keys(sessions).length >= 1 && !inConference) {
+    conferenceButton.show();
   }
 
   $('.status', newDialer).html(getStatus(session));
@@ -199,6 +273,21 @@ function addDialer(session) {
   holdButton.off('click').on('click', function (e) {
     e.preventDefault();
     hold(session);
+  });
+
+  muteButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    mute(session);
+  });
+
+  unmuteButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    unmute(session);
+  });
+
+  conferenceButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    startConference(session);
   });
 
   newDialer.appendTo($('#dialers'));

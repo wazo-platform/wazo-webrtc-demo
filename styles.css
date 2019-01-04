@@ -9,7 +9,7 @@
     display: none;
 }
 
-#dialer .unhold, #dialer .hold {
+#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .conference {
     display: none;
 }
 
