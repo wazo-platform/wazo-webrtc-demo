@@ -140,30 +140,30 @@ function startConference(sessionHost) {
   const hostNumber = getNumber(sessionHost);
   const hostPc = sdhs[hostNumber].peerConnection;
   // Mixer
-  const merger = audioContext.createChannelMerger();
+  // const merger = audioContext.createChannelMerger();
   const localStream = hostPc.getLocalStreams()[0];
 
   const destination = audioContext.createMediaStreamDestination();
   const localSource = audioContext.createMediaStreamSource(localStream);
   localSource.connect(destination);
 
-  localSource.connect(merger, 0, 0); // Send local stream to the mixer
-  localSource.connect(merger, 0, 1); // FF supports stereo
+  // localSource.connect(merger, 0, 0); // Send local stream to the mixer
+  // localSource.connect(merger, 0, 1); // FF supports stereo
 
   Object.values(sessions).forEach(session => {
     const number = getNumber(session);
     const pc = sdhs[number].peerConnection;
     console.log('Adding to the conference :', number);
     const sessionSource = audioContext.createMediaStreamSource(pc.getRemoteStreams()[0]);
-    // sessionSource.connect(destination);
-    sessionSource.connect(merger, 0, 0); // add all participants to the mix
-    sessionSource.connect(merger, 0, 1); // add all participants to the mix
+    sessionSource.connect(destination);
+    // sessionSource.connect(merger, 0, 0); // add all participants to the mix
+    // sessionSource.connect(merger, 0, 1); // add all participants to the mix
 
-    pc.removeStream(pc.getLocalStreams()[0]);
-    pc.addStream(destination.stream);
+    // pc.removeStream(pc.getLocalStreams()[0]);
+    // pc.addStream(destination.stream);
   });
 
-  merger.connect(destination);
+  // merger.connect(destination);
 
   hostPc.removeStream(hostPc.getLocalStreams()[0]);
   hostPc.addStream(destination.stream);
