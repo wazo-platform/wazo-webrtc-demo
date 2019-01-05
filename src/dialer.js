@@ -133,7 +133,9 @@ function unmute(session) {
 }
 
 function startConference(sessionHost) {
-  audioContext.resume();
+  if (audioContext.state == 'suspended') {
+      audioContext.resume();
+  }
 
   const hostPc = sessionHost.sessionDescriptionHandler.peerConnection;
   const localStream = hostPc.getLocalStreams()[0];
