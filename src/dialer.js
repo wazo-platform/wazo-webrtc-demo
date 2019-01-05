@@ -1,6 +1,5 @@
 let currentSession;
 const sessions = {};
-const sdhs = {};
 const mutedSessions = {};
 let inConference = false;
 
@@ -136,8 +135,7 @@ function unmute(session) {
 function startConference(sessionHost) {
   audioContext.resume();
 
-  const hostPc = sdhs[sessionHost.id].peerConnection;
-
+  const hostPc = sessionHost.sessionDescriptionHandler.peerConnection;
   const localStream = hostPc.getLocalStreams()[0];
   const localSource = audioContext.createMediaStreamSource(localStream);
 
@@ -149,22 +147,20 @@ function startConference(sessionHost) {
       unhold(session);
     }
 
-    // Only waiting if session is hold
     setTimeout(() => {
       console.log('Adding to the conference :', getNumber(session));
-
-      const pc = sdhs[session.id].peerConnection;
+      const pc = session.sessionDescriptionHandler.peerConnection;
       remoteStream = pc.getRemoteStreams()[0];
-      const sessionSource = audioContext.createMediaStreamSource(new MediaStream(remoteStream));
+      const sessionSource = audioContext.createMediaStreamSource(remoteStream);
       sessionSource.connect(destination);
-    }, 1000);
+    }, 1500);
   });
-
 
   hostPc.removeStream(localStream);
   hostPc.addStream(destination.stream);
-  const constraints = webRtcClient._getRtcOptions();
-  hostPc.createOffer(constraints).then(offer => hostPc.setLocalDescription(offer)).catch(error => console.log(`createOffer failed: ${error}`));
+  hostPc.createOffer(webRtcClient._getRtcOptions())
+    .then(offer => hostPc.setLocalDescription(offer))
+    .catch(error => console.log(`createOffer failed: ${error}`));
 
   inConference = true;
   updateDialers();
@@ -214,9 +210,6 @@ function bindSessionCallbacks(session) {
   session.on('cancel', function () {
     onCallTerminated(session);
     setMainStatus('Call with ' + number + ' canceled');
-  });
-  session.on('SessionDescriptionHandler-created', function (sdh) {
-    sdhs[sdh.id] = sdh;
   });
 }
 
@@ -290,7 +283,6 @@ function addDialer(session) {
 
   conferenceButton.off('click').on('click', function (e) {
     e.preventDefault();
-
     startConference(session);
   });
 
