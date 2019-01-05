@@ -5,7 +5,6 @@ const mutedSessions = {};
 let inConference = false;
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContext();
 
 function setMainStatus(status) {
   $('#dialer .status').html(status);
@@ -101,9 +100,9 @@ function onCallTerminated(session) {
 
 function accept(session) {
   // Old current session if exists
-  if (currentSession) {
-    hold(currentSession);
-  }
+  //if (currentSession) {
+  //  hold(currentSession);
+  //}
 
   webRtcClient.answer(session);
 
@@ -136,37 +135,32 @@ function unmute(session) {
   updateDialers();
 }
 
-function startConference(sessionHost) {
+function startConference(sessionHost, audioContext) {
   const hostNumber = getNumber(sessionHost);
   const hostPc = sdhs[hostNumber].peerConnection;
-  // Mixer
-  // const merger = audioContext.createChannelMerger();
+  hostPc.onnegotiationneeded = function(ev) { alert("negotiationneeded event detected!"); };
+
   const localStream = hostPc.getLocalStreams()[0];
+  const localSource = audioContext.createMediaStreamSource(localStream);
 
   const destination = audioContext.createMediaStreamDestination();
-  const localSource = audioContext.createMediaStreamSource(localStream);
   localSource.connect(destination);
-
-  // localSource.connect(merger, 0, 0); // Send local stream to the mixer
-  // localSource.connect(merger, 0, 1); // FF supports stereo
 
   Object.values(sessions).forEach(session => {
     const number = getNumber(session);
     const pc = sdhs[number].peerConnection;
     console.log('Adding to the conference :', number);
-    const sessionSource = audioContext.createMediaStreamSource(pc.getRemoteStreams()[0]);
+    remoteStream = pc.getRemoteStreams()[0];
+    const sessionSource = audioContext.createMediaStreamSource(new MediaStream(remoteStream));
     sessionSource.connect(destination);
-    // sessionSource.connect(merger, 0, 0); // add all participants to the mix
-    // sessionSource.connect(merger, 0, 1); // add all participants to the mix
-
-    // pc.removeStream(pc.getLocalStreams()[0]);
-    // pc.addStream(destination.stream);
   });
 
-  // merger.connect(destination);
 
-  hostPc.removeStream(hostPc.getLocalStreams()[0]);
+  hostPc.removeStream(localStream);
   hostPc.addStream(destination.stream);
+  const constraints = webRtcClient._getRtcOptions();
+  hostPc.createOffer(constraints).then(offer => hostPc.setLocalDescription(offer)).catch(error => console.log(`createOffer failed: ${error}`));
+
   inConference = true;
   updateDialers();
 }
@@ -261,6 +255,7 @@ function addDialer(session) {
     webRtcClient.hangup(session);
     delete sessions[number];
 
+    inConference = false;
     updateDialers();
     resetDialer('');
   });
@@ -287,7 +282,8 @@ function addDialer(session) {
 
   conferenceButton.off('click').on('click', function (e) {
     e.preventDefault();
-    startConference(session);
+
+    startConference(session, new AudioContext());
   });
 
   newDialer.appendTo($('#dialers'));
