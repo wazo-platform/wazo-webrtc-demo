@@ -145,17 +145,20 @@ function startConference(sessionHost) {
   localSource.connect(destination);
 
   Object.values(sessions).forEach(session => {
+    const sdh = session.sessionDescriptionHandler;
+    const pc = sdh.peerConnection;
+
     if (session.local_hold) {
       unhold(session);
-    }
 
-    setTimeout(() => {
+      sdh.on('addTrack', (track) => {
+        console.log('Adding to the conference :', getNumber(session));
+        connectStreamToMixer(track.streams[0], destination);
+      });
+    } else {
       console.log('Adding to the conference :', getNumber(session));
-      const pc = session.sessionDescriptionHandler.peerConnection;
-      remoteStream = pc.getRemoteStreams()[0];
-      const sessionSource = audioContext.createMediaStreamSource(remoteStream);
-      sessionSource.connect(destination);
-    }, 1500);
+      connectStreamToMixer(pc.getRemoteStreams()[0], destination);
+    }
   });
 
   hostPc.removeStream(localStream);
@@ -166,6 +169,11 @@ function startConference(sessionHost) {
 
   inConference = true;
   updateDialers();
+}
+
+function connectStreamToMixer(stream, destination) {
+  const sessionSource = audioContext.createMediaStreamSource(stream);
+  sessionSource.connect(destination);
 }
 
 function resetDialer(status) {
@@ -212,6 +220,22 @@ function bindSessionCallbacks(session) {
   session.on('cancel', function () {
     onCallTerminated(session);
     setMainStatus('Call with ' + number + ' canceled');
+  });
+  session.on('SessionDescriptionHandler-created', function (sdh) {
+    console.log('Media session:', sdh);
+    sdh.on('userMedia', (stream) => {
+      console.log('Local');
+      console.log(stream);
+      const audioTracks = stream.getAudioTracks();
+      console.log(audioTracks[0]);
+    });
+    sdh.on('addTrack', (track) => {
+      console.log('Remote');
+      const stream = track.streams[0];
+      console.log(stream);
+      const audioTracks = stream.getAudioTracks();
+      console.log(audioTracks[0]);
+    });
   });
 }
 
