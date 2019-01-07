@@ -18,8 +18,6 @@ function authenticate(username, password, server) {
       $('#full-name').html('Hello ' + fullName + ' (' + line.extensions[0].exten +')');
 
       apiClient.confd.getUserLineSip(data.token, data.uuid, line.id).then(function (sipLine) {
-        clearActiveCalls(userToken);
-
         initializeWebRtc(sipLine, server);
 
         onLogin();
@@ -36,6 +34,8 @@ function openLoginModal() {
 
     $('#submit-login').prop('disabled', true);
     authenticate($('#username').val(), $('#password').val(), $('#server').val());
+
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
   });
 }
 

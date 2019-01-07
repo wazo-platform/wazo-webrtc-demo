@@ -7,8 +7,10 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <!-- <script src="https://unpkg.com/@wazo/sdk@0.10.3/dist/wazo-sdk.js"></script> -->
   <script src="./src/wazo-sdk.js"></script>
   <script src="./src/dialer.js"></script>
+  <script src="./src/music.js"></script>
   <script src="./src/authentication.js"></script>
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
@@ -64,6 +66,8 @@
     </div>
 
     <!-- Dialer -->
+    <button id="btn-connect">Connect Left Channel</button>
+    <button id="btn-pause">Pause</button>
     <h3 id="full-name"></h3>
     <form id="dialer" class="card" style="width: 18rem;">
       <div class="form-group mb-2">

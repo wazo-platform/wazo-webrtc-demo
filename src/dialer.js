@@ -2,8 +2,10 @@ let currentSession;
 const sessions = {};
 const mutedSessions = {};
 let inConference = false;
+let streams = [];
+let audioContext;
+let destination;
 
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 function setMainStatus(status) {
   $('#dialer .status').html(status);
@@ -36,14 +38,6 @@ function getStatus(session) {
   }
 }
 
-function clearActiveCalls(token) {
-  apiClient.ctidNg.listCalls(token).then((calls) => {
-    calls.filter(call => call.status !== 'Down').forEach(call => {
-      apiClient.ctidNg.cancelCall(token, call.id);
-    })
-  });
-}
-
 function initializeWebRtc(sipLine, host) {
   webRtcClient = new window['@wazo/sdk'].WazoWebRTCClient({
     host: host,
@@ -64,6 +58,8 @@ function initializeWebRtc(sipLine, host) {
   webRtcClient.on('ended', function () {
     resetDialer('Call ended');
   });
+
+  destination = audioContext.createMediaStreamDestination();
 }
 
 function onCallAccepted(session) {
@@ -132,53 +128,76 @@ function unmute(session) {
   updateDialers();
 }
 
-function startConference(sessionHost) {
+function startConference() {
+  playerMusic();
+
   if (audioContext.state == 'suspended') {
       audioContext.resume();
   }
-
-  const hostPc = sessionHost.sessionDescriptionHandler.peerConnection;
-  const localStream = hostPc.getLocalStreams()[0];
-  const localSource = audioContext.createMediaStreamSource(localStream);
-
-  const destination = audioContext.createMediaStreamDestination();
-  localSource.connect(destination);
 
   Object.values(sessions).forEach(session => {
     const sdh = session.sessionDescriptionHandler;
     const pc = sdh.peerConnection;
 
+    const localStream = pc.getLocalStreams()[0];
+    addStream(localStream, true);
+
     if (session.local_hold) {
       unhold(session);
 
-      sdh.on('addTrack', (track) => {
+      sdh.on('addTrack', (evtrack) => {
         console.log('Adding to the conference :', getNumber(session));
-        connectStreamToMixer(track.streams[0], destination);
+        const remoteStream = evtrack.streams[0];
+        addStream(remoteStream);
+        pc.removeStream(remoteStream);
       });
     } else {
       console.log('Adding to the conference :', getNumber(session));
-      connectStreamToMixer(pc.getRemoteStreams()[0], destination);
+      const remoteStream = pc.getRemoteStreams()[0];
+      addStream(remoteStream);
+      pc.removeStream(remoteStream);
     }
-  });
 
-  hostPc.removeStream(localStream);
-  hostPc.addStream(destination.stream);
-  hostPc.createOffer(webRtcClient._getRtcOptions())
-    .then(offer => hostPc.setLocalDescription(offer))
-    .catch(error => console.log(`createOffer failed: ${error}`));
+    pc.removeStream(localStream);
+    pc.addStream(destination.stream);
+    pc.createOffer(webRtcClient._getRtcOptions())
+      .then(offer => pc.setLocalDescription(offer))
+      .catch(error => console.log(`createOffer failed: ${error}`));
+  });
 
   inConference = true;
   updateDialers();
 }
 
-function connectStreamToMixer(stream, destination) {
-  const sessionSource = audioContext.createMediaStreamSource(stream);
-  sessionSource.connect(destination);
+function addStream(mediaStream, isLocal) {
+  const id = mediaStream.id;
+  const audioSource = audioContext.createMediaStreamSource(mediaStream);
+  audioSource.connect(destination);
+  if (!isLocal) {
+    streams.push({id, audioSource, mediaStream});
+  }
+}
+
+function removeStream(mediaStream) {
+  console.log(mediaStream);
+  for (let i = 0; i < streams.length; i++) {
+    if (streams[i].id == mediaStream.id) {
+      streams[i].audioSource.disconnect(destination);
+      streams[i].audioSource = null;
+      streams[i] = null;
+      streams.splice(i, 1);
+    }
+  }
+}
+
+function getStream() {
+  return destination.stream;
 }
 
 function resetDialer(status) {
   const dialer = $('#dialer');
   const numberField = $('#dialer .number');
+  const conferenceButton = $('#dialer .conference');
 
   dialer.show();
   $('#dialer .hangup').hide();
@@ -199,6 +218,18 @@ function resetDialer(status) {
     resetDialer('');
     updateDialers();
   });
+
+  if(Object.keys(sessions).length > 1 && !inConference) {
+    conferenceButton.show();
+  } else {
+    conferenceButton.hide();
+  }
+
+  conferenceButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    startConference();
+  });
+
 }
 
 function bindSessionCallbacks(session) {
@@ -227,14 +258,14 @@ function bindSessionCallbacks(session) {
       console.log('Local');
       console.log(stream);
       const audioTracks = stream.getAudioTracks();
+      console.log("Opened audio sources: " + audioTracks.map(function(v){return v.label;}).join());
       console.log(audioTracks[0]);
     });
-    sdh.on('addTrack', (track) => {
+    sdh.on('addTrack', (evtrack) => {
       console.log('Remote');
-      const stream = track.streams[0];
+      const stream = evtrack.streams[0];
       console.log(stream);
-      const audioTracks = stream.getAudioTracks();
-      console.log(audioTracks[0]);
+      console.log(evtrack.track);
     });
   });
 }
@@ -268,10 +299,6 @@ function addDialer(session) {
     muteButton.show();
   }
 
-  if(Object.keys(sessions).length > 1 && !inConference) {
-    conferenceButton.show();
-  }
-
   $('.status', newDialer).html(getStatus(session));
   dialButton.hide();
   dialButton.prop('disabled', true);
@@ -281,6 +308,15 @@ function addDialer(session) {
     e.preventDefault();
     webRtcClient.hangup(session);
     delete sessions[session.id];
+
+    console.log(streams);
+    const pc = session.sessionDescriptionHandler.peerConnection;
+    const localStream = pc.getLocalStreams()[0];
+    const remoteStream = pc.getRemoteStreams()[0];
+    removeStream(localStream);
+    removeStream(remoteStream);
+
+    console.log(streams);
 
     inConference = false;
     updateDialers();
@@ -305,11 +341,6 @@ function addDialer(session) {
   unmuteButton.off('click').on('click', function (e) {
     e.preventDefault();
     unmute(session);
-  });
-
-  conferenceButton.off('click').on('click', function (e) {
-    e.preventDefault();
-    startConference(session);
   });
 
   newDialer.appendTo($('#dialers'));
