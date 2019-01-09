@@ -3,7 +3,7 @@ const sessions = {};
 const mutedSessions = {};
 let inConference = false;
 let sessionIdsInMerge = [];
-let newSession;
+
 
 function setMainStatus(status) {
   $('#dialer .status').html(status);
@@ -171,12 +171,6 @@ function removeFromMerge(session) {
 
 function transfer(session, target) {
   webRtcClient.transfer(session, target);
-
-  updateDialers();
-}
-
-function atxfer(session, target) {
-  webRtcClient.atxfer(session, target);
 
   updateDialers();
 }
