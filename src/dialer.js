@@ -3,6 +3,7 @@ const sessions = {};
 const mutedSessions = {};
 let inConference = false;
 let sessionIdsInMerge = [];
+let newSession;
 
 function setMainStatus(status) {
   $('#dialer .status').html(status);
@@ -168,6 +169,18 @@ function removeFromMerge(session) {
   resetMainDialer(getNumber(session) + ' removed from merge');
 }
 
+function transfer(session, target) {
+  webRtcClient.transfer(session, target);
+
+  updateDialers();
+}
+
+function atxfer(session, target) {
+  webRtcClient.atxfer(session, target);
+
+  updateDialers();
+}
+
 function resetMainDialer(status) {
   const dialer = $('#dialer');
   const numberField = $('#dialer .number');
@@ -248,6 +261,8 @@ function addDialer(session) {
   const unmuteButton = $('.unmute', newDialer);
   const mergeButton = $('.merge', newDialer).html('Add to merge');
   const unmergeButton = $('.unmerge', newDialer).html('Remove from merge');
+  const atxferButton = $('.atxfer', newDialer);
+  const transferButton = $('.transfer', newDialer);
 
   $('.form-group', newDialer).hide();
   holdButton.hide();
@@ -256,6 +271,8 @@ function addDialer(session) {
   unmuteButton.hide();
   mergeButton.hide();
   unmergeButton.hide();
+  atxferButton.hide();
+  transferButton.hide();
 
   if (session.local_hold) {
     unholdButton.show();
@@ -317,6 +334,38 @@ function addDialer(session) {
   unmergeButton.off('click').on('click', function (e) {
     e.preventDefault();
     removeFromMerge(session);
+  });
+
+  atxferButton.show();
+  if (session.atxfer) {
+    atxferButton.html('Complete')
+    atxferButton.off('click').on('click', function (e) {
+      e.preventDefault();
+
+      webRtcClient.atxfer(session).complete(session.atxfer);
+
+      updateDialers();
+    });
+  } else {
+    atxferButton.off('click').on('click', function (e) {
+      e.preventDefault();
+
+      const target = prompt("Phone number atxfer?");
+      if (target != null) {
+        session.atxfer = webRtcClient.atxfer(session).init(target);
+        atxferButton.html('Complete');
+      }
+    });
+  }
+
+  transferButton.show();
+  transferButton.off('click').on('click', function (e) {
+    e.preventDefault();
+
+    const target = prompt("Phone number transfer?");
+    if (target != null) {
+      transfer(session, target);
+    }
   });
 
   newDialer.appendTo($('#dialers'));

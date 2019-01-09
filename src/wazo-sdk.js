@@ -1,0 +1,1 @@
+../../wazo-js-sdk/dist/wazo-sdk.js
