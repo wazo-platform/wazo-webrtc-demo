@@ -34,8 +34,6 @@ function openLoginModal() {
 
     $('#submit-login').prop('disabled', true);
     authenticate($('#username').val(), $('#password').val(), $('#server').val());
-
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
   });
 }
 
@@ -44,7 +42,7 @@ function onLogin() {
   $('#login-modal').modal('hide');
   $('#user').show();
 
-  resetDialer();
+  resetMainDialer();
 }
 
 $(window).on('load', openLoginModal);

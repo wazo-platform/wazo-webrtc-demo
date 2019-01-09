@@ -1,4 +1,6 @@
 function loadAudio(url) {
+  const { audioContext } = webRtcClient;
+
   return fetch(url).then(function(response) {
     return response.arrayBuffer();
   }).then(function(data) {
@@ -11,9 +13,12 @@ function loadAudio(url) {
 }
 
 function playerMusic() {
+  const { audioContext, mergeDestination } = webRtcClient;
   const playerNode = audioContext.createBufferSource();
   const splitterNode = audioContext.createChannelSplitter();
   const mergerNode = audioContext.createChannelMerger(2);
+  let connected = false;
+  let paused = false;
 
   playerNode.loop = true;
 
@@ -25,9 +30,8 @@ function playerMusic() {
   playerNode.connect(splitterNode);
   splitterNode.connect(mergerNode, 0, 1);
   mergerNode.connect(audioContext.destination);
-  mergerNode.connect(destination);
+  mergerNode.connect(mergeDestination);
 
-  var connected = false;
   document.getElementById('btn-connect').addEventListener('click', function() {
     if (connected) {
       splitterNode.disconnect(mergerNode, 1, 0);
@@ -39,7 +43,6 @@ function playerMusic() {
     connected = !connected;
   });
 
-  var paused = false;
   document.getElementById('btn-pause').addEventListener('click', function() {
     if (!paused) {
       playerNode.disconnect(splitterNode);
