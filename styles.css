@@ -9,7 +9,7 @@
     display: none;
 }
 
-#dialer .unhold, #dialer .hold {
+#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge {
     display: none;
 }
 
@@ -17,7 +17,8 @@
     display: none;
 }
 
-#dialers {
+#dialers .card {
+    width: 500px !important;
 }
 
 h3 {

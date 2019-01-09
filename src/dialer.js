@@ -1,5 +1,8 @@
 let currentSession;
 const sessions = {};
+const mutedSessions = {};
+let inConference = false;
+let sessionIdsInMerge = [];
 
 function setMainStatus(status) {
   $('#dialer .status').html(status);
@@ -32,14 +35,6 @@ function getStatus(session) {
   }
 }
 
-function clearActiveCalls(token) {
-  apiClient.ctidNg.listCalls(token).then((calls) => {
-    calls.filter(call => call.status !== 'Down').forEach(call => {
-      apiClient.ctidNg.cancelCall(token, call.id);
-    })
-  });
-}
-
 function initializeWebRtc(sipLine, host) {
   webRtcClient = new window['@wazo/sdk'].WazoWebRTCClient({
     host: host,
@@ -48,7 +43,7 @@ function initializeWebRtc(sipLine, host) {
     password: sipLine.secret,
     uri: sipLine.username + '@' + host,
     media: {
-      audio: document.getElementById('audio')
+      audio: true
     }
   });
 
@@ -58,31 +53,34 @@ function initializeWebRtc(sipLine, host) {
   });
   webRtcClient.on('accepted', onCallAccepted);
   webRtcClient.on('ended', function () {
-    resetDialer('Call ended');
+    resetMainDialer('Call ended');
   });
 }
 
 function onCallAccepted(session) {
-  sessions[getNumber(session)] = session;
+  sessions[session.id] = session;
   currentSession = session;
 
   addDialer(session, 'In call...');
+  resetMainDialer();
 }
 
 function onPhoneCalled(session) {
-  const number = getNumber(session);
-  sessions[number] = session;
+  sessions[session.id] = session;
   currentSession = session;
 
   bindSessionCallbacks(session);
 }
 
 function onCallTerminated(session) {
-  const number = getNumber(session);
-  delete sessions[getNumber(session)];
+  if (sessionIdsInMerge.indexOf(session.id) !== -1) {
+    removeFromMerge(session);
+  }
+
+  delete sessions[session.id];
 
   // Current session terminated ?
-  if (currentSession && getNumber(currentSession) === number) {
+  if (currentSession && currentSession.id=== session.id) {
     // Remaining session ? take first
     currentSession = Object.keys(sessions).length ? sessions[Object.keys(sessions)[0]] : null;
     if (currentSession) {
@@ -90,12 +88,12 @@ function onCallTerminated(session) {
     }
   }
 
-  updateDialers();
+  resetMainDialer('Call with ' + getNumber(session) + ' ended');
 }
 
 function accept(session) {
-  // Old current session if exists
-  if (currentSession) {
+  // Hold current session if exists
+  if (currentSession && !inConference) {
     hold(currentSession);
   }
 
@@ -116,31 +114,111 @@ function hold(session) {
   updateDialers();
 }
 
-function resetDialer(status) {
+function mute(session) {
+  webRtcClient.mute(session);
+  mutedSessions[session.id] = true;
+
+  updateDialers();
+}
+
+function unmute(session) {
+  webRtcClient.unmute(session);
+  delete mutedSessions[session.id];
+
+  updateDialers();
+}
+
+function startConference() {
+  webRtcClient.merge(Object.values(sessions));
+
+  inConference = true;
+  sessionIdsInMerge = Object.keys(sessions);
+
+  resetMainDialer('Conference started');
+}
+
+function endConference() {
+  inConference = false;
+  const sessionToUnmerge = Object.values(sessions).filter(session => sessionIdsInMerge.indexOf(session.id) !== -1);
+
+  webRtcClient.unmerge(sessionToUnmerge).then(() => {
+    resetMainDialer('Conference ended');
+  });
+
+  sessionIdsInMerge = [];
+}
+
+function addToMerge(session) {
+  webRtcClient.addToMerge(session);
+  sessionIdsInMerge.push(session.id);
+
+  resetMainDialer(getNumber(session) + ' added to merge');
+}
+
+function removeFromMerge(session) {
+  webRtcClient.removeFromMerge(session, true);
+
+  const sessionIndex = sessionIdsInMerge.indexOf(session.id);
+  sessionIdsInMerge.splice(sessionIndex, 1);
+
+  if (sessionIdsInMerge.length === 1) {
+    endConference();
+  }
+
+  resetMainDialer(getNumber(session) + ' removed from merge');
+}
+
+function resetMainDialer(status) {
   const dialer = $('#dialer');
   const numberField = $('#dialer .number');
+  const mergeButton = $('#dialer .merge');
+  const unmergeButton = $('#dialer .unmerge');
 
   dialer.show();
   $('#dialer .hangup').hide();
+  unmergeButton.hide();
+  mergeButton.hide();
   numberField.val('');
-  setMainStatus(status);
+  setMainStatus(status || '');
 
   dialer.off('submit').on('submit', function (e) {
     e.preventDefault();
 
     const session = webRtcClient.call(numberField.val());
 
+    if (currentSession && !inConference) {
+      hold(currentSession);
+    }
+
     onPhoneCalled(session);
 
-    resetDialer('');
+    resetMainDialer('');
     updateDialers();
   });
+
+  if (inConference) {
+    unmergeButton.show();
+  } else if(Object.keys(sessions).length > 1) {
+    mergeButton.show();
+  }
+
+  mergeButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    startConference();
+  });
+
+  unmergeButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    endConference();
+  });
+
+  updateDialers();
 }
 
 function bindSessionCallbacks(session) {
   const number = getNumber(session);
 
-  session.on('accepted', updateDialers);
+  session.on('accepted', () => resetMainDialer(''));
   session.on('failed', function () {
     onCallTerminated(session);
     setMainStatus('Call with ' + number + ' failed');
@@ -160,21 +238,43 @@ function bindSessionCallbacks(session) {
 }
 
 function addDialer(session) {
-  const number = getNumber(session);
-  const newDialer = $('#dialer').clone().attr('id', 'call-' + number);
+  const newDialer = $('#dialer').clone().attr('id', 'call-' + session.id);
+  const isSessionInMerge = sessionIdsInMerge.indexOf(session.id) !== -1;
   const hangupButton = $('.hangup', newDialer);
   const dialButton = $('.dial', newDialer);
   const unholdButton = $('.unhold', newDialer);
   const holdButton = $('.hold', newDialer);
-  $('.form-group', newDialer).hide();
+  const muteButton = $('.mute', newDialer);
+  const unmuteButton = $('.unmute', newDialer);
+  const mergeButton = $('.merge', newDialer).html('Add to merge');
+  const unmergeButton = $('.unmerge', newDialer).html('Remove from merge');
 
+  $('.form-group', newDialer).hide();
   holdButton.hide();
   unholdButton.hide();
+  muteButton.hide();
+  unmuteButton.hide();
+  mergeButton.hide();
+  unmergeButton.hide();
 
   if (session.local_hold) {
     unholdButton.show();
   } else {
     holdButton.show();
+  }
+  
+  if (session.id in mutedSessions) {
+    unmuteButton.show();
+  } else {
+    muteButton.show();
+  }
+
+  if (inConference) {
+    if (isSessionInMerge) {
+      unmergeButton.show();
+    } else {
+      mergeButton.show();
+    }
   }
 
   $('.status', newDialer).html(getStatus(session));
@@ -185,10 +285,8 @@ function addDialer(session) {
   hangupButton.off('click').on('click', function (e) {
     e.preventDefault();
     webRtcClient.hangup(session);
-    delete sessions[number];
 
-    updateDialers();
-    resetDialer('');
+    onCallTerminated(session);
   });
 
   unholdButton.off('click').on('click', function (e) {
@@ -201,14 +299,34 @@ function addDialer(session) {
     hold(session);
   });
 
+  muteButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    mute(session);
+  });
+
+  unmuteButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    unmute(session);
+  });
+
+  mergeButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    addToMerge(session);
+  });
+
+  unmergeButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    removeFromMerge(session);
+  });
+
   newDialer.appendTo($('#dialers'));
 }
 
 function updateDialers() {
   $('#dialers').html('');
 
-  for (const number of Object.keys(sessions)) {
-    addDialer(sessions[number]);
+  for (const session_id of Object.keys(sessions)) {
+    addDialer(sessions[session_id]);
   }
 }
 

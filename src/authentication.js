@@ -18,8 +18,6 @@ function authenticate(username, password, server) {
       $('#full-name').html('Hello ' + fullName + ' (' + line.extensions[0].exten +')');
 
       apiClient.confd.getUserLineSip(data.token, data.uuid, line.id).then(function (sipLine) {
-        clearActiveCalls(userToken);
-
         initializeWebRtc(sipLine, server);
 
         onLogin();
@@ -44,7 +42,7 @@ function onLogin() {
   $('#login-modal').modal('hide');
   $('#user').show();
 
-  resetDialer();
+  resetMainDialer();
 }
 
 $(window).on('load', openLoginModal);
