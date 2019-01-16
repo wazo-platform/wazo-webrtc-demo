@@ -43,9 +43,9 @@ function initializeWebRtc(sipLine, host) {
     password: sipLine.secret,
     uri: sipLine.username + '@' + host,
     media: {
-      audio: true,
-      video: document.getElementById('local'),
-      localVideo: document.getElementById('remote')
+      audio: document.getElementById('audio'),
+      video: document.getElementById('remote'),
+      localVideo: document.getElementById('local')
     }
   });
 
