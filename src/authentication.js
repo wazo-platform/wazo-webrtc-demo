@@ -9,16 +9,10 @@ function displayAuthError(error) {
 function authenticate(username, password, server) {
   apiClient = new window['@wazo/sdk'].WazoApiClient({server});
 
-  apiClient.auth.logIn({username, password}).then(function (data) {
-    const userToken = data.token;
+  apiClient.auth.logIn({username, password}).then(function (session) {
+    initializeWebRtc(server, session);
 
-    apiClient.confd.getUserLineSipFromToken(userToken, data.uuid).then(function (sipLine) {
-      $('#full-name').html('Hello ' + sipLine.options.find(option => option[0] === 'callerid')[1]);
-
-      initializeWebRtc(sipLine, server);
-
-      onLogin();
-    }).catch(displayAuthError);
+    onLogin();
   }).catch(displayAuthError);
 }
 
