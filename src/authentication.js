@@ -12,16 +12,12 @@ function authenticate(username, password, server) {
   apiClient.auth.logIn({username, password}).then(function (data) {
     const userToken = data.token;
 
-    apiClient.confd.getUser(userToken, data.uuid).then(function (user) {
-      const line = user.lines[0];
-      const fullName = user.firstName ? user.firstName + ' ' + user.lastName : username;
-      $('#full-name').html('Hello ' + fullName + ' (' + line.extensions[0].exten +')');
+    apiClient.confd.getUserLineSipFromToken(userToken, data.uuid).then(function (sipLine) {
+      $('#full-name').html('Hello ' + sipLine.options.find(option => option[0] === 'callerid')[1]);
 
-      apiClient.confd.getUserLineSip(data.token, data.uuid, line.id).then(function (sipLine) {
-        initializeWebRtc(sipLine, server);
+      initializeWebRtc(sipLine, server);
 
-        onLogin();
-      }).catch(displayAuthError);
+      onLogin();
     }).catch(displayAuthError);
   }).catch(displayAuthError);
 }
