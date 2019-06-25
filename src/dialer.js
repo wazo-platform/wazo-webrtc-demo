@@ -35,17 +35,14 @@ function getStatus(session) {
   }
 }
 
-function initializeWebRtc(sipLine, host) {
+function initializeWebRtc(host, session) {
   webRtcClient = new window['@wazo/sdk'].WazoWebRTCClient({
     host: host,
     displayName: 'My dialer',
-    authorizationUser: sipLine.username,
-    password: sipLine.secret,
-    uri: sipLine.username + '@' + host,
     media: {
       audio: true
     }
-  });
+  }, session);
 
   webRtcClient.on('invite', function (session) {
     bindSessionCallbacks(session);
