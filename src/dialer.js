@@ -36,24 +36,21 @@ function getStatus(session) {
   }
 }
 
-function initializeWebRtc(sipLine, host) {
+function initializeWebRtc(host, session) {
   webRtcClient = new window['@wazo/sdk'].WazoWebRTCClient({
     host: host,
     displayName: 'My dialer',
-    authorizationUser: sipLine.username,
-    password: sipLine.secret,
-    uri: sipLine.username + '@' + host,
     media: {
       audio: true
     }
-  });
+  }, session);
 
-  webRtcClient.on('invite', function (session) {
+  webRtcClient.on('invite', (session) => {
     bindSessionCallbacks(session);
     openIncomingCallModal(session);
   });
   webRtcClient.on('accepted', onCallAccepted);
-  webRtcClient.on('ended', function () {
+  webRtcClient.on('ended', () => {
     resetMainDialer('Call ended');
   });
 }
