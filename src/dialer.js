@@ -15,7 +15,7 @@ function getNumber(session) {
 function getStatus(session) {
   const number = getNumber(session);
 
-  if (session.local_hold) {
+  if (session.localHold) {
     return 'Call with ' + number + ' hold';
   }
 
@@ -260,7 +260,7 @@ function addDialer(session) {
   atxferButton.hide();
   transferButton.hide();
 
-  if (session.local_hold) {
+  if (session.localHold) {
     unholdButton.show();
   } else {
     holdButton.show();
