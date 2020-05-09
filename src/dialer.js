@@ -1,9 +1,8 @@
-let currentSession;
 const sessions = {};
 const mutedSessions = {};
+let currentSession;
 let inConference = false;
 let sessionIdsInMerge = [];
-
 
 function setMainStatus(status) {
   $('#dialer .status').html(status);
