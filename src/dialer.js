@@ -71,10 +71,6 @@ function onPhoneCalled(session) {
 }
 
 function onCallTerminated(session) {
-  if (sessionIdsInMerge.indexOf(session.id) !== -1) {
-    removeFromMerge(session);
-  }
-
   delete sessions[session.id];
 
   // Current session terminated ?
