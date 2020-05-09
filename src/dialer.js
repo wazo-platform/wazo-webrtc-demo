@@ -4,6 +4,12 @@ let currentSession;
 let inConference = false;
 let sessionIdsInMerge = [];
 
+const setFullName = async (uuid) => {
+  const user = await apiClient.confd.getUser(uuid);
+  const fullName = user.firstName ? `${user.firstName} ${user.lastName}` : username;
+  $('#full-name').html(`Hello ${fullName} (${user.lines[0].extensions[0].exten})`);
+}
+
 function setMainStatus(status) {
   $('#dialer .status').html(status);
 }

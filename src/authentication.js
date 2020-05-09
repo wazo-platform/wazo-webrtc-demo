@@ -14,12 +14,8 @@ const authenticate = async (username, password, server) => {
   }
 
   apiClient.setToken(session.token);
-  const user = await apiClient.confd.getUser(session.uuid);
-  const line = user.lines[0];
-  const fullName = user.firstName ? `${user.firstName} ${user.lastName}` : username;
-  $('#full-name').html(`Hello ${fullName} (${line.extensions[0].exten})`);
-
   initializeWebRtc(server, session);
+  setFullName(session.uuid);
   onLogin();
 }
 
