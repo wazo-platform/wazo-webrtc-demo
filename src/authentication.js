@@ -15,8 +15,7 @@ const authenticate = async (username, password, server) => {
 
   apiClient.setToken(session.token);
   initializeWebRtc(server, session);
-  setFullName(session.uuid);
-  onLogin();
+  onLogin(session);
 }
 
 const openLoginModal = () => {
@@ -30,11 +29,12 @@ const openLoginModal = () => {
   });
 }
 
-const onLogin = () => {
+const onLogin = (session) => {
   $('#submit-login').prop('disabled', false);
   $('#login-modal').modal('hide');
   $('#user').show();
 
+  setFullName(session.uuid);
   resetMainDialer();
 }
 
