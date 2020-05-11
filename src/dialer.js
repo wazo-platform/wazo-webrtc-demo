@@ -8,17 +8,15 @@ const setFullName = async (uuid) => {
   const user = await apiClient.confd.getUser(uuid);
   const fullName = user.firstName ? `${user.firstName} ${user.lastName}` : username;
   $('#full-name').html(`Hello ${fullName} (${user.lines[0].extensions[0].exten})`);
-}
+};
 
-function setMainStatus(status) {
+const setMainStatus = status => {
   $('#dialer .status').html(status);
-}
+};
 
-function getNumber(session) {
-  return session.remoteIdentity.uri._normal.user;
-}
+const getNumber = session => session.remoteIdentity.uri._normal.user;
 
-function getStatus(session) {
+const getStatus = session => {
   const number = getNumber(session);
 
   if (session.localHold) {
@@ -39,9 +37,9 @@ function getStatus(session) {
     default:
       return 'Unknown status: ' + session.status;
   }
-}
+};
 
-function initializeWebRtc(host, session) {
+const initializeWebRtc = (host, session) => {
   webRtcClient = new window['@wazo/sdk'].WazoWebRTCClient({
     host: host,
     displayName: 'My dialer',
@@ -58,7 +56,7 @@ function initializeWebRtc(host, session) {
   webRtcClient.on('ended', () => {
     resetMainDialer('Call ended');
   });
-}
+};
 
 function onCallAccepted(session) {
   sessions[session.id] = session;
@@ -271,7 +269,7 @@ function addDialer(session) {
   } else {
     holdButton.show();
   }
-  
+
   if (session.id in mutedSessions) {
     unmuteButton.show();
   } else {
@@ -342,7 +340,7 @@ function addDialer(session) {
     atxferButton.off('click').on('click', function (e) {
       e.preventDefault();
 
-      const target = prompt("Phone number atxfer?");
+      const target = prompt('Phone number atxfer?');
       if (target != null) {
         session.atxfer = webRtcClient.atxfer(session).init(target);
         atxferButton.html('Complete');
