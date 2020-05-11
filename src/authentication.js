@@ -1,38 +1,41 @@
 let apiClient;
 
-function displayAuthError(error) {
+const displayAuthError = (error) => {
   $('#auth-error').html(error);
-
   $('#submit-login').prop('disabled', false);
-}
+};
 
-function authenticate(username, password, server) {
+const authenticate = async (username, password, server) => {
   apiClient = new window['@wazo/sdk'].WazoApiClient({server});
 
-  apiClient.auth.logIn({username, password}).then(function (session) {
-    initializeWebRtc(server, session);
+  const session = await apiClient.auth.logIn({username, password}).catch(displayAuthError);
+  if (!session) {
+    return;
+  }
 
-    onLogin();
-  }).catch(displayAuthError);
-}
+  apiClient.setToken(session.token);
+  initializeWebRtc(server, session);
+  onLogin(session.uuid);
+};
 
-function openLoginModal() {
+const openLoginModal = () => {
   $('#login-modal').modal({backdrop: 'static'});
 
-  $('#login-form').on('submit', function (e) {
+  $('#login-form').on('submit', e => {
     e.preventDefault();
 
     $('#submit-login').prop('disabled', true);
     authenticate($('#username').val(), $('#password').val(), $('#server').val());
   });
-}
+};
 
-function onLogin() {
+const onLogin = (uuid) => {
   $('#submit-login').prop('disabled', false);
   $('#login-modal').modal('hide');
   $('#user').show();
 
+  setFullName(uuid);
   resetMainDialer();
-}
+};
 
 $(window).on('load', openLoginModal);

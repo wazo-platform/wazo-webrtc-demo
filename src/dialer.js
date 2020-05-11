@@ -1,21 +1,25 @@
-let currentSession;
 const sessions = {};
 const mutedSessions = {};
+let currentSession;
 let inConference = false;
 let sessionIdsInMerge = [];
 
-function setMainStatus(status) {
+const setFullName = async (uuid) => {
+  const user = await apiClient.confd.getUser(uuid);
+  const fullName = user.firstName ? `${user.firstName} ${user.lastName}` : username;
+  $('#full-name').html(`Hello ${fullName} (${user.lines[0].extensions[0].exten})`);
+};
+
+const setMainStatus = status => {
   $('#dialer .status').html(status);
-}
+};
 
-function getNumber(session) {
-  return session.remoteIdentity.uri._normal.user;
-}
+const getNumber = session => session.remoteIdentity.uri._normal.user;
 
-function getStatus(session) {
+const getStatus = session => {
   const number = getNumber(session);
 
-  if (session.local_hold) {
+  if (session.localHold) {
     return 'Call with ' + number + ' hold';
   }
 
@@ -33,9 +37,9 @@ function getStatus(session) {
     default:
       return 'Unknown status: ' + session.status;
   }
-}
+};
 
-function initializeWebRtc(host, session) {
+const initializeWebRtc = (host, session) => {
   webRtcClient = new window['@wazo/sdk'].WazoWebRTCClient({
     host: host,
     displayName: 'My dialer',
@@ -44,15 +48,15 @@ function initializeWebRtc(host, session) {
     }
   }, session);
 
-  webRtcClient.on('invite', function (session) {
+  webRtcClient.on('invite', (session) => {
     bindSessionCallbacks(session);
     openIncomingCallModal(session);
   });
   webRtcClient.on('accepted', onCallAccepted);
-  webRtcClient.on('ended', function () {
+  webRtcClient.on('ended', () => {
     resetMainDialer('Call ended');
   });
-}
+};
 
 function onCallAccepted(session) {
   sessions[session.id] = session;
@@ -161,6 +165,12 @@ function removeFromMerge(session) {
   resetMainDialer(getNumber(session) + ' removed from merge');
 }
 
+function transfer(session, target) {
+  webRtcClient.transfer(session, target);
+
+  updateDialers();
+}
+
 function resetMainDialer(status) {
   const dialer = $('#dialer');
   const numberField = $('#dialer .number');
@@ -241,6 +251,8 @@ function addDialer(session) {
   const unmuteButton = $('.unmute', newDialer);
   const mergeButton = $('.merge', newDialer).html('Add to merge');
   const unmergeButton = $('.unmerge', newDialer).html('Remove from merge');
+  const atxferButton = $('.atxfer', newDialer);
+  const transferButton = $('.transfer', newDialer);
 
   $('.form-group', newDialer).hide();
   holdButton.hide();
@@ -249,13 +261,15 @@ function addDialer(session) {
   unmuteButton.hide();
   mergeButton.hide();
   unmergeButton.hide();
+  atxferButton.hide();
+  transferButton.hide();
 
-  if (session.local_hold) {
+  if (session.localHold) {
     unholdButton.show();
   } else {
     holdButton.show();
   }
-  
+
   if (session.id in mutedSessions) {
     unmuteButton.show();
   } else {
@@ -310,6 +324,38 @@ function addDialer(session) {
   unmergeButton.off('click').on('click', function (e) {
     e.preventDefault();
     removeFromMerge(session);
+  });
+
+  atxferButton.show();
+  if (session.atxfer) {
+    atxferButton.html('Complete')
+    atxferButton.off('click').on('click', function (e) {
+      e.preventDefault();
+
+      webRtcClient.atxfer(session).complete(session.atxfer);
+
+      updateDialers();
+    });
+  } else {
+    atxferButton.off('click').on('click', function (e) {
+      e.preventDefault();
+
+      const target = prompt('Phone number atxfer?');
+      if (target != null) {
+        session.atxfer = webRtcClient.atxfer(session).init(target);
+        atxferButton.html('Complete');
+      }
+    });
+  }
+
+  transferButton.show();
+  transferButton.off('click').on('click', function (e) {
+    e.preventDefault();
+
+    const target = prompt("Phone number transfer?");
+    if (target != null) {
+      transfer(session, target);
+    }
   });
 
   newDialer.appendTo($('#dialers'));
