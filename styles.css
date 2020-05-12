@@ -33,6 +33,7 @@ h3 {
 }
 
 #logout {
+  display: none;
   position: fixed;
   right: 2px;
   top: 2px;

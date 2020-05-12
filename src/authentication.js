@@ -35,6 +35,7 @@ const onLogin = (session) => {
   $('#submit-login').prop('disabled', false);
   $('#login-modal').modal('hide');
   $('#user').show();
+  $('#logout').show();
   $('#logout').on('click', () => {
     removeSessionOnStorage();
     location.reload();
