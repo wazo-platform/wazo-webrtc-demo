@@ -7,7 +7,7 @@ let sessionIdsInMerge = [];
 const setFullName = async (uuid) => {
   const user = await apiClient.confd.getUser(uuid);
   const fullName = user.firstName ? `${user.firstName} ${user.lastName}` : username;
-  $('#full-name').html(`Hello ${fullName} (${user.lines[0].extensions[0].exten})`);
+  $('#user').html(`${fullName} (${user.lines[0].extensions[0].exten})`);
 };
 
 const setMainStatus = status => {
