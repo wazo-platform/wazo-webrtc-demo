@@ -1,7 +1,7 @@
 let apiClient;
 
 const displayAuthError = (error) => {
-  $('#auth-error').html(error);
+  $('#auth-error').html(error).show();
   $('#submit-login').prop('disabled', false);
 };
 
@@ -15,9 +15,8 @@ const authenticate = async (username, password, server) => {
   return session;
 };
 
-const openLoginModal = () => {
-  $('#login-modal').modal({backdrop: 'static'});
-
+const openLogin = () => {
+  $('.alert').hide();
   $('#login-form').on('submit', async (e) => {
     e.preventDefault();
 
@@ -33,9 +32,9 @@ const openLoginModal = () => {
 
 const onLogin = (session) => {
   $('#submit-login').prop('disabled', false);
-  $('#login-modal').modal('hide');
+  $('#authentication').hide();
   $('#user').show();
-  $('#logout').show();
+  $('#phone').show();
   $('#logout').on('click', () => {
     removeSessionOnStorage();
     location.reload();
@@ -63,7 +62,7 @@ const removeSessionOnStorage = (session) => {
 const launchPhone = () => {
   const session = getSessionOnStorage();
   if (!session) {
-    openLoginModal();
+    openLogin();
   } else {
     onLogin(session);
   }
