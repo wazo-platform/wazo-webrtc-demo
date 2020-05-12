@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
   <link href="./styles.css" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" />
   <title>Wazo WebRTC Demo</title>
 </head>
 <body>
@@ -14,11 +16,11 @@
     <div class="row" id="authentication">
       <div class="col-xs-12 col-sm-12 col-md-3 one col">
         <form class="center" id="login-form">
-          <img class="wazo-logo" src="img/wazo-logo.svg"></img>
+          <img class="wazo-logo" src="img/wazo-logo.svg" />
           <input type="text" id="username" class="form-control login input-lg" placeholder="Login" required autofocus>
           <input type="password" id="password" class="form-control login input-lg" placeholder="Password" required>
           <input type="text" id="server" class="form-control login input-lg" placeholder="Server" required>
-	  <button class="btn btn-lg btn-primary btn-block btn-flat login" id="submit-login" type="submit">Login</button>
+	        <button class="btn btn-lg btn-primary btn-block btn-flat login" id="submit-login" type="submit">Login</button>
           <div id="auth-error" class="alert alert-danger" role="alert"></div>
         </form>
       </div>
