@@ -1,33 +1,39 @@
 .card {
-    margin: 0 auto;
-    padding: 10px;
-    float: none;
-    margin-top: 20px;
+  margin: 0 auto;
+  padding: 10px;
+  float: none;
+  margin-top: 20px;
 }
 
 #dialer {
-    display: none;
+  display: none;
 }
 
 #dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer {
-    display: none;
+  display: none;
 }
 
 #user {
-    display: none;
+  display: none;
 }
 
 #dialers .card {
-    width: 500px !important;
+  width: 500px !important;
 }
 
 h3 {
-    font-size: 16px;
-    text-align: center;
+  font-size: 16px;
+  text-align: center;
 }
 
 #full-name {
-    font-size: 18px;
-    padding-top: 5px;
-    text-align: center;
+  font-size: 18px;
+  padding-top: 5px;
+  text-align: center;
+}
+
+#logout {
+  position: fixed;
+  right: 2px;
+  top: 2px;
 }
