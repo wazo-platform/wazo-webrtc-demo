@@ -2,7 +2,7 @@
   margin: 0 auto;
   padding: 10px;
   float: none;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 #dialer {
@@ -13,12 +13,18 @@
   display: none;
 }
 
-#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .send-video {
+#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .start-video, #dialer .stop-video {
+  display: none;
+}
+
+#dialer video, #dialers video {
+  width: 240px;
+  height: 180px;
   display: none;
 }
 
 #dialers .card {
-  width: 500px !important;
+  width: 600px !important;
 }
 
 h3 {
@@ -75,7 +81,7 @@ input.login {
 }
 
 .btn {
-    margin-top: 20px;
+  margin-top: 5px;
 }
 
 .wazo-logo {
@@ -102,7 +108,7 @@ input.login {
 }
 
 #phone {
-  padding-top: 5rem;
+  padding-top: 4rem;
 }
 
 .bg-wazo {

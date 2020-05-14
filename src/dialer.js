@@ -171,12 +171,23 @@ function transfer(session, target) {
   updateDialers();
 }
 
-const sendVideo = session => {
+const startVideo = session => {
   session.reinvite({
     sessionDescriptionHandlerOptions: {
       constraints: {
         audio: false,
         video: true,
+      },
+    }
+  });
+};
+
+const stopVideo = session => {
+  session.reinvite({
+    sessionDescriptionHandlerOptions: {
+      constraints: {
+        audio: false,
+        video: false,
       },
     }
   });
@@ -232,14 +243,18 @@ function resetMainDialer(status) {
 const bindVideoEvents = session => {
   // Video events
   const { peerConnection } = session.sessionDescriptionHandler;
-  console.log('peerConnection', peerConnection);
-  peerConnection.ontrack = rawEvent => {
-    const event = rawEvent;
+  peerConnection.ontrack = event => {
     const [stream] = event.streams;
+    const trackId = event.track.id;
+    const isOther = session.sessionDescriptionHandler.peerConnection.remoteDescription.sdp.indexOf(trackId) !== -1;
+    if (!isOther) {
+      return;
+    }
+
     console.log('ontrack', event.track.kind);
 
     if (event.track.kind === 'audio') {
-      // return this.eventEmitter.emit(ON_AUDIO_STREAM, stream);
+      return;
     }
 
     // not sure this does anything
@@ -247,12 +262,25 @@ const bindVideoEvents = session => {
       event.track.enabled = false;
     }
 
-    // return this.eventEmitter.emit(ON_VIDEO_STREAM, stream, event.track.id);
+    const videoElement = $('#call-'+session.id +' video')[0];
+    videoElement.style.display = 'block';
+    videoElement.srcObject = stream;
+    videoElement.onloadedmetadata = () => {
+      const tracks = stream.getVideoTracks();
+      tracks.forEach(track => {
+        track.enabled = true;
+      });
+    };
   };
 
   peerConnection.onremovestream = event => {
-    console.log('onremovestream', onremovestream);
-    // this.eventEmitter.emit(ON_REMOVE_STREAM, event.stream);
+    console.log('onremovestream', event);
+    const {stream } = event;
+    const videoElement = $('#call-'+session.id +' video')[0];
+
+    stream.getTracks().forEach(track => {
+      track.stop();
+    });
   };
 };
 
@@ -294,7 +322,8 @@ function addDialer(session) {
   const unmergeButton = $('.unmerge', newDialer).html('Remove from merge');
   const atxferButton = $('.atxfer', newDialer);
   const transferButton = $('.transfer', newDialer);
-  const sendVideoButton = $('.send-video', newDialer);
+  const startVideoButton = $('.start-video', newDialer);
+  const stopVideoButton = $('.stop-video', newDialer);
 
   $('.form-group', newDialer).hide();
   holdButton.hide();
@@ -305,6 +334,7 @@ function addDialer(session) {
   unmergeButton.hide();
   atxferButton.hide();
   transferButton.hide();
+  stopVideoButton.hide();
 
   if (session.localHold) {
     unholdButton.show();
@@ -400,11 +430,21 @@ function addDialer(session) {
     }
   });
 
-  sendVideoButton.show();
-  sendVideoButton.off('click').on('click', function (e) {
+  startVideoButton.show();
+  startVideoButton.off('click').on('click', function (e) {
     e.preventDefault();
+    startVideoButton.hide();
+    stopVideoButton.show();
 
-    sendVideo(session);
+    startVideo(session);
+  });
+
+  stopVideoButton.off('click').on('click', function (e) {
+    e.preventDefault();
+    startVideoButton.show();
+    stopVideoButton.hide();
+
+    stopVideo(session);
   });
 
   newDialer.appendTo($('#dialers'));
