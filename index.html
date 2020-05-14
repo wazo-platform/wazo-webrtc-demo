@@ -31,7 +31,7 @@
 
     <!-- Dialer -->
     <div id="phone">
-      <nav class="navbar navbar-expand navbar-dark bg-wazo fixed-top">
+      <nav class="navbar navbar-expand navbar-dark bg-wazo fixed-top p-1">
         <a class="navbar-brand" href="#">
           <img src="img/wazo-platform-logo.svg" height="40" alt="logo">
         </a>
@@ -55,25 +55,31 @@
         </div>
       </nav>
 
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+            <div id="dialers"></div>
+        </div>
+      </nav>
+
       <main role="main" class="container">
         <form id="dialer" class="card" style="width: 18rem;">
           <div class="form-group mb-2">
             <input type="text" class="form-control number" placeholder="Dial a number">
           </div>
-          <button type="submit" class="btn btn-primary mb-2 dial">Dial</button>
-          <button class="btn btn-secondary mb-2 hangup">Hangup</button>
-          <button class="btn btn-secondary mb-2 unhold">Unhold</button>
-          <button class="btn btn-secondary mb-2 hold">Hold</button>
-          <button class="btn btn-secondary mb-2 mute">Mute</button>
-          <button class="btn btn-secondary mb-2 unmute">Unmute</button>
-          <button class="btn btn-secondary mb-2 merge">Merge calls</button>
-          <button class="btn btn-secondary mb-2 unmerge">Unmerge calls</button>
-          <button class="btn btn-secondary mb-2 atxfer">Atxfer</button>
-          <button class="btn btn-secondary mb-2 transfer">Transfer</button>
+          <button type="submit" class="btn btn-success mb-2 dial"><i class="fas fa-play" aria-hidden="true"></i></button>
+          <button class="btn btn-outline-danger mb-2 hangup"><i class="fas fa-stop" aria-hidden="true"></i></button>
+          <button class="btn btn-outline-primary mb-2 unhold"><i class="fas fa-pause" aria-hidden="true"></i></button>
+          <button class="btn btn-outline-danger mb-2 hold"><i class="fas fa-pause" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary mb-2 mute"><i class="fas fa-microphone-slash" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary mb-2 unmute"><i class="fas fa-microphone" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary mb-2 merge"><i class="fas fa-compress" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary mb-2 unmerge"><i class="fas fa-expand" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary mb-2 atxfer"><i class="fas fa-random" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary mb-2 transfer"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
           <p class="status"></p>
         </form>
 
-        <div id="dialers"></div>
+        <div id="_dialers"></div>
       </main>
     </div>
 

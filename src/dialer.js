@@ -249,8 +249,8 @@ function addDialer(session) {
   const holdButton = $('.hold', newDialer);
   const muteButton = $('.mute', newDialer);
   const unmuteButton = $('.unmute', newDialer);
-  const mergeButton = $('.merge', newDialer).html('Add to merge');
-  const unmergeButton = $('.unmerge', newDialer).html('Remove from merge');
+  const mergeButton = $('.merge', newDialer);
+  const unmergeButton = $('.unmerge', newDialer);
   const atxferButton = $('.atxfer', newDialer);
   const transferButton = $('.transfer', newDialer);
 
