@@ -13,7 +13,7 @@
   display: none;
 }
 
-#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer {
+#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .send-video {
   display: none;
 }
 

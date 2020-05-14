@@ -171,6 +171,17 @@ function transfer(session, target) {
   updateDialers();
 }
 
+const sendVideo = session => {
+  session.reinvite({
+    sessionDescriptionHandlerOptions: {
+      constraints: {
+        audio: false,
+        video: true,
+      },
+    }
+  });
+};
+
 function resetMainDialer(status) {
   const dialer = $('#dialer');
   const numberField = $('#dialer .number');
@@ -218,10 +229,40 @@ function resetMainDialer(status) {
   updateDialers();
 }
 
+const bindVideoEvents = session => {
+  // Video events
+  const { peerConnection } = session.sessionDescriptionHandler;
+  console.log('peerConnection', peerConnection);
+  peerConnection.ontrack = rawEvent => {
+    const event = rawEvent;
+    const [stream] = event.streams;
+    console.log('ontrack', event.track.kind);
+
+    if (event.track.kind === 'audio') {
+      // return this.eventEmitter.emit(ON_AUDIO_STREAM, stream);
+    }
+
+    // not sure this does anything
+    if (event.track.kind === 'video') {
+      event.track.enabled = false;
+    }
+
+    // return this.eventEmitter.emit(ON_VIDEO_STREAM, stream, event.track.id);
+  };
+
+  peerConnection.onremovestream = event => {
+    console.log('onremovestream', onremovestream);
+    // this.eventEmitter.emit(ON_REMOVE_STREAM, event.stream);
+  };
+};
+
 function bindSessionCallbacks(session) {
   const number = getNumber(session);
 
-  session.on('accepted', () => resetMainDialer(''));
+  session.on('accepted', () => {
+    resetMainDialer('');
+    bindVideoEvents(session);
+  });
   session.on('failed', function () {
     onCallTerminated(session);
     setMainStatus('Call with ' + number + ' failed');
@@ -253,6 +294,7 @@ function addDialer(session) {
   const unmergeButton = $('.unmerge', newDialer).html('Remove from merge');
   const atxferButton = $('.atxfer', newDialer);
   const transferButton = $('.transfer', newDialer);
+  const sendVideoButton = $('.send-video', newDialer);
 
   $('.form-group', newDialer).hide();
   holdButton.hide();
@@ -328,7 +370,7 @@ function addDialer(session) {
 
   atxferButton.show();
   if (session.atxfer) {
-    atxferButton.html('Complete')
+    atxferButton.html('Complete');
     atxferButton.off('click').on('click', function (e) {
       e.preventDefault();
 
@@ -356,6 +398,13 @@ function addDialer(session) {
     if (target != null) {
       transfer(session, target);
     }
+  });
+
+  sendVideoButton.show();
+  sendVideoButton.off('click').on('click', function (e) {
+    e.preventDefault();
+
+    sendVideo(session);
   });
 
   newDialer.appendTo($('#dialers'));
