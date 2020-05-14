@@ -4,46 +4,77 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/@wazo/sdk@0.32.0-rc1/dist/wazo-sdk.js"></script>
-  <script src="./src/dialer.js"></script>
-  <script src="./src/authentication.js"></script>
-
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
   <link href="./styles.css" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" />
   <title>Wazo WebRTC Demo</title>
 </head>
 <body>
-  <div class="container-fluid">
     <!--  Authentication -->
-    <div id="login-modal" class="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <form class="modal-content" id="login-form">
-          <div class="modal-header">
-            <h5 class="modal-title">Authentication</h5>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="username">Login</label>
-              <input type="text" class="form-control" id="username" placeholder="Login" />
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password" />
-            </div>
-            <div class="form-group">
-              <label for="server">Server</label>
-              <input type="text" class="form-control" id="server" value="demo.wazo.community" />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <span class="error" id="auth-error"></span>
-            <input type="submit" class="btn btn-primary" value="Login" id="submit-login" />
-          </div>
+    <div class="row" id="authentication">
+      <div class="col-xs-12 col-sm-12 col-md-3 one col">
+        <form class="center" id="login-form">
+          <img class="wazo-logo" src="img/wazo-logo.svg" />
+          <input type="text" id="username" class="form-control login input-lg" placeholder="Login" required autofocus>
+          <input type="password" id="password" class="form-control login input-lg" placeholder="Password" required>
+          <input type="text" id="server" class="form-control login input-lg" placeholder="Server" required>
+	        <button class="btn btn-lg btn-primary btn-block btn-flat login" id="submit-login" type="submit">Login</button>
+          <div id="auth-error" class="alert alert-danger" role="alert"></div>
         </form>
       </div>
+      <div class="hidden-xs hidden-sm col-md-9 two col">
+        <div class="col-md-12"></div>
+      </div>
+    </div>
+
+    <!-- Dialer -->
+    <div id="phone">
+      <nav class="navbar navbar-expand navbar-dark bg-wazo fixed-top">
+        <a class="navbar-brand" href="#">
+          <img src="img/wazo-platform-logo.svg" height="40" alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+          <span class="navbar-text" id="user"></span>
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarNavAltMarkup" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                aria-labelledby="navbarNavAltMarkup">
+                <a class="dropdown-item" href="#" id="logout">Logout</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main role="main" class="container">
+        <form id="dialer" class="card" style="width: 18rem;">
+          <div class="form-group mb-2">
+            <input type="text" class="form-control number" placeholder="Dial a number">
+          </div>
+          <button type="submit" class="btn btn-primary mb-2 dial">Dial</button>
+          <button class="btn btn-secondary mb-2 hangup">Hangup</button>
+          <button class="btn btn-secondary mb-2 unhold">Unhold</button>
+          <button class="btn btn-secondary mb-2 hold">Hold</button>
+          <button class="btn btn-secondary mb-2 mute">Mute</button>
+          <button class="btn btn-secondary mb-2 unmute">Unmute</button>
+          <button class="btn btn-secondary mb-2 merge">Merge calls</button>
+          <button class="btn btn-secondary mb-2 unmerge">Unmerge calls</button>
+          <button class="btn btn-secondary mb-2 atxfer">Atxfer</button>
+          <button class="btn btn-secondary mb-2 transfer">Transfer</button>
+          <p class="status"></p>
+        </form>
+
+        <div id="dialers"></div>
+      </main>
     </div>
 
     <!-- Incoming call -->
@@ -61,25 +92,12 @@
       </div>
     </div>
 
-    <!-- Dialer -->
-    <h3 id="full-name"></h3>
-    <form id="dialer" class="card" style="width: 18rem;">
-      <div class="form-group mb-2">
-        <input type="text" class="form-control number" placeholder="Dial a number">
-      </div>
-      <button type="submit" class="btn btn-primary mb-2 dial">Dial</button>
-      <button class="btn btn-secondary mb-2 hangup">Hangup</button>
-      <button class="btn btn-secondary mb-2 unhold">Unhold</button>
-      <button class="btn btn-secondary mb-2 hold">Hold</button>
-      <button class="btn btn-secondary mb-2 mute">Mute</button>
-      <button class="btn btn-secondary mb-2 unmute">Unmute</button>
-      <button class="btn btn-secondary mb-2 merge">Merge calls</button>
-      <button class="btn btn-secondary mb-2 unmerge">Unmerge calls</button>
-      <button class="btn btn-secondary mb-2 atxfer">Atxfer</button>
-      <button class="btn btn-secondary mb-2 transfer">Transfer</button>
-      <p class="status"></p>
-    </form>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/@wazo/sdk@0.32.1/dist/wazo-sdk.js"></script>
+  <script src="./src/dialer.js"></script>
+  <script src="./src/authentication.js"></script>
 
-    <div id="dialers"></div>
-  </div>
 </body>
+</html>
