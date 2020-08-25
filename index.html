@@ -60,14 +60,19 @@
           <div class="form-group mb-2">
             <input type="text" class="form-control number" placeholder="Dial a number">
           </div>
+          <div class="videos">
+            <video class="local"></video>
+            <video class="remote"></video>
+          </div>
           <button type="submit" class="btn btn-primary mb-2 dial">Dial</button>
+          <button class="btn btn-primary mb-2 video-call">Video dial</button>
           <button class="btn btn-secondary mb-2 hangup">Hangup</button>
           <button class="btn btn-secondary mb-2 unhold">Unhold</button>
           <button class="btn btn-secondary mb-2 hold">Hold</button>
           <button class="btn btn-secondary mb-2 mute">Mute</button>
           <button class="btn btn-secondary mb-2 unmute">Unmute</button>
-          <button class="btn btn-secondary mb-2 merge">Merge calls</button>
-          <button class="btn btn-secondary mb-2 unmerge">Unmerge calls</button>
+<!--          <button class="btn btn-secondary mb-2 merge">Merge calls</button>-->
+<!--          <button class="btn btn-secondary mb-2 unmerge">Unmerge calls</button>-->
           <button class="btn btn-secondary mb-2 atxfer">Atxfer</button>
           <button class="btn btn-secondary mb-2 transfer">Transfer</button>
           <p class="status"></p>
@@ -86,6 +91,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" id="accept">Accept</button>
+            <button class="btn btn-primary" id="accept-video">Accept with video</button>
             <button class="btn btn-secondary" id="reject">Reject</button>
           </div>
         </div>
@@ -95,9 +101,8 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/@wazo/sdk@0.32.1/dist/wazo-sdk.js"></script>
+  <script src="https://unpkg.com/@wazo/sdk@0.33.0/dist/wazo-sdk.js"></script>
   <script src="./src/dialer.js"></script>
   <script src="./src/authentication.js"></script>
-
 </body>
 </html>

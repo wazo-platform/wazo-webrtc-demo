@@ -13,8 +13,25 @@
   display: none;
 }
 
-#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer {
+#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .video-call, #dialer video  {
   display: none;
+}
+
+video.local {
+  width: 200px;
+  height: 200px;
+  display: block;
+  float: left;
+  margin-right: 30px;
+}
+
+video.remote {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+.videos {
+  overflow: auto;
 }
 
 #dialers .card {

@@ -1,18 +1,24 @@
-let apiClient;
+const { Wazo } = window['@wazo/sdk'];
+Wazo.Auth.init('wazo-webrtc-demo');
 
 const displayAuthError = (error) => {
-  $('#auth-error').html(error).show();
+  $('#auth-error').html(error.message).show();
   $('#submit-login').prop('disabled', false);
 };
 
 const authenticate = async (username, password, server) => {
-  apiClient = new window['@wazo/sdk'].WazoApiClient({server});
+  try {
+    Wazo.Auth.setHost(server);
 
-  const session = await apiClient.auth.logIn({username, password}).catch(displayAuthError);
-  session.server = server;
-  setSessionOnStorage(session);
+    const session = await Wazo.Auth.logIn(username, password).catch();
+    // Useful to retrieve the server from localstorage
+    session.server = server;
+    setSessionOnStorage(session);
 
-  return session;
+    onLogin(session);
+  } catch (e) {
+    displayAuthError(e);
+  }
 };
 
 const openLogin = () => {
@@ -21,16 +27,12 @@ const openLogin = () => {
     e.preventDefault();
 
     $('#submit-login').prop('disabled', true);
-    const session = await authenticate(
-      $('#username').val(),
-      $('#password').val(),
-      $('#server').val()
-    );
-    onLogin(session);
+
+    authenticate($('#username').val(), $('#password').val(), $('#server').val());
   });
 };
 
-const onLogin = (session) => {
+const onLogin = () => {
   $('#submit-login').prop('disabled', false);
   $('#authentication').hide();
   $('#phone').show();
@@ -39,32 +41,36 @@ const onLogin = (session) => {
     location.reload();
   });
 
-  apiClient = new window['@wazo/sdk'].WazoApiClient({server: session.server});
-  apiClient.setToken(session.token);
-  initializeWebRtc(session.server, session);
-  setFullName(session.uuid);
-  resetMainDialer();
+  initializeWebRtc();
 };
 
-const getSessionOnStorage = () => {
-  return JSON.parse(localStorage.getItem('session'));
-} 
+const getSessionOnStorage = () => JSON.parse(localStorage.getItem('session'));
 
-const setSessionOnStorage = (session) => {
+const setSessionOnStorage = session => {
   localStorage.setItem('session', JSON.stringify(session));
-}
+};
 
-const removeSessionOnStorage = (session) => {
+const removeSessionOnStorage = () => {
   localStorage.clear();
-}
+};
 
-const launchPhone = () => {
-  const session = getSessionOnStorage();
-  if (!session) {
-    openLogin();
-  } else {
-    onLogin(session);
+const launchPhone = async () => {
+  const rawSession = getSessionOnStorage();
+  if (!rawSession) {
+    return openLogin();
   }
-}
+
+  try {
+    Wazo.Auth.setHost(rawSession.server);
+    const session = await Wazo.Auth.validateToken(rawSession.token, rawSession.refreshToken);
+    if (session) {
+      return onLogin(session);
+    }
+  } catch(e) {
+    displayAuthError(e);
+  }
+
+  openLogin();
+};
 
 $(window).on('load', launchPhone);
