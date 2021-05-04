@@ -16,6 +16,35 @@
   display: none;
 }
 
+#logout {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #515454;
+  font-weight: bold;
+  position: absolute;
+  right: 2rem;
+}
+
+#logout:hover {
+  color: #fff;
+}
+
+label {
+  color: #fff;
+  padding-bottom: 2rem;
+}
+
+.form-control {
+  background: #515454;
+  border: none;
+}
+
+.form-control:focus {
+  background: none;
+  color: #fff;
+  border: 1px solid #98c451;
+}
+
 video.local {
   width: 200px;
   height: 200px;
@@ -39,7 +68,6 @@ video.remote {
   height: 100vh;
   position: absolute;
   background: rgba(0, 0, 0);
-  z-index: 5;
   left: 0;
   top: 2.5rem;
 }
@@ -70,7 +98,15 @@ input.login {
 }
 
 ::placeholder {
-  color: #515454 !important;
+  color: #373a3a !important;
+}
+
+.actions-btns {
+  background: #98c451;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 .btn-primary:active,
@@ -129,10 +165,6 @@ input.login {
     padding: 0;
     margin: 0;
     min-height: 100vh;
-}
-
-#phone {
-  padding-top: 4.1rem;
 }
 
 .bg-wazo {
