@@ -79,6 +79,11 @@ video.remote {
   background: rgba(0,0,0,0.8);
 }
 
+.greeter {
+  color: #fff;
+  font-size: 2rem;
+}
+
 h3 {
   font-size: 16px;
   text-align: center;
