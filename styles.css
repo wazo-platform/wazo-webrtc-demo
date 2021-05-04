@@ -2,7 +2,6 @@
   margin: 0 auto;
   padding: 10px;
   float: none;
-  margin-top: 20px;
 }
 
 #dialer {
@@ -30,12 +29,26 @@ video.remote {
   width: 200px;
   height: 200px;
 }
+
 .videos {
   overflow: auto;
 }
 
 #dialers .card {
-  width: 500px !important;
+  width: 100vw !important;
+  height: 100vh;
+  position: absolute;
+  background: rgba(0, 0, 0);
+  z-index: 5;
+  left: 0;
+  top: 2.5rem;
+}
+
+.main-dialer {
+  width: 25rem;
+  height: 20rem;
+  border: none;
+  background: rgba(0,0,0,0.8);
 }
 
 h3 {
@@ -119,9 +132,17 @@ input.login {
 }
 
 #phone {
-  padding-top: 5rem;
+  padding-top: 4.1rem;
 }
 
 .bg-wazo {
   background-color: #98c451;
+}
+
+main {
+  background-image: url("./img/back.jpeg");
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  padding-top: 10rem;
 }
