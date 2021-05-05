@@ -51,7 +51,7 @@ video.remote {
   width: 100vw !important;
   height: 100vh;
   position: absolute;
-  background: rgba(0, 0, 0);
+  background: rgba(0, 0, 0, 0.8);
   left: 0;
   top: 2.5rem;
 }
@@ -76,6 +76,12 @@ video.remote {
   display: flex;
   flex-direction: column;
 
+}
+
+.dialer-form > label {
+  color: #fff;
+  font-weight: lighter;
+  padding-bottom: 2rem;
 }
 
 h3 {
@@ -235,4 +241,19 @@ main {
   width: 100vw;
   height: 100vh;
   padding-top: 10rem;
+}
+
+.number {
+  background: #000;
+  border: none;
+  width: 345px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.number:focus {
+  background: #000;
+  border: 1px solid #98c451;
+  color: #fff;
+  outline: none;
 }
