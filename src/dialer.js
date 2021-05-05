@@ -15,13 +15,13 @@ const setFullName = async () => {
   $("#user").html(`${fullName} (${user.lines[0].extensions[0].exten})`);
 };
 
-const setName = async () => {
+const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
     Wazo.Auth.getSession().uuid
   );
   const name = user.firstName;
 
-  $(".greeter").html(`Hello ${name} !`);
+  $(".greeter").html(`Hello ${name} 👋`);
 };
 
 const setMainStatus = (status) => {
@@ -96,7 +96,7 @@ const initializeWebRtc = () => {
   );
 
   setFullName();
-  setName();
+  setGreeter();
   resetMainDialer();
 };
 
