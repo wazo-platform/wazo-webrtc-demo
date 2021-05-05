@@ -174,6 +174,30 @@ input.login:focus {
     background: #98c451;
 }
 
+.right-quote {
+  color: #fff;
+  text-align: center;
+  margin-top: 35vh;
+  font-size: 48px;
+  padding: 0 20rem 0 20rem;
+  font-weight: bold;
+}
+
+.learn-more {
+  font-size: 14px;
+  text-transform: uppercase;
+  background: #515454;
+  border-radius: 4px;
+  width: 180px;
+  height: 36px;
+  border: none;
+}
+
+.learn-more > a {
+  text-decoration: none;
+  color: #fff;
+}
+
 .btn {
     margin-top: 20px;
 }
