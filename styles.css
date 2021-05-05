@@ -29,25 +29,6 @@
   color: #fff;
 }
 
-label {
-  color: #fff;
-  padding-bottom: 2rem;
-}
-
-.form-control {
-  background: #000;
-  border-radius: 10px;
-  width: 345px;
-  height: 60px;
-  border: none;
-}
-
-.form-control:focus {
-  background: none;
-  color: #fff;
-  border: 1px solid #98c451;
-}
-
 video.local {
   width: 200px;
   height: 200px;
@@ -91,6 +72,12 @@ video.remote {
   font-weight: bold;
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+}
+
 h3 {
   font-size: 16px;
   text-align: center;
@@ -108,16 +95,43 @@ h3 {
   text-align: center;
 }
 
+label {
+  color: rgba(0,0,0,0.4);
+  font-weight: bold;
+  font-size: 12px;
+}
+
 input.login {
-    margin-bottom: 10px;
+    margin-bottom: 3rem;
     color: #515454 !important;
     background-color: transparent !important;
-    border: #515454 solid 1px !important;
+    border: none;
+    border-bottom: #515454 solid 1px;
+    width: 329px;
+    height: 35px;
+    font-size: 16px;
+}
+
+input.login:focus {
+  outline: none;
+  border-bottom: 2px solid #98c451;
 }
 
 ::placeholder {
-  color: #515454 !important;
+  color: #515454;
   font-style: italic;
+}
+
+.form-group > button {
+  background: #ffcc00;
+  width: 330px;
+  height: 36px;
+  border-radius: 4px;
+  color: #515454;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);
 }
 
 .actions-btns {

@@ -16,11 +16,16 @@
       <div class="col-xs-12 col-sm-12 col-md-3 one col">
         <form class="center" id="login-form">
           <img class="wazo-logo" src="img/wazo-logo.svg" />
-          <input type="text" id="username" class="form-control login input-lg" placeholder="Login" required autofocus>
-          <input type="password" id="password" class="form-control login input-lg" placeholder="Password" required>
-          <input type="text" id="server" class="form-control login input-lg" placeholder="Server" required>
-	        <button class="btn btn-lg btn-primary btn-block btn-flat login" id="submit-login" type="submit">Login</button>
-          <div id="auth-error" class="alert alert-danger" role="alert"></div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="login" placeholder="votrenom@mail.com" required autofocus>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="login" placeholder="********" required>
+            <label for="server">Server URI</label>
+            <input type="text" id="server" name="server" class="login" placeholder="votreserver.io" required>
+            <button class="btn btn-lg btn-primary btn-block btn-flat login" id="submit-login" type="submit">Login</button>
+            <div id="auth-error" class="alert alert-danger" role="alert"></div>
+          </div>      
         </form>
       </div>
       <div class="hidden-xs hidden-sm col-md-9 two col">
