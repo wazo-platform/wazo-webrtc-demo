@@ -64,10 +64,6 @@ const initializeWebRtc = () => {
     // log: { builtinEnabled: true, logLevel: 'debug' },
   });
 
-  const setStatus = (status) => {
-    $(".status-calling").html(status);
-  };
-
   const onSessionUpdate = (callSession) => {
     sessions[callSession.getId()] = callSession;
     updateDialers();
@@ -99,6 +95,8 @@ const initializeWebRtc = () => {
     }
   );
 
+  $(".status-calling").hide();
+
   setFullName();
   setGreeter();
   resetMainDialer();
@@ -108,6 +106,7 @@ function onCallAccepted(callSession, withVideo) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $(".dialer-form").hide();
+  $(".status-calling").show();
 
   addDialer(callSession, withVideo);
   resetMainDialer();
@@ -117,6 +116,7 @@ function onPhoneCalled(callSession) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $(".dialer-form").hide();
+  $(".status-calling").show();
 
   bindSessionCallbacks(callSession);
 }
@@ -124,6 +124,7 @@ function onPhoneCalled(callSession) {
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
   $(".dialer-form").show();
+  $(".status-calling").hide();
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
