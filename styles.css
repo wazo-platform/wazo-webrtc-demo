@@ -169,6 +169,18 @@ main {
   padding-top: 10rem;
 }
 
+.main-dialer {
+  background: none;
+  border: none;
+}
+
+.status {
+  color: #98c451;
+  font-style: italic;
+  padding-top: 1.5rem;
+  margin: auto;
+}
+
 /* PHONE header */
 
 #logout {
@@ -212,13 +224,14 @@ h3 {
   text-align: center;
 }
 
-.main-dialer {
+.dialer-form {
   width: 398px;
   height: 341px;
   border: none;
   background: rgba(0,0,0,0.8);
   padding: 2rem;
   border-radius: 10px;
+  margin: auto;
 }
 
 .greeter {
@@ -247,6 +260,18 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.buttons-call {
+  padding-top: 2rem;
+}
+
+.buttons-call > button {
+  background: #fff;
+}
+
+.buttons-call > .hangup {
+  background: #d50000;
 }
 
 /* PHONE calling */ 

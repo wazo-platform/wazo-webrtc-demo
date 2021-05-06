@@ -25,7 +25,7 @@ const setGreeter = async () => {
 };
 
 const setMainStatus = (status) => {
-  $("#dialer .status").html(status);
+  $(".status").html(status);
 };
 
 const getNumber = (callSession) =>
@@ -63,6 +63,10 @@ const initializeWebRtc = () => {
     },
     // log: { builtinEnabled: true, logLevel: 'debug' },
   });
+
+  const setStatus = (status) => {
+    $(".status-calling").html(status);
+  };
 
   const onSessionUpdate = (callSession) => {
     sessions[callSession.getId()] = callSession;
@@ -103,6 +107,7 @@ const initializeWebRtc = () => {
 function onCallAccepted(callSession, withVideo) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
+  $(".dialer-form").hide();
 
   addDialer(callSession, withVideo);
   resetMainDialer();
@@ -111,12 +116,14 @@ function onCallAccepted(callSession, withVideo) {
 function onPhoneCalled(callSession) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
+  $(".dialer-form").hide();
 
   bindSessionCallbacks(callSession);
 }
 
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
+  $(".dialer-form").show();
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
