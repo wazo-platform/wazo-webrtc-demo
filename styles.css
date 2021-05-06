@@ -1,9 +1,4 @@
-.card {
-  margin: 0 auto;
-  padding: 10px;
-  float: none;
-}
-
+/* DISPLAY NONE */
 #dialer {
   display: none;
 }
@@ -15,6 +10,166 @@
 #dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .video-call, #dialer video  {
   display: none;
 }
+
+/* MAIN */
+
+.btn-primary:active,
+.btn-primary.hover,
+.btn-primary:hover {
+    background: #eebf3f !important;
+    border-color: #eebf3f !important;
+}
+
+.btn-flat {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-image:none;
+    background: #515454;
+    border:0;
+}
+
+.two {
+  background: #98c451;
+}
+
+.center {
+  margin: auto;
+  width: 70%;
+  margin-top: 80px;
+}
+
+.alert {
+  margin-top: 40px;
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+.background {
+  width: auto;
+  height: 100vh;
+  margin-left: -120px;
+}
+
+.col {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* LOGIN */
+
+/* LOGIN left part */
+
+.one {
+  background: #fff;
+  z-index: 10;
+}
+
+.wazo-logo {
+  display: block;
+  margin: auto;
+  width: 70%;
+  margin-bottom: 20px;
+}
+
+.form-group > button {
+  background: #ffcc00;
+  width: 90%;
+  height: 2rem;
+  border-radius: 4px;
+  color: #515454;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);
+}
+
+label {
+  color: rgba(0,0,0,0.4);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+input.login {
+    margin-bottom: 3rem;
+    color: #515454 !important;
+    background-color: transparent !important;
+    border: none;
+    border-bottom: #515454 solid 1px;
+    width: 90%;
+    height: 2.5rem;
+    font-size: 16px;
+}
+
+input.login:focus {
+  outline: none;
+  border-bottom: 2px solid #98c451;
+}
+
+::placeholder {
+  color: #515454;
+  font-style: italic;
+}
+
+/* LOGIN right part */
+
+.bg-wazo {
+  background-color: #98c451;
+}
+
+.learn-more {
+  font-size: 14px;
+  text-transform: uppercase;
+  background: #515454;
+  border-radius: 4px;
+  width: 180px;
+  height: 36px;
+  border: none;
+}
+
+.learn-more > a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.right-quote {
+  color: #fff;
+  text-align: center;
+  margin-top: 30vh;
+  font-size: 3rem;
+  padding: 0 20rem 0 20rem;
+  font-weight: bold;
+}
+
+/* PHONE */
+
+.card {
+  margin: 0 auto;
+  padding: 10px;
+  float: none;
+}
+
+.actions-btns {
+  background: #98c451;
+  border: none;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 1rem;
+}
+
+main {
+  background-image: url("./img/back.jpeg");
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  padding-top: 10rem;
+}
+
+/* PHONE header */
 
 #logout {
   text-decoration: none;
@@ -29,31 +184,32 @@
   color: #fff;
 }
 
-video.local {
-  width: 200px;
-  height: 200px;
-  display: block;
-  float: left;
-  margin-right: 30px;
+/* PHONE dialer */
+
+.number {
+  background: #000;
+  border: none;
+  width: 345px;
+  height: 60px;
+  border-radius: 10px;
 }
 
-video.remote {
-  display: block;
-  width: 200px;
-  height: 200px;
+.number:focus {
+  background: #000;
+  border: 1px solid #98c451;
+  color: #fff;
+  outline: none;
 }
 
-.videos {
-  overflow: auto;
+.dialer-form > label {
+  color: #fff;
+  font-weight: lighter;
+  padding-bottom: 2rem;
 }
 
-#dialers .card {
-  width: 100vw !important;
-  height: 100vh;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.8);
-  left: 0;
-  top: 2.5rem;
+h3 {
+  font-size: 16px;
+  text-align: center;
 }
 
 .main-dialer {
@@ -72,21 +228,19 @@ video.remote {
   font-weight: bold;
 }
 
+#dialers .card {
+  width: 100vw !important;
+  height: 100vh;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  left: 0;
+  top: 2.5rem;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
 
-}
-
-.dialer-form > label {
-  color: #fff;
-  font-weight: lighter;
-  padding-bottom: 2rem;
-}
-
-h3 {
-  font-size: 16px;
-  text-align: center;
 }
 
 .buttons {
@@ -95,165 +249,25 @@ h3 {
   justify-content: center;
 }
 
-#full-name {
-  font-size: 18px;
-  padding-top: 5px;
-  text-align: center;
+/* PHONE calling */ 
+
+/* PHONE incoming call */
+
+/* VIDEO */ 
+video.local {
+  width: 200px;
+  height: 200px;
+  display: block;
+  float: left;
+  margin-right: 30px;
 }
 
-label {
-  color: rgba(0,0,0,0.4);
-  font-weight: bold;
-  font-size: 12px;
+video.remote {
+  display: block;
+  width: 200px;
+  height: 200px;
 }
 
-input.login {
-    margin-bottom: 3rem;
-    color: #515454 !important;
-    background-color: transparent !important;
-    border: none;
-    border-bottom: #515454 solid 1px;
-    width: 329px;
-    height: 35px;
-    font-size: 16px;
-}
-
-input.login:focus {
-  outline: none;
-  border-bottom: 2px solid #98c451;
-}
-
-::placeholder {
-  color: #515454;
-  font-style: italic;
-}
-
-.form-group > button {
-  background: #ffcc00;
-  width: 330px;
-  height: 36px;
-  border-radius: 4px;
-  color: #515454;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 14px;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);
-}
-
-.actions-btns {
-  background: #98c451;
-  border: none;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  margin: 1rem;
-}
-
-.btn-primary:active,
-.btn-primary.hover,
-.btn-primary:hover {
-    background: #eebf3f !important;
-    border-color: #eebf3f !important;
-}
-
-.btn-flat {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    background-image:none;
-    background: #515454;
-    border:0;
-}
-
-.center {
-    margin: auto;
-    width: 70%;
-    margin-top: 80px;
-}
-
-.one {
-    background: #fff;
-    z-index: 10;
-}
-
-.two {
-    background: #98c451;
-}
-
-.right-quote {
-  color: #fff;
-  text-align: center;
-  margin-top: 35vh;
-  font-size: 48px;
-  padding: 0 20rem 0 20rem;
-  font-weight: bold;
-}
-
-.learn-more {
-  font-size: 14px;
-  text-transform: uppercase;
-  background: #515454;
-  border-radius: 4px;
-  width: 180px;
-  height: 36px;
-  border: none;
-}
-
-.learn-more > a {
-  text-decoration: none;
-  color: #fff;
-}
-
-.btn {
-    margin-top: 20px;
-}
-
-.wazo-logo {
-    display: block;
-    margin: auto;
-    width: 70%;
-    margin-bottom: 20px;
-}
-
-.alert {
-    margin-top: 40px;
-}
-
-.background {
-    width: auto;
-    height: 100vh;
-    margin-left: -120px;
-}
-
-.col {
-    padding: 0;
-    margin: 0;
-    min-height: 100vh;
-}
-
-.bg-wazo {
-  background-color: #98c451;
-}
-
-main {
-  background-image: url("./img/back.jpeg");
-  background-size: cover;
-  width: 100vw;
-  height: 100vh;
-  padding-top: 10rem;
-}
-
-.number {
-  background: #000;
-  border: none;
-  width: 345px;
-  height: 60px;
-  border-radius: 10px;
-}
-
-.number:focus {
-  background: #000;
-  border: 1px solid #98c451;
-  color: #fff;
-  outline: none;
+.videos {
+  overflow: auto;
 }
