@@ -179,6 +179,10 @@ main {
   font-style: italic;
   padding-top: 1.5rem;
   margin: auto;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 99;
 }
 
 /* PHONE header */

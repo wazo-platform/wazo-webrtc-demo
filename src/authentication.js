@@ -38,9 +38,10 @@ const onLogin = () => {
   $('#phone').show();
   $('#logout').on('click', () => {
     removeSessionOnStorage();
-    location.reload();
+    window.location.reload(false);
   });
 
+  // eslint-disable-next-line no-undef
   initializeWebRtc();
 };
 
@@ -66,11 +67,11 @@ const launchPhone = async () => {
     if (session) {
       return onLogin(session);
     }
-  } catch(e) {
+  } catch (e) {
     displayAuthError(e);
   }
 
-  openLogin();
+  return openLogin();
 };
 
 $(window).on('load', launchPhone);
