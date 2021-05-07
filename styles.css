@@ -174,7 +174,7 @@ main {
   border: none;
 }
 
-.status {
+#status {
   color: #98c451;
   font-style: italic;
   padding-top: 1.5rem;
@@ -278,14 +278,6 @@ h3 {
   background: #d50000;
 }
 
-/* PHONE calling */ 
-
-.status-calling {
-  /* position: absolute; */
-  /* z-index: 10; */
-  color: #fff;
-}
-
 /* PHONE incoming call */
 
 /* VIDEO */ 
@@ -305,4 +297,8 @@ video.remote {
 
 .videos {
   overflow: auto;
+}
+
+#call-scene {
+  display: none;
 }

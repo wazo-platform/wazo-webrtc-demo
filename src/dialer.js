@@ -37,7 +37,7 @@ const setGreeter = async () => {
 
 /* Permet d'indiquer le statut de l'appel. */
 const setMainStatus = (status) => {
-  $('.status').html(status);
+  $('#status').html(status);
 };
 
 const getNumber = callSession => callSession.realDisplayName
@@ -81,7 +81,7 @@ const initializeWebRtc = () => {
     // log: { builtinEnabled: true, logLevel: 'debug' },
   });
 
-  const onSessionUpdate = (callSession) => {
+  const onSessionUpdate = callSession => {
     sessions[callSession.getId()] = callSession;
     updateDialers();
   };
@@ -112,7 +112,7 @@ const initializeWebRtc = () => {
     },
   );
 
-  setFullName();
+  // setFullName();
   setGreeter();
   resetMainDialer();
 };
@@ -308,7 +308,6 @@ function addDialer(callSession, withVideo) {
     .attr('id', `call-${callSession.getId()}`);
   // const isSessionInMerge = sessionIdsInMerge.indexOf(session.getId()) !== -1;
   const hangupButton = $('.hangup', newDialer);
-  const dialButton = $('.dial', newDialer);
   const unholdButton = $('.unhold', newDialer);
   const holdButton = $('.hold', newDialer);
   const muteButton = $('.mute', newDialer);
@@ -317,6 +316,7 @@ function addDialer(callSession, withVideo) {
   const unmergeButton = $('.unmerge', newDialer).html('Remove from merge');
   const atxferButton = $('.atxfer', newDialer);
   const transferButton = $('.transfer', newDialer);
+  const dialButton = $('.audio-call', newDialer);
   const videoButton = $('.video-call', newDialer);
 
   $('.form-group', newDialer).hide();
@@ -374,34 +374,34 @@ function addDialer(callSession, withVideo) {
     }
   }
 
-  $('.status', newDialer).html(`DANG${getStatus(callSession)}`);
+  $('#status').html(getStatus(callSession));
   dialButton.hide();
   dialButton.prop('disabled', true);
 
   hangupButton.show();
-  hangupButton.off('click').on('click', (e) => {
+  hangupButton.off('click').on('click', e => {
     e.preventDefault();
     Wazo.Phone.hangup(callSession);
 
     onCallTerminated(callSession);
   });
 
-  unholdButton.off('click').on('click', (e) => {
+  unholdButton.off('click').on('click', e => {
     e.preventDefault();
     unhold(callSession);
   });
 
-  holdButton.off('click').on('click', (e) => {
+  holdButton.off('click').on('click', e => {
     e.preventDefault();
     hold(callSession);
   });
 
-  muteButton.off('click').on('click', (e) => {
+  muteButton.off('click').on('click', e => {
     e.preventDefault();
     mute(callSession);
   });
 
-  unmuteButton.off('click').on('click', (e) => {
+  unmuteButton.off('click').on('click', e => {
     e.preventDefault();
     unmute(callSession);
   });
@@ -417,7 +417,7 @@ function addDialer(callSession, withVideo) {
   // });
 
   atxferButton.show();
-  atxferButton.off('click').on('click', (e) => {
+  atxferButton.off('click').on('click', e => {
     e.preventDefault();
 
     if (currentAtxfer) {
@@ -436,7 +436,7 @@ function addDialer(callSession, withVideo) {
   });
 
   transferButton.show();
-  transferButton.off('click').on('click', (e) => {
+  transferButton.off('click').on('click', e => {
     e.preventDefault();
 
     const target = prompt('Phone number transfer?');

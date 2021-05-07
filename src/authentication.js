@@ -23,10 +23,11 @@ const authenticate = async (username, password, server) => {
 
 const openLogin = () => {
   $('.alert').hide();
-  $('#login-form').on('submit', async (e) => {
+  $('#login-form').on('submit', async e => {
     e.preventDefault();
 
     $('#submit-login').prop('disabled', true);
+    $('#dialer').show();
 
     authenticate($('#username').val(), $('#password').val(), $('#server').val());
   });
