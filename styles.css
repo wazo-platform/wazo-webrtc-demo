@@ -276,6 +276,12 @@ h3 {
 
 /* PHONE calling */ 
 
+.status-calling {
+  /* position: absolute; */
+  /* z-index: 10; */
+  color: #fff;
+}
+
 /* PHONE incoming call */
 
 /* VIDEO */ 
