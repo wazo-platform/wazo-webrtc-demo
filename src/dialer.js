@@ -5,17 +5,27 @@ const inConference = false;
 let currentAtxfer;
 // let sessionIdsInMerge = [];
 
-const setFullName = async () => {
-  const user = await Wazo.getApiClient().confd.getUser(
-    Wazo.Auth.getSession().uuid,
-  );
-  const fullName = user.firstName
-    ? `${user.firstName} ${user.lastName}`
-    : user.username;
+/*
+  Permet de récupérer les informations de l'utilisateur connecté
+  Cette fonction ne sert plus à rien normalement puisqu'on a besoin d'afficher seulement
+  le prénom de l'utilisateur.
+*/
+// const setFullName = async () => {
+//   const user = await Wazo.getApiClient().confd.getUser(
+//     Wazo.Auth.getSession().uuid
+//   );
 
-  $('#user').html(`${fullName} (${user.lines[0].extensions[0].exten})`);
-};
+//   const fullName = user.firstName
+//     ? `${user.firstName} ${user.lastName}`
+//     : user.username;
 
+//   $("#user").html(`${fullName} (${user.lines[0].extensions[0].exten})`);
+// };
+
+/*
+  Permet de récupérer les informations de l'utilisateur connecté
+  puis d'afficher le prénom de l'utilisateur
+*/
 const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
     Wazo.Auth.getSession().uuid,
@@ -25,6 +35,7 @@ const setGreeter = async () => {
   $('.greeter').html(`Hello ${name} 👋`);
 };
 
+/* Permet d'indiquer le statut de l'appel. */
 const setMainStatus = (status) => {
   $('.status').html(status);
 };
@@ -33,6 +44,9 @@ const getNumber = callSession => callSession.realDisplayName
   || callSession.displayName
   || callSession.number;
 
+/*
+  Permet de récupérer le statut de l'appel
+*/
 const getStatus = (callSession) => {
   const number = getNumber(callSession);
 
