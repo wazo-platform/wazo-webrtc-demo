@@ -2,6 +2,10 @@
   margin: 0 !important;
 }
 
+.btn {
+  text-transform: uppercase;
+}
+
 /* DISPLAY NONE */
 #dialer {
   display: none;
@@ -17,11 +21,17 @@
 
 /* MAIN */
 
+.btn-primary {
+  background: #ffcc00;
+  border-color: #ffcc00;
+  color: #515454;
+}
+
 .btn-primary:active,
 .btn-primary.hover,
 .btn-primary:hover {
-    background: #eebf3f !important;
-    border-color: #eebf3f !important;
+    background: #eebf3f;
+    border-color: #eebf3f;
 }
 
 .btn-flat {
@@ -77,17 +87,6 @@
   margin-bottom: 20px;
 }
 
-.form-group > button {
-  background: #ffcc00;
-  height: 2rem;
-  border-radius: 4px;
-  color: #515454;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 14px;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);
-}
-
 label {
   color: rgba(0,0,0,0.4);
   font-weight: bold;
@@ -124,13 +123,7 @@ input.login:focus {
 }
 
 .learn-more {
-  font-size: 14px;
-  text-transform: uppercase;
   background: #515454;
-  border-radius: 4px;
-  width: 180px;
-  height: 36px;
-  border: none;
 }
 
 .learn-more > a {
@@ -146,6 +139,10 @@ input.login:focus {
   font-weight: bold;
 }
 
+.right-content {
+  text-align: center;
+}
+
 /* PHONE */
 
 .card {
@@ -156,6 +153,7 @@ input.login:focus {
 
 .actions-btns {
   background: #98c451;
+  color: #fff;
   border: none;
   width: 70px;
   height: 70px;
