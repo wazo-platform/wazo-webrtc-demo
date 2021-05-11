@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-alert */
 const sessions = {};
 let currentSession;
@@ -5,11 +6,6 @@ const inConference = false;
 let currentAtxfer;
 // let sessionIdsInMerge = [];
 
-/*
-  Permet de récupérer les informations de l'utilisateur connecté
-  Cette fonction ne sert plus à rien normalement puisqu'on a besoin d'afficher seulement
-  le prénom de l'utilisateur.
-*/
 // const setFullName = async () => {
 //   const user = await Wazo.getApiClient().confd.getUser(
 //     Wazo.Auth.getSession().uuid
@@ -22,10 +18,6 @@ let currentAtxfer;
 //   $("#user").html(`${fullName} (${user.lines[0].extensions[0].exten})`);
 // };
 
-/*
-  Permet de récupérer les informations de l'utilisateur connecté
-  puis d'afficher le prénom de l'utilisateur
-*/
 const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
     Wazo.Auth.getSession().uuid,
@@ -35,18 +27,12 @@ const setGreeter = async () => {
   $('.greeter').html(`Hello ${name} 👋`);
 };
 
-/* Permet d'indiquer le statut de l'appel. */
 const setMainStatus = (status) => {
   $('#status').html(status);
 };
 
-const getNumber = callSession => callSession.realDisplayName
-  || callSession.displayName
-  || callSession.number;
+const getNumber = (callSession) => callSession.realDisplayName || callSession.displayName || callSession.number;
 
-/*
-  Permet de récupérer le statut de l'appel
-*/
 const getStatus = (callSession) => {
   const number = getNumber(callSession);
 
@@ -81,7 +67,7 @@ const initializeWebRtc = () => {
     // log: { builtinEnabled: true, logLevel: 'debug' },
   });
 
-  const onSessionUpdate = callSession => {
+  const onSessionUpdate = (callSession) => {
     sessions[callSession.getId()] = callSession;
     updateDialers();
   };
@@ -121,6 +107,8 @@ function onCallAccepted(callSession, withVideo) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $('.dialer-form').hide();
+  $('.calling').addClass('calling-page');
+  $('#status').addClass('oncall');
 
   addDialer(callSession, withVideo);
   resetMainDialer();
@@ -130,6 +118,8 @@ function onPhoneCalled(callSession) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $('.dialer-form').hide();
+  $('.calling').addClass('calling-page');
+  $('#status').addClass('oncall');
 
   bindSessionCallbacks(callSession);
 }
@@ -137,6 +127,8 @@ function onPhoneCalled(callSession) {
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
   $('.dialer-form').show();
+  $('.calling').removeClass('calling-page');
+  $('#status').removeClass('oncall');
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -379,29 +371,29 @@ function addDialer(callSession, withVideo) {
   dialButton.prop('disabled', true);
 
   hangupButton.show();
-  hangupButton.off('click').on('click', e => {
+  hangupButton.off('click').on('click', (e) => {
     e.preventDefault();
     Wazo.Phone.hangup(callSession);
 
     onCallTerminated(callSession);
   });
 
-  unholdButton.off('click').on('click', e => {
+  unholdButton.off('click').on('click', (e) => {
     e.preventDefault();
     unhold(callSession);
   });
 
-  holdButton.off('click').on('click', e => {
+  holdButton.off('click').on('click', (e) => {
     e.preventDefault();
     hold(callSession);
   });
 
-  muteButton.off('click').on('click', e => {
+  muteButton.off('click').on('click', (e) => {
     e.preventDefault();
     mute(callSession);
   });
 
-  unmuteButton.off('click').on('click', e => {
+  unmuteButton.off('click').on('click', (e) => {
     e.preventDefault();
     unmute(callSession);
   });
@@ -417,7 +409,7 @@ function addDialer(callSession, withVideo) {
   // });
 
   atxferButton.show();
-  atxferButton.off('click').on('click', e => {
+  atxferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
     if (currentAtxfer) {
@@ -436,7 +428,7 @@ function addDialer(callSession, withVideo) {
   });
 
   transferButton.show();
-  transferButton.off('click').on('click', e => {
+  transferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
     const target = prompt('Phone number transfer?');
@@ -451,7 +443,7 @@ function addDialer(callSession, withVideo) {
 function updateDialers() {
   $('#dialers').html('');
 
-  Object.keys(sessions).forEach(sessionId => {
+  Object.keys(sessions).forEach((sessionId) => {
     const callSession = sessions[sessionId];
     addDialer(callSession, callSession.cameraEnabled);
   });

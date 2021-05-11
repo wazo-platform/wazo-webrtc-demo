@@ -175,15 +175,29 @@ main {
   border: none;
 }
 
+.calling-page {
+  background: rgba(0,0,0, 0.6);
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
 #status {
   color: #98c451;
   font-style: italic;
-  padding-top: 1.5rem;
   margin: auto;
   position: fixed;
-  bottom: 10px;
-  left: 10px;
-  z-index: 99;
+  margin-top: 15rem;
+}
+
+.oncall {
+  font-size: 2.5rem;
+  font-style: normal !important;
+  color: #fff !important;
+  top: 3rem;
+  z-index: 5;
 }
 
 /* PHONE header */
@@ -261,7 +275,7 @@ h3 {
 }
 
 .buttons-call {
-  padding-top: 2rem;
+  margin-top: 25%;
 }
 
 .buttons-call > button {
