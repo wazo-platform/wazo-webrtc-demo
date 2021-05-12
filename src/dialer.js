@@ -248,6 +248,7 @@ function resetMainDialer(status) {
 
     resetMainDialer('');
     updateDialers();
+    $('main').addClass(video ? 'isVideo' : 'isAudio');
   };
 
   dialer.off('submit').on('submit', (e) => {
@@ -291,6 +292,8 @@ function bindSessionCallbacks(callSession) {
   Wazo.Phone.on(Wazo.Phone.ON_CALL_ENDED, () => {
     onCallTerminated(callSession);
     setMainStatus(`Call with ${number} ended`);
+    $('main').removeClass('isVideo');
+    $('main').removeClass('isAudio');
   });
 }
 
