@@ -303,11 +303,13 @@ h3 {
 .modal-header {
   display: flex;
   justify-content: center;
+  border: none;
 }
 
 .modal-footer {
   display: flex;
   justify-content: center;
+  border: none;
 }
 
 .modal-footer>button {

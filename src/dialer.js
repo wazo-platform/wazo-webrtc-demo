@@ -461,7 +461,6 @@ function openIncomingCallModal(callSession, withVideo) {
   $('#incoming-modal').modal('show');
   $('.dialer-form').hide();
   $('#status').hide();
-  // $('#incoming-modal').show();
   $('#incoming-modal h5 span').html(number);
 
   $('#accept-video')[withVideo ? 'show' : 'hide']();
