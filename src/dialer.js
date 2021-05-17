@@ -329,6 +329,7 @@ function addDialer(callSession, withVideo) {
   const videoContainer = $('.videos', newDialer);
   if (withVideo) {
     videoContainer.show();
+    $('.calling-page').addClass('video-calling');
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);

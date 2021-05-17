@@ -184,12 +184,16 @@ main {
   height: 100vh;
 }
 
+.video-calling {
+  background: transparent;
+}
+
 #status {
   color: #98c451;
   font-style: italic;
   margin: auto;
   position: fixed;
-  margin-top: 15rem;
+  margin-top: 12rem;
 }
 
 .oncall {
@@ -293,14 +297,12 @@ video.local {
   width: 200px;
   height: 200px;
   display: block;
-  float: left;
-  margin-right: 30px;
 }
 
 video.remote {
   display: block;
-  width: 200px;
-  height: 200px;
+  width: 100vw;
+  height: 100vh;
 }
 
 .videos {
