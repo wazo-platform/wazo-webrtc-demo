@@ -292,6 +292,39 @@ h3 {
 
 /* PHONE incoming call */
 
+.modal-content {
+  display: fixed;
+  border-radius: 10px;
+  top: 28vh;
+  background:rgba(0,0,0, 0.6);
+  color: #fff;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-footer>button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+}
+
+#accept, #accept-video {
+  background: #98c451;
+}
+
+#reject {
+  background: #d50000;
+} 
+
 /* VIDEO */ 
 video.local {
   width: 200px;

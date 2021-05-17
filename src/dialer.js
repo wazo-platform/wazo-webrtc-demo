@@ -458,7 +458,10 @@ function openIncomingCallModal(callSession, withVideo) {
     || callSession.displayName
     || callSession.number;
 
-  $('#incoming-modal').modal({ backdrop: 'static' });
+  $('#incoming-modal').modal('show');
+  $('.dialer-form').hide();
+  $('#status').hide();
+  // $('#incoming-modal').show();
   $('#incoming-modal h5 span').html(number);
 
   $('#accept-video')[withVideo ? 'show' : 'hide']();
@@ -467,12 +470,14 @@ function openIncomingCallModal(callSession, withVideo) {
     .off('click')
     .on('click', () => {
       $('#incoming-modal').modal('hide');
+      $('#status').show();
       accept(callSession, false);
     });
   $('#accept-video')
     .off('click')
     .on('click', () => {
       $('#incoming-modal').modal('hide');
+      $('#status').show();
       accept(callSession, true);
     });
   $('#reject')
@@ -480,5 +485,6 @@ function openIncomingCallModal(callSession, withVideo) {
     .on('click', () => {
       Wazo.Phone.reject(callSession);
       $('#incoming-modal').modal('hide');
+      $('#status').show();
     });
 }
