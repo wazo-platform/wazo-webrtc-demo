@@ -6,18 +6,6 @@ const inConference = false;
 let currentAtxfer;
 // let sessionIdsInMerge = [];
 
-// const setFullName = async () => {
-//   const user = await Wazo.getApiClient().confd.getUser(
-//     Wazo.Auth.getSession().uuid
-//   );
-
-//   const fullName = user.firstName
-//     ? `${user.firstName} ${user.lastName}`
-//     : user.username;
-
-//   $("#user").html(`${fullName} (${user.lines[0].extensions[0].exten})`);
-// };
-
 const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
     Wazo.Auth.getSession().uuid,
@@ -129,6 +117,8 @@ function onCallTerminated(callSession) {
   $('.dialer-form').show();
   $('.calling').removeClass('calling-page');
   $('#status').removeClass('oncall');
+  $('#status').removeClass('on-videocall');
+  $('.buttons').removeClass('buttons-video');
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -329,7 +319,10 @@ function addDialer(callSession, withVideo) {
   const videoContainer = $('.videos', newDialer);
   if (withVideo) {
     videoContainer.show();
+    videoContainer.addClass('background-videocall');
+    $('#status').removeClass('oncall').addClass('on-videocall');
     $('.calling-page').addClass('video-calling');
+    $('.buttons').addClass('buttons-video');
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);
@@ -347,6 +340,7 @@ function addDialer(callSession, withVideo) {
     }
   } else {
     videoContainer.hide();
+    $('#status').removeClass('on-videocall').addClass('oncall');
   }
 
   if (callSession.paused) {
@@ -371,6 +365,7 @@ function addDialer(callSession, withVideo) {
   }
 
   $('#status').html(getStatus(callSession));
+
   dialButton.hide();
   dialButton.prop('disabled', true);
 

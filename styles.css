@@ -181,7 +181,7 @@ main {
   top: 2rem;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
 }
 
 .video-calling {
@@ -327,20 +327,41 @@ h3 {
   background: #d50000;
 } 
 
+.name-called {
+  font-style: italic;
+}
+
 /* VIDEO */ 
 video.local {
-  width: 200px;
-  height: 200px;
   display: block;
+  margin-top: 10rem;
+  width: 300px;
+  height: 200px;
 }
 
 video.remote {
   display: block;
-  width: 100vw;
-  height: 100vh;
+  width: 80vw;
+  height: 90vh;
 }
 
 .videos {
-  overflow: auto;
+  display: flex;
 }
 
+.background-videocall {
+  background: rgba(0,0,0, 0.6);
+  height: 100vh;
+}
+
+.on-videocall {
+  font-size: 2rem;
+  font-style: normal !important;
+  color: #fff !important;
+  z-index: 5;
+  top: 25rem;
+}
+
+.buttons-video {
+  margin-top: 38rem;
+}

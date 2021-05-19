@@ -46,25 +46,7 @@
       <a class="navbar-brand" href="#">
         <img src="img/wazo-platform-logo.svg" height="40" alt="logo">
       </a>
-      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
       <a href="#" id="logout">Logout</a>
-      <!-- <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-        <span class="navbar-text" id="user"></span>
-        <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarNavAltMarkup" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-user"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-default"
-              aria-labelledby="navbarNavAltMarkup">
-              <a class="dropdown-item" href="#" id="logout">Logout</a>
-            </div>
-          </li>
-        </ul>
-      </div> -->
     </nav>
 
     <!-- Container with dialer & actions -->
@@ -91,8 +73,8 @@
         </div>
 
         <div class="videos">
-          <video class="local"></video>
           <video class="remote"></video>
+          <video class="local"></video>
         </div>
            
         <div class="calling">
@@ -154,7 +136,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Incoming call from <span></span></h5>
+          <h5 class="modal-title">Incoming call from <span class="name-called"></span></h5>
         </div>
         <div class="modal-footer">
           <button class="btn btn-primary" id="accept">
