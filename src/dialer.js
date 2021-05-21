@@ -95,8 +95,9 @@ function onCallAccepted(callSession, withVideo) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $('.dialer-form').hide();
-  $('.calling').addClass('calling-page');
+  $('.calling').addClass('calling-page').removeClass('video-calling');
   $('#status').addClass('oncall');
+  $('.buttons').removeClass('buttons-video');
 
   addDialer(callSession, withVideo);
   resetMainDialer();
@@ -107,7 +108,7 @@ function onPhoneCalled(callSession) {
   currentSession = callSession;
   $('.dialer-form').hide();
   $('.calling').addClass('calling-page');
-  $('#status').addClass('oncall');
+  $('#status').addClass('oncall').removeClass('on-videocall');
 
   bindSessionCallbacks(callSession);
 }

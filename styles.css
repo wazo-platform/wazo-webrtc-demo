@@ -27,12 +27,12 @@
   color: #515454;
 }
 
-.btn-primary:active,
+/* .btn-primary:active,
 .btn-primary.hover,
 .btn-primary:hover {
     background: #eebf3f;
     border-color: #eebf3f;
-}
+} */
 
 .btn-flat {
     -webkit-box-shadow: none;
@@ -181,7 +181,7 @@ main {
   top: 2rem;
   left: 0;
   width: 100vw;
-  height: 90vh;
+  height: 96vh;
 }
 
 .video-calling {
