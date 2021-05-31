@@ -332,23 +332,44 @@ h3 {
 }
 
 /* VIDEO */ 
-video.local {
-  display: block;
-  margin-top: 10rem;
-  width: 300px;
-  height: 200px;
-  border-radius: 10px;
+.remote,
+.local {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-video.remote {
-  display: block;
+.remote > div,
+.local > div {
+  background: rgba(0,0,0, .8);
+  border-radius: 15px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.remote > div {
+  flex: 3 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remote > div {
+  flex: 1 25%;
+}
+
+.local video {
+  width: 300px;
+  height: 200px;
+}
+
+.remote video {
   width: 900px;
   height: 500px;
-  margin-top: 5rem;
-  border-radius: 10px;
 }
 
 .videos {
+  height: 100%;
   display: flex;
   justify-content: space-evenly;
 }
