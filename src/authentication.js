@@ -27,7 +27,6 @@ const openLogin = () => {
     e.preventDefault();
 
     $('#submit-login').prop('disabled', true);
-    $('#dialer').show();
 
     authenticate($('#username').val(), $('#password').val(), $('#server').val());
   });

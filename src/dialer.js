@@ -324,12 +324,12 @@ function addDialer(callSession, withVideo) {
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);
-    const localVideo = $('video.local', newDialer)[0];
+    const localVideo = $('.local video', newDialer)[0];
     localVideo.srcObject = localStream;
     localVideo.play();
 
     // Remote video
-    const $remoteVideo = $('video.remote', newDialer);
+    const $remoteVideo = $('.remote video', newDialer);
     const remoteStream = Wazo.Phone.getRemoteStreamForCall(callSession);
     if (remoteStream) {
       $remoteVideo.show();
