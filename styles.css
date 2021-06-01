@@ -325,6 +325,7 @@ h3 {
 }
 
 /* VIDEO */ 
+
 .remote,
 .local {
   display: flex;
@@ -390,3 +391,32 @@ h3 {
 .buttons-video {
   margin-top: 40rem;
 }
+
+/* ON CALL DIALER */
+
+.on-call-dialer {
+  background: #000;
+  height: 35px;
+  border-radius: 5px;
+  padding: 4px;
+}
+
+.on-call-dialer > input {
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  height: 16px;
+
+}
+
+.on-call-dialer > input:focus {
+  border: none;
+  outline: none;
+}
+
+.btn-small {
+  width: 25px;
+  height: 25px;
+  margin: 0;
+} 
