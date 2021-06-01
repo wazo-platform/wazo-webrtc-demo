@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-alert */
 const sessions = {};
 let currentSession;
 const inConference = false;
@@ -176,8 +174,7 @@ function startConference() {
 
 function endConference() {
   inConference = false;
-  const sessionToUnmerge = Object.values(sessions)
-    .filter(session => sessionIdsInMerge.indexOf(session.getId()) !== -1);
+  const sessionToUnmerge = Object.values(sessions).filter(session => sessionIdsInMerge.indexOf(session.getId()) !== -1);
 
   webRtcClient.unmerge(sessionToUnmerge).then(() => {
     resetMainDialer('Conference ended');
@@ -242,7 +239,7 @@ function resetMainDialer(status) {
     $('main').addClass(video ? 'isVideo' : 'isAudio');
   };
 
-  dialer.off('submit').on('submit', (e) => {
+  dialer.off('submit').on('submit', e => {
     e.preventDefault();
 
     call(false);
@@ -264,7 +261,7 @@ function resetMainDialer(status) {
   //   endConference();
   // });
 
-  videoButton.off('click').on('click', (e) => {
+  videoButton.off('click').on('click', e => {
     e.preventDefault();
     call(true);
   });
