@@ -16,6 +16,7 @@ module.exports = {
     'no-use-before-define': 0,
     'object-curly-newline': 0,
     'arrow-parens': 0,
+    'max-len': 120,
   },
   globals: {
     chrome: 'readonly',
