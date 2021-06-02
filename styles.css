@@ -15,7 +15,7 @@
   display: none;
 }
 
-#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .video-call, #dialer video  {
+#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .video-call, #dialer .expand, #dialer .reduce, #dialer video  {
   display: none;
 }
 
@@ -374,6 +374,14 @@ h3 {
   justify-content: space-evenly;
 }
 
+video {
+  object-fit: cover;
+}
+
+.reduce-video {
+  object-fit: contain;
+}
+
 .background-videocall {
   background: rgba(0,0,0, 0.6);
   height: 100vh;
@@ -392,6 +400,16 @@ h3 {
   margin-top: 40rem;
 }
 
+.screen-btns {
+  position: absolute;
+  z-index: 10;
+  left: 20%;
+  bottom: 2rem;
+}
+
+.expand, .reduce {
+  background: #515454;
+}
 /* ON CALL DIALER */
 
 /* 

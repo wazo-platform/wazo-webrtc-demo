@@ -216,10 +216,14 @@ function resetMainDialer(status) {
   const mergeButton = $('#dialer .merge');
   const unmergeButton = $('#dialer .unmerge');
   const videoButton = $('#dialer .video-call');
+  const reduceVideoButton = $('.reduce');
+  const expandVideoButton = $('.expand');
 
   dialer.show();
   videoButton.show();
   $('#dialer .hangup').hide();
+  reduceVideoButton.hide();
+  expandVideoButton.hide();
   unmergeButton.hide();
   mergeButton.hide();
   numberField.val('');
@@ -301,6 +305,8 @@ function addDialer(callSession, withVideo) {
   const transferButton = $('.transfer', newDialer);
   const dialButton = $('.audio-call', newDialer);
   const videoButton = $('.video-call', newDialer);
+  const reduceVideoButton = $('.reduce', newDialer);
+  const expandVideoButton = $('.expand', newDialer);
 
   $('.form-group', newDialer).hide();
   holdButton.hide();
@@ -312,6 +318,8 @@ function addDialer(callSession, withVideo) {
   unmergeButton.hide();
   atxferButton.hide();
   transferButton.hide();
+  reduceVideoButton.hide();
+  expandVideoButton.hide();
 
   // Videos
   const videoContainer = $('.videos', newDialer);
@@ -321,6 +329,30 @@ function addDialer(callSession, withVideo) {
     $('#status').removeClass('oncall').addClass('on-videocall');
     $('.calling-page').addClass('video-calling');
     $('.buttons').addClass('buttons-video');
+    $('.reduce').show();
+
+    // Reduce & Expand video screen
+
+    /*
+      NOTE :
+      I don't understand why, but when I click "expand" or "reduce" 
+      video buttons, it also activates "onHold" button this is so weird.
+      The video screen display does expand and reduce.
+    */
+
+    $('.reduce').on('click', e => {
+      e.preventDefault;
+      $('.full-video').addClass('reduce-video');
+      $('.reduce').hide();
+      $('.expand').show();
+    })
+
+    $('.expand').on('click', e => {
+      e.preventDefault;
+      $('.full-video').removeClass('reduce-video');
+      $('.expand').hide();
+      $('.reduce').show();
+    })
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);
