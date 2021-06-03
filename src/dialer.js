@@ -329,6 +329,7 @@ function addDialer(callSession, withVideo) {
     $('#status').removeClass('oncall').addClass('on-videocall');
     $('.calling-page').addClass('video-calling');
     $('.buttons').addClass('buttons-video');
+    $('.screen-btns').show();
     $('.reduce').show();
 
     // Reduce & Expand video screen

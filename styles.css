@@ -21,12 +21,6 @@
 
 /* MAIN */
 
-.btn-primary {
-  background: #ffcc00;
-  border-color: #ffcc00;
-  color: #515454;
-}
-
 .btn-flat {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -265,22 +259,10 @@ h3 {
   padding: 0 30px;
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .buttons-call {
   margin-top: 25%;
-}
-
-.buttons-call > button {
-  background: #fff;
-}
-
-.buttons-call > .hangup {
-  background: #d50000;
+  display: flex;
+  justify-content: center;
 }
 
 /* PHONE incoming call */
@@ -360,7 +342,7 @@ h3 {
 
 .local video {
   width: 200px;
-  height: 300px;
+  height: 250px;
 }
 
 .remote video {
@@ -400,16 +382,6 @@ video {
   margin-top: 40rem;
 }
 
-.screen-btns {
-  position: absolute;
-  z-index: 10;
-  left: 20%;
-  bottom: 2rem;
-}
-
-.expand, .reduce {
-  background: #515454;
-}
 /* ON CALL DIALER */
 
 /* 
