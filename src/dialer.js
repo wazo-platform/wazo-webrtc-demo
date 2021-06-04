@@ -329,7 +329,7 @@ function addDialer(callSession, withVideo) {
     $('#status').removeClass('oncall').addClass('on-videocall');
     $('.calling-page').addClass('video-calling');
     $('.buttons').addClass('buttons-video');
-    $('.reduce').show();
+    reduceVideoButton.show();
 
     // Reduce & Expand video screen
 
@@ -340,18 +340,18 @@ function addDialer(callSession, withVideo) {
       The video screen display does expand and reduce.
     */
 
-    $('.reduce').on('click', e => {
+    reduceVideoButton.on('click', e => {
       e.preventDefault;
-      $('.full-video').addClass('reduce-video');
-      $('.reduce').hide();
-      $('.expand').show();
+      $('video').addClass('reduce-video');
+      reduceVideoButton.hide();
+      expandVideoButton.show();
     })
 
-    $('.expand').on('click', e => {
+    expandVideoButton.on('click', e => {
       e.preventDefault;
-      $('.full-video').removeClass('reduce-video');
-      $('.expand').hide();
-      $('.reduce').show();
+      $('video').removeClass('reduce-video');
+      expandVideoButton.hide();
+      reduceVideoButton.show();
     })
 
     // Local video
