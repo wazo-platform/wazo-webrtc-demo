@@ -15,7 +15,7 @@
   display: none;
 }
 
-#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .video-call, video  {
+#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .video-call, #dialer .expand, #dialer .reduce, #dialer video  {
   display: none;
 }
 
@@ -308,14 +308,14 @@ h3 {
 
 /* VIDEO */ 
 
-/* .remote,
+.remote,
 .local {
   display: flex;
   align-items: center;
   justify-content: center;
-} */
+}
 
- .remote,
+.remote ,
 .local {
   background: rgba(0,0,0, .8);
   overflow: hidden;
@@ -327,17 +327,33 @@ h3 {
   position: absolute;
   left: 2rem;
   bottom: 2rem;
-  width: 200px;
-  height: 250px;
 }
 
-.remote > div {
+.remote {
+  flex: 3 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remote {
+  flex: 1 25%;
+}
+
+.local video {
+  width: 200px;
+  height: 300px;
+}
+
+.remote video {
   width: 100vw;
   height: 100vh;
 }
 
 .videos {
   height: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 video {
@@ -366,6 +382,16 @@ video {
   margin-top: 40rem;
 }
 
+.screen-btns {
+  position: absolute;
+  z-index: 10;
+  left: 20%;
+  bottom: 2rem;
+}
+
+.expand, .reduce {
+  background: #515454;
+}
 /* ON CALL DIALER */
 
 /* 
