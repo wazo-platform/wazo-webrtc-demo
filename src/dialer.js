@@ -329,8 +329,6 @@ function addDialer(callSession, withVideo) {
     $('#status').removeClass('oncall').addClass('on-videocall');
     $('.calling-page').addClass('video-calling');
     $('.buttons').addClass('buttons-video');
-    $('.screen-btns').show();
-    $('.reduce').show();
 
     // Reduce & Expand video screen
 
@@ -341,19 +339,19 @@ function addDialer(callSession, withVideo) {
       The video screen display does expand and reduce.
     */
 
-    $('.reduce').on('click', e => {
-      e.preventDefault;
-      $('.full-video').addClass('reduce-video');
-      $('.reduce').hide();
-      $('.expand').show();
-    })
+    // $('.reduce').on('click', e => {
+    //   e.preventDefault;
+    //   $('video').addClass('reduce-video');
+    //   $('.reduce').hide();
+    //   $('.expand').show();
+    // })
 
-    $('.expand').on('click', e => {
-      e.preventDefault;
-      $('.full-video').removeClass('reduce-video');
-      $('.expand').hide();
-      $('.reduce').show();
-    })
+    // $('.expand').on('click', e => {
+    //   e.preventDefault;
+    //   $('video').removeClass('reduce-video');
+    //   $('.expand').hide();
+    //   $('.reduce').show();
+    // })
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);
