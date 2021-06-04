@@ -261,8 +261,8 @@ h3 {
 
 .buttons-call {
   margin-top: 25%;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  place-items: center;
 }
 
 /* PHONE incoming call */

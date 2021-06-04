@@ -329,29 +329,24 @@ function addDialer(callSession, withVideo) {
     $('#status').removeClass('oncall').addClass('on-videocall');
     $('.calling-page').addClass('video-calling');
     $('.buttons').addClass('buttons-video');
+    reduceVideoButton.show();
 
     // Reduce & Expand video screen
+    
+    reduceVideoButton.on('click', e => {
+      e.preventDefault;
+      $('video').addClass('reduce-video');
+      reduceVideoButton.hide();
+      expandVideoButton.show();
+    })
 
-    /*
-      NOTE :
-      I don't understand why, but when I click "expand" or "reduce" 
-      video buttons, it also activates "onHold" button this is so weird.
-      The video screen display does expand and reduce.
-    */
+    expandVideoButton.on('click', e => {
+      e.preventDefault;
+      $('video').removeClass('reduce-video');
+      expandVideoButton.hide();
+      reduceVideoButton.show();
+    })
 
-    // $('.reduce').on('click', e => {
-    //   e.preventDefault;
-    //   $('video').addClass('reduce-video');
-    //   $('.reduce').hide();
-    //   $('.expand').show();
-    // })
-
-    // $('.expand').on('click', e => {
-    //   e.preventDefault;
-    //   $('video').removeClass('reduce-video');
-    //   $('.expand').hide();
-    //   $('.reduce').show();
-    // })
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);
