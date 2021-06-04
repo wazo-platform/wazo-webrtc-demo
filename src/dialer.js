@@ -332,14 +332,7 @@ function addDialer(callSession, withVideo) {
     reduceVideoButton.show();
 
     // Reduce & Expand video screen
-
-    /*
-      NOTE :
-      I don't understand why, but when I click "expand" or "reduce" 
-      video buttons, it also activates "onHold" button this is so weird.
-      The video screen display does expand and reduce.
-    */
-
+    
     reduceVideoButton.on('click', e => {
       e.preventDefault;
       $('video').addClass('reduce-video');
@@ -353,6 +346,7 @@ function addDialer(callSession, withVideo) {
       expandVideoButton.hide();
       reduceVideoButton.show();
     })
+
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);
