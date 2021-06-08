@@ -30,6 +30,10 @@
   border: 0;
 }
 
+.bg-success:hover {
+  background: #fff;
+}
+
 .two {
   background: #98c451;
   display: flex;
@@ -139,8 +143,6 @@ input.login:focus {
 }
 
 .actions-btns {
-  background: #98c451;
-  color: #fff;
   border: none;
   width: 70px;
   height: 70px;
@@ -252,7 +254,6 @@ h3 {
   font-weight: bold;
 }
 
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -280,27 +281,6 @@ h3 {
   justify-content: center;
   border: none;
 }
-
-.modal-footer {
-  display: flex;
-  justify-content: center;
-  border: none;
-}
-
-.modal-footer>button {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: none;
-}
-
-#accept, #accept-video {
-  background: #98c451;
-}
-
-#reject {
-  background: #d50000;
-} 
 
 .name-called {
   font-style: italic;
@@ -380,13 +360,6 @@ video {
 
 .buttons-video {
   margin-top: 40rem;
-}
-
-.screen-btns {
-  position: absolute;
-  z-index: 10;
-  left: 20%;
-  bottom: 2rem;
 }
 
 .expand, .reduce {
