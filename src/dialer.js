@@ -463,6 +463,39 @@ function addDialer(callSession, withVideo) {
   newDialer.appendTo($('#dialers'));
 }
 
+/* 
+  Trying to make the calls handler work 
+
+  function resume(callSessionId) {
+    const callSession = sessions[callSessionId];
+
+    Wazo.Phone.resume(callSession);
+
+    Object.keys(sessions).forEach((sessionId) => {
+      const cs = sessions[sessionId];
+      if (sessionId !== callSession.getId && !callSession.paused) {
+        Wazo.Phone.hold(cs);
+      } 
+    });
+  }
+*/
+
+function updateDialers() {
+  $('#dialers').html('');
+  $('#calls-handler').html('');
+
+  Wazo.Phone.hold(callSession);
+
+  Object.keys(sessions).forEach((sessionId) => {
+    const callSession = sessions[sessionId];
+    addDialer(callSession, callSession.cameraEnabled);
+    // $('#calls-handler').add(`
+    // <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+    // <label class="btn btn-outline-primary" for="btnradio1">${getNumber(callSession)}</label>
+    // `);
+  });
+}
+
 function updateDialers() {
   $('#dialers').html('');
 
