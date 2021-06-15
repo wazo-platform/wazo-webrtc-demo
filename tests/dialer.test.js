@@ -4,35 +4,74 @@ import { CallSession } from '@wazo/sdk';
 describe('Wazo', function() {
 
   describe('getNumber', () => {
-    test('we get the user\'s name', () => {
-      const number = '1234';
+
+    it('should get the user\'s name', () => {
+      const number = '8131';
       const callSession = new CallSession({
         displayName: 'Donatien',
         number,
       });
-
-      const callSessionWithNumberOnly = new CallSession({
-        number,
-      });
       
       expect(getNumber(callSession)).toEqual('Donatien');
-      expect(getNumber()).toEqual(false);
-      expect(getNumber(callSessionWithNumberOnly)).toEqual(number);
     });
-  })
+  });
 
   describe('getStatus', () => {
-    const number = '1234';
-    const callSession = new CallSession({
-      paused: true,
-      number
+    it('should display that the call is on hold', () => {
+      const number = '1234';
+      const callSession = new CallSession({
+        paused: true,
+        number
+      });
+      
+    it('should display that it\'s calling and which number', () => {
+      const number = '8133';
+      const callSessionStatus = new CallSession({
+        number,
+        sipStatus: Wazo.Phone.SessionState.Established
+      });
+  
+      expect(getStatus(callSession)).toEqual(`Call with ${number} on hold`);
     });
-    const callSessionStatus = new CallSession({
-      number,
-      sipStatus: Wazo.Phone.SessionState.Initial
+
+    it('should display that the microphone is muted', () => {
+      const number = '1234';
+      const callSessionStatus = new CallSession({
+        muted: true,
+        number,
+      });
+
+      expect(getStatus(callSessionStatus)).toEqual(`Call with ${number} muted`);
     });
-    expect(getStatus()).toEqual(null);
-    expect(getStatus(callSession)).toEqual(`Call with ${number} on hold`);
-    expect(getStatus(callSessionStatus)).toEqual(`Calling ${number}...`);
+
+    it('should display which number is called', () => {
+      const number = '1234';
+      const callSessionStatus = new CallSession({
+        number,
+        sipStatus: Wazo.Phone.SessionState.Initial
+      });
+        
+      expect(getStatus(callSessionStatus)).toEqual(`Calling ${number}...`);
+    });
+
+    
+      expect(getStatus(callSessionStatus)).toEqual(`On call with : ${number}`);
+    });
+
+    it('should display the call is cancelled', () => {
+      const number = '8130';
+      const callSessionStatus = new CallSession({
+        sipStatus: Wazo.Phone.SessionState.Terminated,
+        number
+      });
+
+      expect(getStatus(callSessionStatus)).toEqual(`Call canceled by ${number}`)
+    });
+
+    it('should return null when there is no call session', () => {
+
+      expect(getStatus()).toEqual(null);
+    });
+
   });
 })

@@ -13,7 +13,7 @@ export const getStatus = (callSession) => {
   }
 
   if (callSession.muted) {
-    return `Call with ${number} muted`;ex
+    return `Call with ${number} muted`;
   }
 
   switch (callSession.sipStatus) {

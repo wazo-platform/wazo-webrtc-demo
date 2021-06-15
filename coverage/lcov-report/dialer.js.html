@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.75% </span>
+                <span class="strong">93.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/16</span>
+                <span class='fraction'>14/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.33% </span>
+                <span class="strong">93.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/15</span>
+                <span class='fraction'>14/15</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.43% </span>
+                <span class="strong">92.86% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -88,31 +88,31 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -131,18 +131,18 @@ export const getStatus = (callSession) =&gt; {
     return `Call with ${number} on hold`;
   }
 &nbsp;
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (callSession.muted) {
-<span class="cstat-no" title="statement not covered" >    return `Call with ${number} muted`;<span class="cstat-no" title="statement not covered" >e</span>x</span>
+  if (callSession.muted) {
+    return `Call with ${number} muted`;
   }
 &nbsp;
   switch (callSession.sipStatus) {
     case Wazo.Phone.SessionState.Initial:
     case Wazo.Phone.SessionState.Establishing:
       return `Calling ${number}...`;
-<span class="branch-2 cbranch-no" title="branch not covered" >    case Wazo.Phone.SessionState.Established:</span>
-<span class="cstat-no" title="statement not covered" >      return `On call with : ${number}`;</span>
-<span class="branch-3 cbranch-no" title="branch not covered" >    case Wazo.Phone.SessionState.Terminated:</span>
-<span class="cstat-no" title="statement not covered" >      return `Call canceled by ${number}`;</span>
+    case Wazo.Phone.SessionState.Established:
+      return `On call with : ${number}`;
+    case Wazo.Phone.SessionState.Terminated:
+      return `Call canceled by ${number}`;
 <span class="branch-4 cbranch-no" title="branch not covered" >    default:</span>
 <span class="cstat-no" title="statement not covered" >      return `Unknown status: ${callSession.sipStatus}`;</span>
   }
@@ -154,7 +154,7 @@ export const getStatus = (callSession) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Jun 14 2021 09:40:04 GMT-0400 (Eastern Daylight Time)
+                at Tue Jun 15 2021 17:11:04 GMT+0200 (heure d’été d’Europe centrale)
             </div>
         </div>
         <script src="prettify.js"></script>
