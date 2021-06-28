@@ -296,6 +296,7 @@ function bindSessionCallbacks(callSession) {
 function addDialer(callSession, withVideo) {
   const newDialer = $('#dialer')
     .clone()
+    .attr('data-name', getNumber(callSession))
     .attr('id', `call-${callSession.getId()}`);
   // const isSessionInMerge = sessionIdsInMerge.indexOf(session.getId()) !== -1;
   const hangupButton = $('.hangup', newDialer);
@@ -392,8 +393,6 @@ function addDialer(callSession, withVideo) {
     }
   }
 
-  $('#status').html(getStatus(callSession));
-
   dialButton.hide();
   dialButton.prop('disabled', true);
 
@@ -465,6 +464,8 @@ function addDialer(callSession, withVideo) {
   });
 
   newDialer.appendTo($('#dialers'));
+
+  return newDialer;
 }
 
 /* 
@@ -485,8 +486,10 @@ function addDialer(callSession, withVideo) {
 */
 
 
-function switchCall(event, callSession) {
+function switchCall(event) {
   event.stopImmediatePropagation();
+  const sessionId = $(event.target).attr('data-sessionid');
+  const callSession = sessions[sessionId];
   
   if (currentSession.is(callSession)) {
     console.log('active call, no switching');
@@ -495,6 +498,7 @@ function switchCall(event, callSession) {
 
   console.log(`attempting to resume callSession "${getNumber(callSession)}"`);
   unhold(callSession);
+  currentSession = callSession;
   updateDialers();
 }
 
@@ -502,13 +506,19 @@ function updateDialers() {
   $('#dialers').html('');
   $('#calls-handler').html('');
 
+  // @FIXME: Handle status in multi-call environment
+  
   Object.keys(sessions).forEach(sessionId => {
     const callSession = sessions[sessionId];
-    addDialer(callSession, callSession.cameraEnabled);
+    const newDialer = addDialer(callSession, callSession.cameraEnabled);
+    const isActive = currentSession.is(callSession);
 
+    if (!isActive) {
+      newDialer.hide();
+    }
 
-    const bouton = $('#calls-handler').append(`<button type="button" class="btn btn-primary${currentSession.is(callSession) ? ' active' : ''}">${getNumber(callSession)}</button>`);
-    bouton.click(event => switchCall(event, callSession));
+    const bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${getNumber(callSession)}</button>`);
+    bouton.click(switchCall);
   });
 }
 
