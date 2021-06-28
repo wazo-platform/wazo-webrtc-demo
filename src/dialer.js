@@ -137,6 +137,7 @@ function onCallTerminated(callSession) {
 }
 
 function accept(callSession, withVideo) {
+  console.log(`accepting ${getNumber(callSession)} ${withVideo ? 'withVideo' : 'withoutVideo'}`);
   // Hold current session & creates the multiple calls handler if exists 
   if (currentSession && !inConference) {
     hold(currentSession);
@@ -151,18 +152,22 @@ function accept(callSession, withVideo) {
 }
 
 function unhold(callSession) {
+  console.log(`resuming ${getNumber(callSession)}`);
   Wazo.Phone.resume(callSession);
 }
 
 function hold(callSession) {
+  console.log(`holding ${getNumber(callSession)}`);
   Wazo.Phone.hold(callSession);
 }
 
 function mute(callSession) {
+  console.log(`muting ${getNumber(callSession)}`);
   Wazo.Phone.mute(callSession);
 }
 
 function unmute(callSession) {
+  console.log(`unmuting ${getNumber(callSession)}`);
   Wazo.Phone.unmute(callSession);
 }
 
@@ -517,7 +522,9 @@ function updateDialers() {
       newDialer.hide();
     }
 
-    const bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${getNumber(callSession)}</button>`);
+    $('.localStatus', newDialer).html();
+
+    const bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${label}</button>`);
     bouton.click(switchCall);
   });
 }
