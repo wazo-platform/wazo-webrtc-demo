@@ -43,31 +43,18 @@ const getStatus = (callSession) => {
   }
 };
 
-// eslint-disable-next-line no-unused-vars
 const initializeWebRtc = () => {
   Wazo.Phone.connect({
     media: {
       audio: true,
       video: true,
     },
-    // log: { builtinEnabled: true, logLevel: 'debug' },
   });
 
-  const onSessionUpdate = (callSession) => {
-    sessions[callSession.getId()] = callSession;
-    updateScenes();
-  };
-
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_INCOMING, (callSession, withVideo) => {
-    bindSessionCallbacks(callSession);
-    openIncomingCallModal(callSession, withVideo);
-  });
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_ACCEPTED, (callSession, withVideo) => {
-    onCallAccepted(callSession, withVideo);
-  });
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_ENDED, () => {
-    updateScenes('Call ended');
-  });
+  Wazo.Phone.on(Wazo.Phone.ON_CALL_INCOMING, openIncomingCallModal);
+  Wazo.Phone.on(Wazo.Phone.ON_CALL_ACCEPTED, onCallAccepted);
+  Wazo.Phone.on(Wazo.Phone.ON_CALL_FAILED, onCallFailed);
+  Wazo.Phone.on(Wazo.Phone.ON_CALL_ENDED, onCallEnded);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_HELD, onSessionUpdate);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_UNHELD, onSessionUpdate);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_MUTED, onSessionUpdate);
@@ -84,7 +71,6 @@ const initializeWebRtc = () => {
     },
   );
 
-  // setFullName();
   setGreeter();
   initializeMainDialer();
 };
@@ -100,16 +86,26 @@ function onCallAccepted(callSession, withVideo) {
   updateScenes();
 }
 
+function onCallFailed(callSession) {
+  const number = getNumber(callSession);
+  onCallTerminated(callSession);
+  setMainStatus(`Call with ${number} failed`);
+}
+
+function onCallEnded(callSession) {
+  const number = getNumber(callSession);
+  onCallTerminated(callSession);
+  setMainStatus(`Call with ${number} ended`);
+}
+
 function onPhoneCalled(callSession) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $('.calling').addClass('calling-page');
   $('#status').addClass('oncall').removeClass('on-videocall');
-
-  bindSessionCallbacks(callSession);
 }
 
-function onCallTerminated(callSession, origin = '') {
+function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
   $('.calling').removeClass('calling-page');
   $('#status').removeClass('oncall');
@@ -131,7 +127,12 @@ function onCallTerminated(callSession, origin = '') {
 
   currentAtxfer = null;
 
-  updateScenes(`Call with ${getNumber(callSession)} ended (${origin})`);
+  updateScenes(`Call with ${getNumber(callSession)} ended`);
+}
+
+function onSessionUpdate(callSession) {
+  sessions[callSession.getId()] = callSession;
+  updateScenes();
 }
 
 function accept(callSession, withVideo) {
@@ -145,8 +146,6 @@ function accept(callSession, withVideo) {
   }
 
   Wazo.Phone.accept(callSession, withVideo);
-
-  onCallAccepted(callSession, withVideo);
 }
 
 function unhold(callSession) {
@@ -281,20 +280,6 @@ function initializeMainDialer(status) {
   });
 
   updateScenes();
-}
-
-function bindSessionCallbacks(callSession) {
-  const number = getNumber(callSession);
-
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_ACCEPTED, () => updateScenes());
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_FAILED, () => {
-    onCallTerminated(callSession);
-    setMainStatus(`Call with ${number} failed`);
-  });
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_ENDED, () => {
-    onCallTerminated(callSession, 'onCallEnded');
-    setMainStatus(`Call with ${number} ended`);
-  });
 }
 
 function addScene(callSession, withVideo) {
@@ -470,24 +455,6 @@ function addScene(callSession, withVideo) {
   return newScene;
 }
 
-/* 
-  Trying to make the calls handler work 
-
-  function resume(callSessionId) {
-    const callSession = sessions[callSessionId];
-
-    Wazo.Phone.resume(callSession);
-
-    Object.keys(sessions).forEach((sessionId) => {
-      const cs = sessions[sessionId];
-      if (sessionId !== callSession.getId && !callSession.paused) {
-        Wazo.Phone.hold(cs);
-      } 
-    });
-  }
-*/
-
-
 function switchCall(event) {
   event.stopImmediatePropagation();
 
@@ -509,12 +476,10 @@ function updateScenes(status) {
   $('#scenes').html('');
   $('#calls-handler').html('');
 
-  // this is legacy status from resetMainDialer
+  // these status messages are a legacy from resetMainDialer
   if (status) {
     console.log(status);
   }
-
-  // @FIXME: Handle status in multi-call environment
 
   $('#dialer')[!Object.keys(sessions).length ? 'show' : 'hide']();
   
