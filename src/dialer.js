@@ -136,13 +136,6 @@ function onCallTerminated(callSession) {
   resetMainDialer(`Call with ${getNumber(callSession)} ended`);
 }
 
-function switchCall(callSession) {
-  hold(callSession);
-  resume(callSession);
-
-  console.log('Heyyy Manon your function is working')
-}
-
 function accept(callSession, withVideo) {
   // Hold current session & creates the multiple calls handler if exists 
   if (currentSession && !inConference) {
@@ -150,17 +143,6 @@ function accept(callSession, withVideo) {
     
     const currentNumber = getNumber(currentSession);
     const newNumber = getNumber(callSession);
-
-    $('#calls-handler').append('<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">')
-    $('#calls-handler').append(`<label class="btn btn-outline-primary" for="btnradio1">${currentNumber}</label>`)
-
-    $('#calls-handler').append(`<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>`)
-    $('#calls-handler').append(`<label class="btn btn-outline-primary" for="btnradio1">${newNumber}</label>`)
-
-    // $('.btn-check').on('click', e => {
-    //   e.preventDefault;
-      
-    // });
   }
 
   Wazo.Phone.accept(callSession, withVideo);
@@ -169,7 +151,7 @@ function accept(callSession, withVideo) {
 }
 
 function unhold(callSession) {
-  Wazo.Phone.unhold(callSession);
+  Wazo.Phone.resume(callSession);
 }
 
 function hold(callSession) {
@@ -502,24 +484,31 @@ function addDialer(callSession, withVideo) {
   }
 */
 
-function updateDialers() {
-  $('#dialers').html('');
-  $('#calls-handler').html('');
 
-  Wazo.Phone.hold(callSession);
+function switchCall(event, callSession) {
+  event.stopImmediatePropagation();
+  
+  if (currentSession.is(callSession)) {
+    console.log('active call, no switching');
+    return;
+  }
 
-  Object.keys(sessions).forEach((sessionId) => {
-    const callSession = sessions[sessionId];
-    addDialer(callSession, callSession.cameraEnabled);
-  });
+  console.log(`attempting to resume callSession "${getNumber(callSession)}"`);
+  unhold(callSession);
+  updateDialers();
 }
 
 function updateDialers() {
   $('#dialers').html('');
+  $('#calls-handler').html('');
 
-  Object.keys(sessions).forEach((sessionId) => {
+  Object.keys(sessions).forEach(sessionId => {
     const callSession = sessions[sessionId];
     addDialer(callSession, callSession.cameraEnabled);
+
+
+    const bouton = $('#calls-handler').append(`<button type="button" class="btn btn-primary${currentSession.is(callSession) ? ' active' : ''}">${getNumber(callSession)}</button>`);
+    bouton.click(event => switchCall(event, callSession));
   });
 }
 
