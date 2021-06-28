@@ -171,6 +171,14 @@ main {
   left: 0;
   width: 100vw;
   height: 96vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.isVideo .calling-page {
+  justify-content: flex-end;
 }
 
 .video-calling {
@@ -258,9 +266,9 @@ h3 {
 }
 
 .buttons-call {
-  margin-top: 25%;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
 /* PHONE incoming call */
@@ -355,12 +363,14 @@ video {
   top: 28rem;
 }
 
-.buttons-video {
-  margin-top: 40rem;
-}
 
 .expand, .reduce {
   background: #515454;
+}
+
+h3.contact {
+  color: #fff;
+  text-align: center;
 }
 
 /* ON CALL DIALER */

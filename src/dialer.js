@@ -82,7 +82,6 @@ function onCallAccepted(callSession, withVideo) {
   $('#status').addClass('oncall');
   $('.buttons').removeClass('buttons-video');
 
-  addScene(callSession, withVideo);
   updateScenes();
 }
 
@@ -111,8 +110,6 @@ function onCallTerminated(callSession) {
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
-  $('main').removeClass('isVideo');
-  $('main').removeClass('isAudio');
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -249,7 +246,6 @@ function initializeMainDialer(status) {
     onPhoneCalled(callSession);
 
     updateScenes();
-    $('main').addClass(video ? 'isVideo' : 'isAudio');
   };
 
   scene.off('submit').on('submit', e => {
@@ -283,10 +279,12 @@ function initializeMainDialer(status) {
 }
 
 function addScene(callSession, withVideo) {
+  const label = getNumber(callSession);
   const newScene = $('#root-scene')
     .clone()
-    .attr('data-name', getNumber(callSession))
-    .attr('id', `call-${callSession.getId()}`);
+    .attr('data-contact', label)
+    .attr('id', `call-${callSession.getId()}`)
+    .addClass(withVideo ? 'isVideo' : 'isAudio');
   // const isSessionInMerge = sessionIdsInMerge.indexOf(session.getId()) !== -1;
   const hangupButton = $('.hangup', newScene);
   const unholdButton = $('.unhold', newScene);
@@ -301,6 +299,7 @@ function addScene(callSession, withVideo) {
   const videoButton = $('.video-call', newScene);
   const reduceVideoButton = $('.reduce', newScene);
   const expandVideoButton = $('.expand', newScene);
+  const contact = $('.contact', newScene);
 
   $('.form-group', newScene).hide();
   holdButton.hide();
@@ -314,6 +313,8 @@ function addScene(callSession, withVideo) {
   transferButton.hide();
   reduceVideoButton.hide();
   expandVideoButton.hide();
+
+  contact.html(label);
 
   // Videos
   const videoContainer = $('.videos', newScene);
