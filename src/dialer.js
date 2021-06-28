@@ -118,6 +118,7 @@ function onCallTerminated(callSession) {
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
+  $('#calls-handler').empty();
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -135,10 +136,31 @@ function onCallTerminated(callSession) {
   resetMainDialer(`Call with ${getNumber(callSession)} ended`);
 }
 
+function switchCall(callSession) {
+  hold(callSession);
+  resume(callSession);
+
+  console.log('Heyyy Manon your function is working')
+}
+
 function accept(callSession, withVideo) {
-  // Hold current session if exists
+  // Hold current session & creates the multiple calls handler if exists 
   if (currentSession && !inConference) {
     hold(currentSession);
+    
+    const currentNumber = getNumber(currentSession);
+    const newNumber = getNumber(callSession);
+
+    $('#calls-handler').append('<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">')
+    $('#calls-handler').append(`<label class="btn btn-outline-primary" for="btnradio1">${currentNumber}</label>`)
+
+    $('#calls-handler').append(`<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>`)
+    $('#calls-handler').append(`<label class="btn btn-outline-primary" for="btnradio1">${newNumber}</label>`)
+
+    // $('.btn-check').on('click', e => {
+    //   e.preventDefault;
+      
+    // });
   }
 
   Wazo.Phone.accept(callSession, withVideo);
@@ -489,10 +511,6 @@ function updateDialers() {
   Object.keys(sessions).forEach((sessionId) => {
     const callSession = sessions[sessionId];
     addDialer(callSession, callSession.cameraEnabled);
-    // $('#calls-handler').add(`
-    // <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-    // <label class="btn btn-outline-primary" for="btnradio1">${getNumber(callSession)}</label>
-    // `);
   });
 }
 
