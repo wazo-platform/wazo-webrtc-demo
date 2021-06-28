@@ -7,7 +7,7 @@
 }
 
 /* DISPLAY NONE */
-#dialer {
+#root-scene {
   display: none;
 }
 
@@ -15,7 +15,7 @@
   display: none;
 }
 
-#dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer, #dialer .transfer, #dialer .video-call, #dialer .expand, #dialer .reduce, #dialer video  {
+#root-scene .unhold, #root-scene .hold, #root-scene .mute, #root-scene .unmute, #root-scene .merge, #root-scene .unmerge, #root-scene .atxfer, #root-scene .transfer, #root-scene .video-call, #root-scene .expand, #root-scene .reduce, #root-scene video  {
   display: none;
 }
 
@@ -159,7 +159,7 @@ main {
   justify-content: center;
 }
 
-.main-dialer {
+.scene {
   background: none;
   border: none;
 }
@@ -180,9 +180,7 @@ main {
 #status {
   color: #98c451;
   font-style: italic;
-  margin: auto;
-  position: fixed;
-  margin-top: 12rem;
+  margin-top: 4px;
 }
 
 .oncall {
@@ -223,7 +221,7 @@ main {
   outline: none;
 }
 
-.dialer-form > label {
+#dialer > label {
   color: #fff;
   font-weight: lighter;
   padding-bottom: 2rem;
@@ -234,14 +232,13 @@ h3 {
   text-align: center;
 }
 
-.dialer-form {
+#dialer {
   width: 398px;
   height: 341px;
   border: none;
   background: rgba(0,0,0,0.8);
-  padding: 2rem;
+  padding: 2rem 2rem 0;
   border-radius: 10px;
-  margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
