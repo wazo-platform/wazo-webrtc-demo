@@ -71,7 +71,6 @@ const initializeWebRtc = () => {
     },
   );
 
-  setGreeter();
   initializeMainDialer();
 };
 
@@ -81,6 +80,7 @@ function onCallAccepted(callSession, withVideo) {
   $('.calling').addClass('calling-page').removeClass('video-calling');
   $('#status').addClass('oncall');
   $('.buttons').removeClass('buttons-video');
+  phoneTimer();
 
   updateScenes();
 }
@@ -110,6 +110,8 @@ function onCallTerminated(callSession) {
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
+  $('.timer').html('');
+  $('.timer').hide();
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -222,6 +224,7 @@ function initializeMainDialer() {
   const dialer = $('#dialer');
   const numberField = $('.number', dialer);
   const videoButton = $('.video-call', dialer);
+  setGreeter();
   
   const scene = $('#root-scene');
   const mergeButton = $('.merge', scene);
@@ -277,6 +280,42 @@ function initializeMainDialer() {
   updateScenes();
 }
 
+function phoneTimer() {
+  const countDown = $('.timer');
+  countDown.show();
+  const seconds = 0;
+  const minutes = 0;
+  const hours = 0;
+  const timeOut;
+
+  function add() {
+    seconds++;
+    if (seconds >= 60) {
+      seconds = 0;
+      minutes++;
+    }
+
+    if (minutes >= 60) {
+      minutes = 0;
+      hours++;
+    }
+  }
+
+  function timer() {
+    timeOut = setTimeout(add, 1000);
+  }
+
+  function initial(time) {
+    return 0 + time
+  };
+    
+  countdown.html(`${hours ? (hours > 9 ? hours : initial(hours)) : '00' } : ${minutes ? (minutes > 9 ? minutes : initial(minutes)) : '00' } : ${ seconds ? seconds > 9 ? seconds : initial(seconds) : '00'}`);
+
+
+  timer();
+
+};
+
 function addScene(callSession, withVideo) {
   const label = getNumber(callSession);
   const newScene = $('#root-scene')
@@ -299,6 +338,7 @@ function addScene(callSession, withVideo) {
   const reduceVideoButton = $('.reduce', newScene);
   const expandVideoButton = $('.expand', newScene);
   const contact = $('.contact', newScene);
+  // const countDown = $('.timer', newScene);
 
   $('.form-group', newScene).hide();
   holdButton.hide();
@@ -312,6 +352,7 @@ function addScene(callSession, withVideo) {
   transferButton.hide();
   reduceVideoButton.hide();
   expandVideoButton.hide();
+  // countDown.hide();
 
   contact.html(label);
 
