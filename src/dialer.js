@@ -218,26 +218,25 @@ function transfer(callSession, target) {
   updateScenes();
 }
 
-function initializeMainDialer(status) {
+function initializeMainDialer() {
+  const dialer = $('#dialer');
+  const numberField = $('.number', dialer);
+  const videoButton = $('.video-call', dialer);
+  
   const scene = $('#root-scene');
-  const numberField = $('.number', scene);
   const mergeButton = $('.merge', scene);
   const unmergeButton = $('.unmerge', scene);
-  const videoButton = $('.video-call', scene);
-  const reduceVideoButton = $('.reduce');
-  const expandVideoButton = $('.expand');
 
   videoButton.show();
   $('.hangup', scene).hide();
-  reduceVideoButton.hide();
-  expandVideoButton.hide();
   unmergeButton.hide();
   mergeButton.hide();
   numberField.val('');
-  setMainStatus(status || '');
 
   const call = async (video = false) => {
-    const callSession = await Wazo.Phone.call(numberField.val(), video);
+    const number = numberField.val();
+    console.log(`Calling ${number}...`);
+    const callSession = await Wazo.Phone.call(number, video);
 
     if (currentSession && !inConference) {
       hold(currentSession);
@@ -248,7 +247,7 @@ function initializeMainDialer(status) {
     updateScenes();
   };
 
-  scene.off('submit').on('submit', e => {
+  dialer.off('submit').on('submit', e => {
     e.preventDefault();
 
     call(false);

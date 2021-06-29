@@ -18,11 +18,11 @@
         <img class="wazo-logo" src="img/wazo-logo.svg" />
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" class="login" placeholder="yourname@mail.com" required autofocus>
+          <input type="text" id="username" name="username" class="login" placeholder="yourname@mail.com" required autofocus />
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="login" placeholder="********" required>
+          <input type="password" id="password" name="password" class="login" placeholder="********" required />
           <label for="server">Server URI</label>
-          <input type="text" id="server" name="server" class="login" placeholder="your.server.io" required>
+          <input type="text" id="server" name="server" class="login" placeholder="your.server.io" required />
           <button class="btn btn-primary btn-block" id="submit-login" type="submit">Login</button>
           <div id="auth-error" class="alert alert-danger" role="alert"></div>
         </div>      
@@ -78,7 +78,7 @@
 
     <!-- Container with dialer & actions -->
     <main role="main">
-      <div id="dialer" class="form-group mb-2">
+      <form id="dialer" class="form-group mb-2">
         <h3 class="greeter"></h3>
         <label for="number">Please dial the number you want to reach.</label>
         <input type="text" name="number" class="form-control number" placeholder="1-800-123-1234">
@@ -97,9 +97,9 @@
           </button>
         </div>
         <p id="status"></p>
-      </div>
+      </form>
 
-      <form id="root-scene" class="scene">
+      <div id="root-scene" class="scene">
         <div class="videos">
           <div class="remote"><video /></div>
           <div class="local"><video /></div>
@@ -163,7 +163,7 @@
             </div>  
           </div>  
         </div>        
-      </form>
+      </div>
 
       <div
         id="calls-handler"
