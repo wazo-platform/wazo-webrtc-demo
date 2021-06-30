@@ -85,6 +85,7 @@ function onCallAccepted(callSession, withVideo) {
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
   phoneTimer();
+  countDown;
 
   updateScenes();
 }
@@ -366,7 +367,7 @@ function addScene(callSession, withVideo) {
   transferButton.hide();
   reduceVideoButton.hide();
   expandVideoButton.hide();
-  countDown.hide();
+  countDown.show();
 
   contact.html(label);
 

@@ -191,6 +191,10 @@ main {
   margin-top: 4px;
 }
 
+.timer {
+  display: inline-block;
+} 
+
 .oncall {
   font-size: 2.5rem;
   font-style: normal !important;
