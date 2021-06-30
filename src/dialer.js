@@ -85,8 +85,8 @@ function onCallAccepted(callSession, withVideo) {
   $('#status').addClass('oncall');
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
-  phoneTimer();
-  countDown;
+  // phoneTimer();
+  // countDown;
 
   updateScenes();
 }
@@ -116,9 +116,9 @@ function onCallTerminated(callSession) {
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
-  stopTimer();
-  $('.timer').empty();
-  $('.timer').hide();
+  // stopTimer();
+  // $('.timer').empty();
+  // $('.timer').hide();
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -286,51 +286,52 @@ function initializeMainDialer() {
   updateScenes();
 }
 
-function phoneTimer() {
-  const start = new Date;
-  const timer = $('.timer');
-  timer.show();
+// My beautiful Phone Timer, already deprecated 
+// function phoneTimer() {
+//   const start = new Date;
+//   const timer = $('.timer');
+//   timer.show();
 
-  const getElapsedTimeInSeconds = (startTime) => {
-    if (!startTime) {
-      return 0;
-    }
-    return Math.trunc((Date.now() - startTime) / 1000);
-  };
+//   const getElapsedTimeInSeconds = (startTime) => {
+//     if (!startTime) {
+//       return 0;
+//     }
+//     return Math.trunc((Date.now() - startTime) / 1000);
+//   };
   
-  const formatTime = (secondsElapsed)  => {
-    let secNum = parseInt(secondsElapsed, 10);
-    let hours = Math.floor(secNum / 3600);
-    let minutes = Math.floor((secNum - hours * 3600) / 60);
-    let seconds = secNum - hours * 3600 - minutes * 60;
+//   const formatTime = (secondsElapsed)  => {
+//     let secNum = parseInt(secondsElapsed, 10);
+//     let hours = Math.floor(secNum / 3600);
+//     let minutes = Math.floor((secNum - hours * 3600) / 60);
+//     let seconds = secNum - hours * 3600 - minutes * 60;
   
-    if (hours < 10) {
-      hours = '0' + hours;
-    }
-    if (minutes < 10) {
-      minutes = '0' + minutes;
-    }
-    if (seconds < 10) {
-      seconds = '0' + seconds;
-    }
-    if (hours > 0) {
-      return hours + ':' + minutes + ':' + seconds;
-    }
+//     if (hours < 10) {
+//       hours = '0' + hours;
+//     }
+//     if (minutes < 10) {
+//       minutes = '0' + minutes;
+//     }
+//     if (seconds < 10) {
+//       seconds = '0' + seconds;
+//     }
+//     if (hours > 0) {
+//       return hours + ':' + minutes + ':' + seconds;
+//     }
   
-    return minutes + ':' + seconds;
-  };
+//     return minutes + ':' + seconds;
+//   };
 
-  countDown = setInterval(function() {
-    timer.text(formatTime(getElapsedTimeInSeconds(start)));
-  }, 250);
+//   countDown = setInterval(function() {
+//     timer.text(formatTime(getElapsedTimeInSeconds(start)));
+//   }, 250);
 
-  return countDown;
-};
+//   return countDown;
+// }
 
-function stopTimer()  {
-  clearInterval(countDown);
-  console.log(countDown);
-}
+// function stopTimer()  {
+//   clearInterval(countDown);
+//   console.log(countDown);
+// }
 
 function addScene(callSession, withVideo) {
   const label = getNumber(callSession);
@@ -529,8 +530,40 @@ function switchCall(event) {
   updateScenes();
 }
 
-function updateTimer() {
-  $(`#call-${currentSession.getId()} .timer`).html(currentSession.getElapsedTimeInSeconds());
+//TODO : format timer time !
+
+const getElapsedTimeInSeconds = (startTime) => {
+  if (!startTime) {
+    return 0;
+  }
+  return Math.trunc((Date.now() - startTime) / 1000);
+};
+
+const formatTime = (secondsElapsed)  => {
+  let secNum = parseInt(secondsElapsed, 10);
+  let hours = Math.floor(secNum / 3600);
+  let minutes = Math.floor((secNum - hours * 3600) / 60);
+  let seconds = secNum - hours * 3600 - minutes * 60;
+
+  if (hours < 10) {
+    hours = '0' + hours;
+  }
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
+  if (hours > 0) {
+    return hours + ':' + minutes + ':' + seconds;
+  }
+
+  return minutes + ':' + seconds;
+};
+
+function updateTimer(timerId) {
+
+  $(`#call-${currentSession.getId()} .timer`).html(currentSession.formatTime(getElapsedTimeInSeconds(timerId)));
 }
 
 function updateScenes(status) {
@@ -551,7 +584,7 @@ function updateScenes(status) {
     }
   } else {
     if (!timerId) {
-      timerId = setInterval(updateTimer, 1000);
+      timerId = setInterval(updateTimer(timerId), 1000);
     }
   }
 
