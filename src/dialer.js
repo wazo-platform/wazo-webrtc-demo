@@ -71,6 +71,8 @@ const initializeWebRtc = () => {
     },
   );
 
+  setGreeter();
+
   initializeMainDialer();
 };
 
@@ -80,6 +82,7 @@ function onCallAccepted(callSession, withVideo) {
   $('.calling').addClass('calling-page').removeClass('video-calling');
   $('#status').addClass('oncall');
   $('.buttons').removeClass('buttons-video');
+  $('.timer').show();
   phoneTimer();
 
   updateScenes();
@@ -224,7 +227,6 @@ function initializeMainDialer() {
   const dialer = $('#dialer');
   const numberField = $('.number', dialer);
   const videoButton = $('.video-call', dialer);
-  setGreeter();
   
   const scene = $('#root-scene');
   const mergeButton = $('.merge', scene);
@@ -280,41 +282,113 @@ function initializeMainDialer() {
   updateScenes();
 }
 
-function phoneTimer() {
-  const countDown = $('.timer');
-  countDown.show();
-  const seconds = 0;
-  const minutes = 0;
-  const hours = 0;
-  const timeOut;
+// A big BIG draft of my phoneTimer function
+// function phoneTimer() {
+  
+//   const countDown = $('.timer');
+  // const seconds = 0;
+  // const minutes = 0;
+  // const hours = 0;
+  // const timeOut;
 
-  function add() {
-    seconds++;
-    if (seconds >= 60) {
-      seconds = 0;
-      minutes++;
-    }
+  // const add = () => {
+  //   seconds++;
+  //   if (seconds >= 60) {
+  //     seconds = 0;
+  //     minutes++;
+  //   }
 
-    if (minutes >= 60) {
-      minutes = 0;
-      hours++;
-    }
-  }
+  //   if (minutes >= 60) {
+  //     minutes = 0;
+  //     hours++;
+  //   }
+  // }
 
-  function timer() {
-    timeOut = setTimeout(add, 1000);
-  }
+  // function getTime(totalSeconds) {
+  //   const prettierTime = (num) => {
+  //    return ( num < 10 ? "0" : "" ) + num;
+  //  }
+ 
+  //  const hours = Math.floor(totalSeconds / 3600);
+  //  totalSeconds = totalSeconds % 3600;
+ 
+  //  const minutes = Math.floor(total_seconds / 60);
+  //  totalSeconds = totalSeconds % 60;
+ 
+  //  const seconds = Math.floor(totalSeconds);
+ 
+  //  hours = prettierTime(hours);
+  //  minutes = prettierTime(minutes);
+  //  seconds = prettierTime(seconds);
+ 
+  //  const currentTimeString = hours + ":" + minutes + ":" + seconds;
+ 
+  //  return currentTimeString;
+  // }
+   
+  // const currentSeconds = 0;
+  // setInterval(function() {
+  //   currentSeconds = currentSeconds + 1;
+  //   countDown.html(get_elapsed_time_string(currentSeconds));
+  // }, 1000);
 
-  function initial(time) {
-    return 0 + time
-  };
+
+  // const start = new Date;
+
+  // setInterval(function() {
+  //     countDown.html(`${Math.round((new Date - start) / 1000, 0)} seconds`);
+  // }, 1000);
+
+  // const initial = (time) => {
+  //   return 0 + time
+  // };
     
-  countdown.html(`${hours ? (hours > 9 ? hours : initial(hours)) : '00' } : ${minutes ? (minutes > 9 ? minutes : initial(minutes)) : '00' } : ${ seconds ? seconds > 9 ? seconds : initial(seconds) : '00'}`);
+  // countDown.html(`${hours ? (hours > 9 ? hours : initial(hours)) : '00' } : ${minutes ? (minutes > 9 ? minutes : initial(minutes)) : '00' } : ${ seconds ? seconds > 9 ? seconds : initial(seconds) : '00'}`);
 
 
-  timer();
+// };
 
+function phoneTimer() {
+  const start = new Date;
+  const timer = $('.timer');
+  timer.show();
+
+  const getElapsedTimeInSeconds = (startTime) => {
+    if (!startTime) {
+      return 0;
+    }
+    return Math.trunc((Date.now() - startTime) / 1000);
+  };
+  
+  const formatTime = (secondsElapsed)  => {
+    let secNum = parseInt(secondsElapsed, 10);
+    let hours = Math.floor(secNum / 3600);
+    let minutes = Math.floor((secNum - hours * 3600) / 60);
+    let seconds = secNum - hours * 3600 - minutes * 60;
+  
+    if (hours < 10) {
+      hours = '0' + hours;
+    }
+    if (minutes < 10) {
+      minutes = '0' + minutes;
+    }
+    if (seconds < 10) {
+      seconds = '0' + seconds;
+    }
+    if (hours > 0) {
+      return hours + ':' + minutes + ':' + seconds;
+    }
+  
+    return minutes + ':' + seconds;
+  };
+
+  setInterval(function() {
+    timer.text(formatTime(getElapsedTimeInSeconds(start)));
+  }, 250);
+
+  
 };
+
 
 function addScene(callSession, withVideo) {
   const label = getNumber(callSession);
@@ -338,7 +412,7 @@ function addScene(callSession, withVideo) {
   const reduceVideoButton = $('.reduce', newScene);
   const expandVideoButton = $('.expand', newScene);
   const contact = $('.contact', newScene);
-  // const countDown = $('.timer', newScene);
+  const countDown = $('.timer', newScene);
 
   $('.form-group', newScene).hide();
   holdButton.hide();
@@ -352,7 +426,7 @@ function addScene(callSession, withVideo) {
   transferButton.hide();
   reduceVideoButton.hide();
   expandVideoButton.hide();
-  // countDown.hide();
+  countDown.hide();
 
   contact.html(label);
 
