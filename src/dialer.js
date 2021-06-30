@@ -3,6 +3,7 @@ let currentSession;
 const inConference = false;
 let currentAtxfer;
 let countDown;
+let timerId;
 // let sessionIdsInMerge = [];
 
 const setGreeter = async () => {
@@ -528,7 +529,13 @@ function switchCall(event) {
   updateScenes();
 }
 
+function updateTimer() {
+  $(`#call-${currentSession.getId()} .timer`).html(currentSession.getElapsedTimeInSeconds());
+}
+
 function updateScenes(status) {
+  const noActiveSession = !Object.keys(sessions).length;
+
   $('#scenes').html('');
   $('#calls-handler').html('');
 
@@ -537,7 +544,18 @@ function updateScenes(status) {
     console.log(status);
   }
 
-  $('#dialer')[!Object.keys(sessions).length ? 'show' : 'hide']();
+  // timer management
+  if (noActiveSession) {
+    if (timerId) {
+      clearInterval(timerId);
+    }
+  } else {
+    if (!timerId) {
+      timerId = setInterval(updateTimer, 1000);
+    }
+  }
+
+  $('#dialer')[noActiveSession ? 'show' : 'hide']();
   
   Object.keys(sessions).forEach(sessionId => {
     const callSession = sessions[sessionId];
