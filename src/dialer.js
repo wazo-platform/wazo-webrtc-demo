@@ -2,6 +2,7 @@ const sessions = {};
 let currentSession;
 const inConference = false;
 let currentAtxfer;
+let countDown;
 // let sessionIdsInMerge = [];
 
 const setGreeter = async () => {
@@ -113,7 +114,8 @@ function onCallTerminated(callSession) {
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
-  $('.timer').html('');
+  stopTimer();
+  $('.timer').empty();
   $('.timer').hide();
 
   // Current session terminated ?
@@ -282,72 +284,6 @@ function initializeMainDialer() {
   updateScenes();
 }
 
-// A big BIG draft of my phoneTimer function
-// function phoneTimer() {
-  
-//   const countDown = $('.timer');
-  // const seconds = 0;
-  // const minutes = 0;
-  // const hours = 0;
-  // const timeOut;
-
-  // const add = () => {
-  //   seconds++;
-  //   if (seconds >= 60) {
-  //     seconds = 0;
-  //     minutes++;
-  //   }
-
-  //   if (minutes >= 60) {
-  //     minutes = 0;
-  //     hours++;
-  //   }
-  // }
-
-  // function getTime(totalSeconds) {
-  //   const prettierTime = (num) => {
-  //    return ( num < 10 ? "0" : "" ) + num;
-  //  }
- 
-  //  const hours = Math.floor(totalSeconds / 3600);
-  //  totalSeconds = totalSeconds % 3600;
- 
-  //  const minutes = Math.floor(total_seconds / 60);
-  //  totalSeconds = totalSeconds % 60;
- 
-  //  const seconds = Math.floor(totalSeconds);
- 
-  //  hours = prettierTime(hours);
-  //  minutes = prettierTime(minutes);
-  //  seconds = prettierTime(seconds);
- 
-  //  const currentTimeString = hours + ":" + minutes + ":" + seconds;
- 
-  //  return currentTimeString;
-  // }
-   
-  // const currentSeconds = 0;
-  // setInterval(function() {
-  //   currentSeconds = currentSeconds + 1;
-  //   countDown.html(get_elapsed_time_string(currentSeconds));
-  // }, 1000);
-
-
-  // const start = new Date;
-
-  // setInterval(function() {
-  //     countDown.html(`${Math.round((new Date - start) / 1000, 0)} seconds`);
-  // }, 1000);
-
-  // const initial = (time) => {
-  //   return 0 + time
-  // };
-    
-  // countDown.html(`${hours ? (hours > 9 ? hours : initial(hours)) : '00' } : ${minutes ? (minutes > 9 ? minutes : initial(minutes)) : '00' } : ${ seconds ? seconds > 9 ? seconds : initial(seconds) : '00'}`);
-
-
-// };
-
 function phoneTimer() {
   const start = new Date;
   const timer = $('.timer');
@@ -382,13 +318,17 @@ function phoneTimer() {
     return minutes + ':' + seconds;
   };
 
-  setInterval(function() {
+  countDown = setInterval(function() {
     timer.text(formatTime(getElapsedTimeInSeconds(start)));
   }, 250);
 
-  
+  return countDown;
 };
 
+function stopTimer()  {
+  clearInterval(countDown);
+  console.log(countDown);
+}
 
 function addScene(callSession, withVideo) {
   const label = getNumber(callSession);
