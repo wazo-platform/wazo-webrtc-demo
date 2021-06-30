@@ -160,8 +160,16 @@ main {
 }
 
 .scene {
-  background: none;
-  border: none;
+  background: rgba(0,0,0, 0.6);
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  width: 100vw;
+  height: 96vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .calling-page {
