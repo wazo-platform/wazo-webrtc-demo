@@ -200,7 +200,6 @@ main {
 }
 
 .timer {
-  display: inline-block;
   color: #fff;
   font-size: 12px;
   opacity: .5;

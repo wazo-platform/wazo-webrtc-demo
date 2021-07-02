@@ -85,8 +85,6 @@ function onCallAccepted(callSession, withVideo) {
   $('#status').addClass('oncall');
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
-  // phoneTimer();
-  // countDown;
 
   updateScenes();
 }
@@ -116,9 +114,8 @@ function onCallTerminated(callSession) {
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
-  // stopTimer();
-  // $('.timer').empty();
-  // $('.timer').hide();
+  clearInterval(timerId);
+  timerId = undefined;
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
