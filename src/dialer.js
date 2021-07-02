@@ -114,8 +114,6 @@ function onCallTerminated(callSession) {
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
-  clearInterval(timerId);
-  timerId = undefined;
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -578,6 +576,8 @@ function updateScenes(status) {
   if (noActiveSession) {
     if (timerId) {
       clearInterval(timerId);
+      timerId = null;
+      $(`#call-${currentSession.getId()} .timer`).html('&nbsp;');
     }
   } else {
     if (!timerId) {
