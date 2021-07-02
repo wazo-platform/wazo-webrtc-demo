@@ -539,7 +539,7 @@ const getElapsedTimeInSeconds = (startTime) => {
   return Math.trunc((Date.now() - startTime) / 1000);
 };
 
-const formatTime = (secondsElapsed)  => {
+const formatTime = secondsElapsed  => {
   let secNum = parseInt(secondsElapsed, 10);
   let hours = Math.floor(secNum / 3600);
   let minutes = Math.floor((secNum - hours * 3600) / 60);
@@ -561,9 +561,9 @@ const formatTime = (secondsElapsed)  => {
   return minutes + ':' + seconds;
 };
 
-function updateTimer(timerId) {
-
-  $(`#call-${currentSession.getId()} .timer`).html(currentSession.formatTime(getElapsedTimeInSeconds(timerId)));
+function updateTimer() {
+  const formattedTime = formatTime(currentSession.getElapsedTimeInSeconds());
+  $(`#call-${currentSession.getId()} .timer`).html(formattedTime);
 }
 
 function updateScenes(status) {
@@ -584,7 +584,7 @@ function updateScenes(status) {
     }
   } else {
     if (!timerId) {
-      timerId = setInterval(updateTimer(timerId), 1000);
+      timerId = setInterval(updateTimer, 1000);
     }
   }
 
