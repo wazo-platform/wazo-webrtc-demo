@@ -607,7 +607,9 @@ function openIncomingCallModal(callSession, withVideo) {
     || callSession.displayName
     || callSession.number;
 
-  $('#incoming-modal').modal('show', { backdrop: 'static' });
+  const modal = new bootstrap.Modal($('#incoming-modal'), { backdrop: 'static', keyboard: false });
+  modal.show();
+
   $('#dialer').hide();
   $('#status').hide();
   $('#incoming-modal h5 span').html(number);
