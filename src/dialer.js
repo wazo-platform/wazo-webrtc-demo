@@ -81,7 +81,6 @@ const initializeWebRtc = () => {
 function onCallAccepted(callSession, withVideo) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
-  $('.calling').addClass('calling-page').removeClass('video-calling');
   $('#status').addClass('oncall');
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
@@ -104,13 +103,11 @@ function onCallEnded(callSession) {
 function onPhoneCalled(callSession) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
-  $('.calling').addClass('calling-page');
   $('#status').addClass('oncall').removeClass('on-videocall');
 }
 
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
-  $('.calling').removeClass('calling-page');
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
@@ -328,7 +325,6 @@ function addScene(callSession, withVideo) {
     videoContainer.show();
     videoContainer.addClass('background-videocall');
     $('#status').removeClass('oncall').addClass('on-videocall');
-    $('.calling-page').addClass('video-calling');
     $('.buttons').addClass('buttons-video');
     reduceVideoButton.show();
 

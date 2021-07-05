@@ -172,7 +172,7 @@ main {
   justify-content: center;
 }
 
-.calling-page {
+.calling {
   background: rgba(0,0,0, 0.6);
   position: absolute;
   left: 0;
@@ -184,11 +184,8 @@ main {
   justify-content: center;
 }
 
-.isVideo .calling-page {
+.isVideo .calling {
   justify-content: flex-end;
-}
-
-.video-calling {
   background: transparent;
 }
 
