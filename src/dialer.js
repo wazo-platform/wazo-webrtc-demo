@@ -17,7 +17,7 @@ const setGreeter = async () => {
 
 const setMainStatus = (status) => {
   $('#status').html(status);
-  console.log(status);
+  setTimeout(() => $('#status').html('&nbsp;'), 3000);
 };
 
 const getNumber = (callSession) => callSession.realDisplayName || callSession.displayName || callSession.number;
@@ -59,7 +59,7 @@ const initializeWebRtc = () => {
   Wazo.Phone.on(Wazo.Phone.ON_CALL_FAILED, onCallFailed);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_ENDED, onCallEnded);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_HELD, onSessionUpdate);
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_UNHELD, onSessionUpdate);
+  Wazo.Phone.on(Wazo.Phone.ON_CALL_RESUMED, onSessionUpdate);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_MUTED, onSessionUpdate);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_UNMUTED, onSessionUpdate);
   Wazo.Phone.on(
@@ -82,7 +82,6 @@ const initializeWebRtc = () => {
 function onCallAccepted(callSession, withVideo) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
-  $('#status').addClass('oncall');
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
 
@@ -91,27 +90,23 @@ function onCallAccepted(callSession, withVideo) {
 
 function onCallFailed(callSession) {
   const number = getNumber(callSession);
-  onCallTerminated(callSession);
   setMainStatus(`Call with ${number} failed`);
+  onCallTerminated(callSession);
 }
 
 function onCallEnded(callSession) {
   const number = getNumber(callSession);
-  onCallTerminated(callSession);
   setMainStatus(`Call with ${number} ended`);
+  onCallTerminated(callSession);
 }
 
 function onPhoneCalled(callSession) {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
-  $('#status').addClass('oncall').removeClass('on-videocall');
 }
 
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
-  $('#status').show();
-  $('#status').removeClass('oncall');
-  $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
   $('#dialer').show();
 
@@ -326,7 +321,6 @@ function addScene(callSession, withVideo) {
   if (withVideo) {
     videoContainer.show();
     videoContainer.addClass('background-videocall');
-    $('#status').removeClass('oncall').addClass('on-videocall');
     $('.buttons').addClass('buttons-video');
     reduceVideoButton.show();
 
@@ -363,7 +357,6 @@ function addScene(callSession, withVideo) {
     }
   } else {
     videoContainer.hide();
-    $('#status').removeClass('on-videocall').addClass('oncall');
   }
 
   if (callSession.paused) {
@@ -543,7 +536,7 @@ function updateScenes(status) {
     const callSession = sessions[sessionId];
     const newScene = addScene(callSession, callSession.cameraEnabled);
     const isActive = currentSession.is(callSession);
-    const label = getNumber(callSession)
+    const label = getNumber(callSession);
 
     if (!isActive) {
       newScene.hide();
@@ -563,7 +556,6 @@ function openIncomingCallModal(callSession, withVideo) {
   modal.show();
 
   $('#dialer').hide();
-  $('#status').hide();
   $('#incoming-modal h5 span').html(number);
 
   $('#accept-video')[withVideo ? 'show' : 'hide']();
@@ -572,14 +564,12 @@ function openIncomingCallModal(callSession, withVideo) {
     .off('click')
     .on('click', () => {
       modal.hide();
-      $('#status').show();
       accept(callSession, false);
     });
   $('#accept-video')
     .off('click')
     .on('click', () => {
       modal.hide();
-      $('#status').show();
       accept(callSession, true);
     });
   $('#reject')
@@ -587,6 +577,5 @@ function openIncomingCallModal(callSession, withVideo) {
     .on('click', () => {
       Wazo.Phone.reject(callSession);
       modal.hide();
-      $('#status').show();
     });
 }
