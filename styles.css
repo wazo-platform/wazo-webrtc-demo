@@ -172,7 +172,7 @@ main {
   justify-content: center;
 }
 
-.calling {
+.call-page {
   background: rgba(0,0,0, 0.6);
   position: absolute;
   left: 0;
@@ -184,7 +184,7 @@ main {
   justify-content: center;
 }
 
-.isVideo .calling {
+.isVideo .call-page {
   justify-content: flex-end;
   background: transparent;
 }
@@ -294,6 +294,13 @@ h3 {
 .modal-header {
   display: flex;
   justify-content: center;
+  border: none;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
 }
 

@@ -17,6 +17,7 @@ const setGreeter = async () => {
 
 const setMainStatus = (status) => {
   $('#status').html(status);
+  console.log(status);
 };
 
 const getNumber = (callSession) => callSession.realDisplayName || callSession.displayName || callSession.number;
@@ -108,6 +109,7 @@ function onPhoneCalled(callSession) {
 
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
+  $('#status').show();
   $('#status').removeClass('oncall');
   $('#status').removeClass('on-videocall');
   $('.buttons').removeClass('buttons-video');
