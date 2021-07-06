@@ -58,7 +58,7 @@ const initializeWebRtc = () => {
   Wazo.Phone.on(Wazo.Phone.ON_CALL_FAILED, onCallFailed);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_ENDED, onCallEnded);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_HELD, onSessionUpdate);
-  Wazo.Phone.on(Wazo.Phone.ON_CALL_UNHELD, onSessionUpdate);
+  Wazo.Phone.on(Wazo.Phone.ON_CALL_RESUMED, onSessionUpdate);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_MUTED, onSessionUpdate);
   Wazo.Phone.on(Wazo.Phone.ON_CALL_UNMUTED, onSessionUpdate);
   Wazo.Phone.on(
@@ -541,7 +541,7 @@ function updateScenes(status) {
     const callSession = sessions[sessionId];
     const newScene = addScene(callSession, callSession.cameraEnabled);
     const isActive = currentSession.is(callSession);
-    const label = getNumber(callSession)
+    const label = getNumber(callSession);
 
     if (!isActive) {
       newScene.hide();
