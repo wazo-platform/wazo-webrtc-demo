@@ -241,6 +241,8 @@ function addScene(callSession, withVideo) {
   const expandVideoButton = $('.expand', newScene);
   const contact = $('.contact', newScene);
   const timer = $('.timer', newScene);
+  const reduceLocalVideo = $('.reduce-local', newScene);
+  const expandLocalVideo = $('.expand-local', newScene);
 
   $('.form-group', newScene).hide();
   holdButton.hide();
@@ -254,6 +256,8 @@ function addScene(callSession, withVideo) {
   transferButton.hide();
   reduceVideoButton.hide();
   expandVideoButton.hide();
+  expandLocalVideo.hide();
+  reduceLocalVideo.hide();
   timer.show();
 
   contact.html(label);
@@ -265,21 +269,38 @@ function addScene(callSession, withVideo) {
     videoContainer.addClass('background-videocall');
     $('.buttons').addClass('buttons-video');
     reduceVideoButton.show();
+    reduceLocalVideo.show();
 
-    // Reduce & Expand video screen
+    // Reduce & Expand Remote video screen
     
     reduceVideoButton.on('click', e => {
       e.preventDefault;
-      $('video').addClass('reduce-video');
+      $('.remote video').addClass('reduce-video');
       reduceVideoButton.hide();
       expandVideoButton.show();
     })
 
     expandVideoButton.on('click', e => {
       e.preventDefault;
-      $('video').removeClass('reduce-video');
+      $('.remote video').removeClass('reduce-video');
       expandVideoButton.hide();
       reduceVideoButton.show();
+    })
+
+     // Reduce & Expand Local video screen
+
+     reduceLocalVideo.on('click', e => {
+      e.preventDefault;
+      $('.local video').addClass('reduce-video');
+      reduceLocalVideo.hide();
+      expandLocalVideo.show();
+    })
+
+    expandLocalVideo.on('click', e => {
+      e.preventDefault;
+      $('.local video').removeClass('reduce-video');
+      expandLocalVideo.hide();
+      reduceLocalVideo.show();
     })
 
 

@@ -380,9 +380,10 @@ video {
   top: 28rem;
 }
 
-
-.expand, .reduce {
-  background: #515454;
+.local-btns {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 h3.contact {
