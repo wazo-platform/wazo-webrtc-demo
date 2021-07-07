@@ -169,48 +169,6 @@ function hangup(callSession) {
   Wazo.Phone.hangup(callSession);
 }
 
-/*
-function startConference() {
-  Wazo.Phone.merge(Object.values(sessions));
-
-  inConference = true;
-  sessionIdsInMerge = Object.keys(sessions);
-
-  updateScenes('Conference started');
-}
-
-function endConference() {
-  inConference = false;
-  const sessionToUnmerge = Object.values(sessions).filter(session => sessionIdsInMerge.indexOf(session.getId()) !== -1);
-
-  webRtcClient.unmerge(sessionToUnmerge).then(() => {
-    updateScenes('Conference ended');
-  });
-
-  sessionIdsInMerge = [];
-}
-
-function addToMerge(session) {
-  webRtcClient.addToMerge(session);
-  sessionIdsInMerge.push(session.getId());
-
-  updateScenes(getNumber(session) + ' added to merge');
-}
-
-function removeFromMerge(session) {
-  webRtcClient.removeFromMerge(session, true);
-
-  const sessionIndex = sessionIdsInMerge.indexOf(session.getId());
-  sessionIdsInMerge.splice(sessionIndex, 1);
-
-  if (sessionIdsInMerge.length === 1) {
-    endConference();
-  }
-
-  updateScenes(getNumber(session) + ' removed from merge');
-}
-*/
-
 function transfer(callSession, target) {
   Wazo.Phone.transfer(callSession, target);
 
@@ -251,22 +209,6 @@ function initializeMainDialer() {
 
     call(false);
   });
-
-  // if (inConference) {
-  //   unmergeButton.show();
-  // } else if(Object.keys(sessions).length > 1) {
-  //   mergeButton.show();
-  // }
-
-  // mergeButton.off('click').on('click', function (e) {
-  //   e.preventDefault();
-  //   startConference();
-  // });
-  //
-  // unmergeButton.off('click').on('click', function (e) {
-  //   e.preventDefault();
-  //   endConference();
-  // });
 
   videoButton.off('click').on('click', e => {
     e.preventDefault();
@@ -409,16 +351,6 @@ function addScene(callSession, withVideo) {
     unmute(callSession);
   });
 
-  // mergeButton.off('click').on('click', function (e) {
-  //   e.preventDefault();
-  //   addToMerge(callSession);
-  // });
-  //
-  // unmergeButton.off('click').on('click', function (e) {
-  //   e.preventDefault();
-  //   removeFromMerge(callSession);
-  // });
-
   atxferButton.show();
   atxferButton.off('click').on('click', (e) => {
     e.preventDefault();
@@ -470,7 +402,6 @@ function switchCall(event) {
   updateScenes();
 }
 
-//TODO : format timer time !
 
 const getElapsedTimeInSeconds = (startTime) => {
   if (!startTime) {
@@ -544,7 +475,14 @@ function updateScenes(status) {
 
     const bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${label}</button>`);
     bouton.click(switchCall);
-  });
+
+    // const contact = $('.contact');
+    // const timer = $('.timer');
+    // bouton.click(() => {
+    //   contact.fadeIn('3000');
+    //   timer.fadeIn('3000');
+    // });
+  })
 }
 
 function openIncomingCallModal(callSession, withVideo) {
