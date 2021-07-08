@@ -6,6 +6,17 @@
   text-transform: uppercase;
 }
 
+.loader {
+  position : fixed;
+  z-index: 9999;
+  background: white;
+  top : 0px;
+  left : 0px;
+  height : 100%;
+  width : 100%;
+  cursor : wait;
+  }
+
 /* DISPLAY NONE */
 #root-scene {
   display: none;

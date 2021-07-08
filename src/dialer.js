@@ -6,6 +6,12 @@ let countDown;
 let timerId;
 // let sessionIdsInMerge = [];
 
+const loading = () => {
+  $(window).load(function() {
+    $(".loader").hide();
+  })
+}; // I tried to put it out of a function but it didn't work either 
+
 const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
     Wazo.Auth.getSession().uuid,
