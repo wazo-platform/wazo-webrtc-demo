@@ -36,6 +36,7 @@ const onLogin = () => {
   $('#submit-login').prop('disabled', false);
   $('#authentication').hide();
   $('#phone').show();
+  $('#loader').hide();
   $('#logout').on('click', () => {
     removeSessionOnStorage();
     window.location.reload(false);

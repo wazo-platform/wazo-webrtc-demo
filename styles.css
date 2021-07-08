@@ -6,6 +6,20 @@
   text-transform: uppercase;
 }
 
+#loader {
+  position : fixed;
+  z-index: 9999;
+  background: white;
+  top : 0px;
+  left : 0px;
+  height : 100%;
+  width : 100%;
+  cursor : wait;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* DISPLAY NONE */
 #root-scene {
   display: none;
