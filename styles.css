@@ -1,15 +1,5 @@
 /* ANIMATION */
 
-@-webkit-keyframes loading {
-  0% {
-    opacity: 0.5;
-  } 50% {
-    opacity: 1;
-  } 100% {
-    opacity: 0.5;
-  }
-}
-
 @keyframes loading {
   0% {
     opacity: 0.5;
@@ -46,30 +36,6 @@
 .btn {
   text-transform: uppercase;
 }
-
-/* LOADER */
-
-#loader {
-  position : fixed;
-  z-index: 9999;
-  background: white;
-  top : 0px;
-  left : 0px;
-  height : 100%;
-  width : 100%;
-  cursor : wait;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#loader img {
-  animation-name: loading;
-  animation-duration: 2.5s;
-  animation-iteration-count: infinite;
-}
-
-
 
 .btn-flat {
   -webkit-box-shadow: none;
@@ -108,6 +74,28 @@
   padding: 0;
   margin: 0;
   min-height: 100vh;
+}
+
+/* LOADER */
+
+#loader {
+  position : fixed;
+  z-index: 9999;
+  background: white;
+  top : 0px;
+  left : 0px;
+  height : 100%;
+  width : 100%;
+  cursor : wait;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#loader img {
+  animation-name: loading;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
 }
 
 /* LOGIN */
@@ -280,6 +268,7 @@ main {
   width: 345px;
   height: 60px;
   border-radius: 10px;
+  color: #fff;
 }
 
 .number:focus {
