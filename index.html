@@ -109,16 +109,10 @@
       <div id="root-scene" class="scene">
 
         <div class="videos">
-          <div class="remote"><video /></div>
-          <div class="local"><video /></div>
-        </div>
-
-        <div class="call-page">
-          <h3 class="contact"></h3>
-          <div class="timer">&nbsp;</div>
-            <!-- Buttons appearing when calling -->
-          <div class="btn-group me-2 buttons buttons-call">
-            <div>
+          <div class="remote"><video></video></div>
+          <div class="local">
+            <video></video>
+            <div class="buttons">
               <button type="button" class="btn btn-secondary local-btns reduce-local">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="white" class="bi bi-arrows-angle-contract" viewBox="0 0 16 16">
                   <path d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707zM15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707z"/>
@@ -129,6 +123,16 @@
                   <path d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
                 </svg>
               </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="call-page">
+          <h3 class="contact"></h3>
+          <div class="timer">&nbsp;</div>
+            <!-- Buttons appearing when calling -->
+          <div class="btn-group me-2 buttons buttons-call">
+            <div>
               <button type="button" class="btn btn-primary actions-btns unhold">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
                   <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>

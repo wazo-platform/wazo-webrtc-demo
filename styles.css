@@ -386,6 +386,12 @@ h3 {
   height: 300px;
 }
 
+.local .buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
 .remote video {
   width: 100vw;
   height: 100vh;

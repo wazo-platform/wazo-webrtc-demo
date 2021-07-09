@@ -483,7 +483,6 @@ function updateScenes(status) {
     if (timerId) {
       clearInterval(timerId);
       timerId = null;
-      $(`#call-${currentSession.getId()} .timer`).html('&nbsp;');
     }
   } else {
     if (!timerId) {
