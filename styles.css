@@ -5,8 +5,7 @@
 .btn {
   text-transform: uppercase;
 }
-
-.loader {
+#loader {
   position : fixed;
   z-index: 9999;
   background: white;
@@ -15,7 +14,10 @@
   height : 100%;
   width : 100%;
   cursor : wait;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* DISPLAY NONE */
 #root-scene {
