@@ -1,22 +1,27 @@
-#authentication.row { 
-  margin: 0 !important;
+/* ANIMATION */
+
+@-webkit-keyframes loading {
+  0% {
+    opacity: 0.5;
+  } 50% {
+    opacity: 1;
+  } 100% {
+    opacity: 0.5;
+  }
 }
 
-.btn {
-  text-transform: uppercase;
-}
-#loader {
-  position : fixed;
-  z-index: 9999;
-  background: white;
-  top : 0px;
-  left : 0px;
-  height : 100%;
-  width : 100%;
-  cursor : wait;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@keyframes loading {
+  0% {
+    opacity: 0.5;
+  } 25% {
+    opacity: 1;
+  } 50% {
+    opacity: 0.5;
+  } 75% {
+    opacity: 1;
+  } 100% {
+    opacity: 0.5;
+  }
 }
 
 /* DISPLAY NONE */
@@ -33,6 +38,38 @@
 }
 
 /* MAIN */
+
+#authentication.row { 
+  margin: 0 !important;
+}
+
+.btn {
+  text-transform: uppercase;
+}
+
+/* LOADER */
+
+#loader {
+  position : fixed;
+  z-index: 9999;
+  background: white;
+  top : 0px;
+  left : 0px;
+  height : 100%;
+  width : 100%;
+  cursor : wait;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#loader img {
+  animation-name: loading;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+
 
 .btn-flat {
   -webkit-box-shadow: none;
