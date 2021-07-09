@@ -124,6 +124,9 @@ function onCallTerminated(callSession) {
 
   currentAtxfer = null;
 
+  const modalElement = document.getElementById('incoming-modal');
+  const modal = bootstrap.Modal.getInstance(modalElement);
+  modal.hide();
   updateScenes(`Call with ${getNumber(callSession)} ended`);
 }
 
