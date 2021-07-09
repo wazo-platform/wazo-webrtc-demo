@@ -22,7 +22,7 @@ const authenticate = async (username, password, server) => {
 };
 
 const openLogin = () => {
-  $('.alert').hide();
+  $('#loader').hide();
   $('#login-form').on('submit', async e => {
     e.preventDefault();
 
@@ -57,6 +57,8 @@ const removeSessionOnStorage = () => {
 };
 
 const launchPhone = async () => {
+  $('.alert').hide();
+
   const rawSession = getSessionOnStorage();
   if (!rawSession) {
     return openLogin();
