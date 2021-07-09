@@ -225,6 +225,7 @@ main {
 .call-page {
   background: rgba(0,0,0, 0.6);
   position: absolute;
+  z-index: 1;
   left: 0;
   width: 100vw;
   height: 100vh;
@@ -380,6 +381,7 @@ h3 {
   position: absolute;
   left: 2rem;
   bottom: 2rem;
+  z-index: 999;
 }
 
 .remote {
@@ -395,7 +397,7 @@ h3 {
 
 .local video {
   width: 200px;
-  height: 300px;
+  height: auto;
 }
 
 .local .buttons {
@@ -416,11 +418,11 @@ h3 {
 }
 
 video {
-  object-fit: cover;
+  object-fit: contain;
 }
 
-.reduce-video {
-  object-fit: contain;
+.expand-video {
+  object-fit: cover;
 }
 
 .background-videocall {
@@ -447,34 +449,3 @@ h3.contact {
   color: #fff;
   text-align: center;
 }
-
-/* ON CALL DIALER */
-
-/* 
-  .on-call-dialer {
-    background: #000;
-    height: 35px;
-    border-radius: 5px;
-    padding: 4px;
-  }
-
-  .on-call-dialer > input {
-    background: #000;
-    color: #fff;
-    border: none;
-    font-size: 14px;
-    height: 16px;
-
-  }
-
-  .on-call-dialer > input:focus {
-    border: none;
-    outline: none;
-  }
-
-  .btn-small {
-    width: 25px;
-    height: 25px;
-    margin: 0;
-  } 
-*/
