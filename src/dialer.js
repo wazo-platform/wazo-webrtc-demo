@@ -6,12 +6,6 @@ let countDown;
 let timerId;
 // let sessionIdsInMerge = [];
 
-const loading = () => {
-  $(window).load(function() {
-    $(".loader").hide();
-  })
-}; // I tried to put it out of a function but it didn't work either 
-
 const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
     Wazo.Auth.getSession().uuid,
@@ -114,6 +108,7 @@ function onPhoneCalled(callSession) {
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
   $('.buttons').removeClass('buttons-video');
+  $('#incoming-modal').hide();
   $('#dialer').show();
 
   // Current session terminated ?
@@ -505,12 +500,6 @@ function updateScenes(status) {
     const bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${label}</button>`);
     bouton.click(switchCall);
 
-    // const contact = $('.contact');
-    // const timer = $('.timer');
-    // bouton.click(() => {
-    //   contact.fadeIn('3000');
-    //   timer.fadeIn('3000');
-    // });
   })
 }
 
