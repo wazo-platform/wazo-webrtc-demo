@@ -1,3 +1,5 @@
+import formatTime from "./utils";
+
 const sessions = {};
 let currentSession;
 const inConference = false;
@@ -180,19 +182,19 @@ function transfer(callSession, target) {
 }
 
 function initializeMainDialer() {
-  const dialer = $('#dialer');
-  const numberField = $('.number', dialer);
-  const videoButton = $('.video-call', dialer);
+  const $dialer = $('#dialer');
+  const $numberField = $('.number', dialer);
+  const $videoButton = $('.video-call', dialer);
   
-  const scene = $('#root-scene');
-  const mergeButton = $('.merge', scene);
-  const unmergeButton = $('.unmerge', scene);
+  const $scene = $('#root-scene');
+  const $mergeButton = $('.merge', scene);
+  const $unmergeButton = $('.unmerge', scene);
 
-  videoButton.show();
-  $('.hangup', scene).hide();
-  unmergeButton.hide();
-  mergeButton.hide();
-  numberField.val('');
+  $videoButton.show();
+  $('.hangup', $scene).hide();
+  $unmergeButton.hide();
+  $mergeButton.hide();
+  $numberField.val('');
 
   const call = async (video = false) => {
     const number = numberField.val();
@@ -224,77 +226,77 @@ function initializeMainDialer() {
 
 function addScene(callSession, withVideo) {
   const label = getNumber(callSession);
-  const newScene = $('#root-scene')
+  const $newScene = $('#root-scene')
     .clone()
     .attr('data-contact', label)
     .attr('id', `call-${callSession.getId()}`)
     .addClass(withVideo ? 'isVideo' : 'isAudio');
   // const isSessionInMerge = sessionIdsInMerge.indexOf(session.getId()) !== -1;
-  const hangupButton = $('.hangup', newScene);
-  const unholdButton = $('.unhold', newScene);
-  const holdButton = $('.hold', newScene);
-  const muteButton = $('.mute', newScene);
-  const unmuteButton = $('.unmute', newScene);
-  const mergeButton = $('.merge', newScene).html('Add to merge');
-  const unmergeButton = $('.unmerge', newScene).html('Remove from merge');
-  const atxferButton = $('.atxfer', newScene);
-  const transferButton = $('.transfer', newScene);
-  const dialButton = $('.audio-call', newScene);
-  const videoButton = $('.video-call', newScene);
-  const reduceVideoButton = $('.reduce', newScene);
-  const expandVideoButton = $('.expand', newScene);
-  const contact = $('.contact', newScene);
-  const timer = $('.timer', newScene);
+  const $hangupButton = $('.hangup', $newScene);
+  const $unholdButton = $('.unhold', $newScene);
+  const $holdButton = $('.hold', $newScene);
+  const $muteButton = $('.mute', $newScene);
+  const $unmuteButton = $('.unmute', $newScene);
+  const $mergeButton = $('.merge', $newScene).html('Add to merge');
+  const $unmergeButton = $('.unmerge', $newScene).html('Remove from merge');
+  const $atxferButton = $('.atxfer', $newScene);
+  const $transferButton = $('.transfer', $newScene);
+  const $dialButton = $('.audio-call', $newScene);
+  const $videoButton = $('.video-call', $newScene);
+  const $reduceVideoButton = $('.reduce', $newScene);
+  const $expandVideoButton = $('.expand', $newScene);
+  const $contact = $('.contact', $newScene);
+  const $timer = $('.timer', $newScene);
 
-  $('.form-group', newScene).hide();
-  holdButton.hide();
-  videoButton.hide();
-  unholdButton.hide();
-  muteButton.hide();
-  unmuteButton.hide();
-  mergeButton.hide();
-  unmergeButton.hide();
-  atxferButton.hide();
-  transferButton.hide();
-  reduceVideoButton.hide();
-  expandVideoButton.hide();
-  timer.show();
+  $('.form-group', $newScene).hide();
+  $holdButton.hide();
+  $videoButton.hide();
+  $unholdButton.hide();
+  $muteButton.hide();
+  $unmuteButton.hide();
+  $mergeButton.hide();
+  $unmergeButton.hide();
+  $atxferButton.hide();
+  $transferButton.hide();
+  $reduceVideoButton.hide();
+  $expandVideoButton.hide();
+  $timer.show();
 
-  contact.html(label);
+  $contact.html(label);
 
   // Videos
-  const videoContainer = $('.videos', newScene);
+  const $videoContainer = $('.videos', $newScene);
   if (withVideo) {
-    videoContainer.show();
-    videoContainer.addClass('background-videocall');
+    $videoContainer.show();
+    $videoContainer.addClass('background-videocall');
     $('.buttons').addClass('buttons-video');
-    expandVideoButton.show();
+    $expandVideoButton.show();
 
 
     // Reduce & Expand Remote video screen
     
-    expandVideoButton.on('click', e => {
+    $expandVideoButton.on('click', e => {
       e.preventDefault;
       $('.remote video').addClass('expand-video');
-      expandVideoButton.hide();
-      reduceVideoButton.show();
+      $expandVideoButton.hide();
+      $reduceVideoButton.show();
     })
 
-    reduceVideoButton.on('click', e => {
+    $reduceVideoButton.on('click', e => {
       e.preventDefault;
       $('.remote video').removeClass('expand-video');
-      reduceVideoButton.hide();
-      expandVideoButton.show();
+      $reduceVideoButton.hide();
+      $expandVideoButton.show();
     })
 
     // Local video
     const localStream = Wazo.Phone.getLocalVideoStream(callSession);
-    const localVideo = $('.local video', newScene)[0];
-    localVideo.srcObject = localStream;
-    localVideo.play();
+    const $localVideo = $('.local video', $newScene)[0];
+    $localVideo.srcObject = localStream;
+    $localVideo.play();
 
     // Remote video
-    const $remoteVideo = $('.remote video', newScene);
+    const $remoteVideo = $('.remote video', $newScene);
     const remoteStream = Wazo.Phone.getRemoteStreamForCall(callSession);
     if (remoteStream) {
       $remoteVideo.show();
@@ -302,61 +304,61 @@ function addScene(callSession, withVideo) {
       wazoStream.attach($remoteVideo[0]);
     }
   } else {
-    videoContainer.hide();
+    $videoContainer.hide();
   }
 
   if (callSession.paused) {
-    unholdButton.show();
+    $unholdButton.show();
   } else {
-    holdButton.show();
+    $holdButton.show();
   }
 
   if (callSession.muted) {
-    unmuteButton.show();
+    $unmuteButton.show();
   } else {
-    muteButton.show();
+    $muteButton.show();
   }
 
   if (inConference) {
     // eslint-disable-next-line no-undef
     if (isSessionInMerge) {
-      unmergeButton.show();
+      $unmergeButton.show();
     } else {
-      mergeButton.show();
+      $mergeButton.show();
     }
   }
 
-  dialButton.hide();
-  dialButton.prop('disabled', true);
+  $dialButton.hide();
+  $dialButton.prop('disabled', true);
 
-  hangupButton.show();
-  hangupButton.off('click').on('click', (e) => {
+  $hangupButton.show();
+  $hangupButton.off('click').on('click', (e) => {
     e.preventDefault();
     hangup(callSession);
   });
 
-  unholdButton.off('click').on('click', (e) => {
+  $unholdButton.off('click').on('click', (e) => {
     e.preventDefault();
     unhold(callSession);
   });
 
-  holdButton.off('click').on('click', (e) => {
+  $holdButton.off('click').on('click', (e) => {
     e.preventDefault();
     hold(callSession);
   });
 
-  muteButton.off('click').on('click', (e) => {
+  $muteButton.off('click').on('click', (e) => {
     e.preventDefault();
     mute(callSession);
   });
 
-  unmuteButton.off('click').on('click', (e) => {
+  $unmuteButton.off('click').on('click', (e) => {
     e.preventDefault();
     unmute(callSession);
   });
 
-  atxferButton.show();
-  atxferButton.off('click').on('click', (e) => {
+  $atxferButton.show();
+  $atxferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
     if (currentAtxfer) {
@@ -369,13 +371,13 @@ function addScene(callSession, withVideo) {
       if (target != null) {
         currentAtxfer = Wazo.Phone.atxfer(callSession);
         currentAtxfer.init(target);
-        atxferButton.html('Complete');
+        $atxferButton.html('Complete');
       }
     }
   });
 
-  transferButton.show();
-  transferButton.off('click').on('click', (e) => {
+  $transferButton.show();
+  $transferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
     const target = prompt('Phone number transfer?');
@@ -384,9 +386,9 @@ function addScene(callSession, withVideo) {
     }
   });
 
-  newScene.appendTo($('#scenes'));
+  $newScene.appendTo($('#scenes'));
 
-  return newScene;
+  return $newScene;
 }
 
 function switchCall(event) {
@@ -405,36 +407,6 @@ function switchCall(event) {
   currentSession = callSession;
   updateScenes();
 }
-
-
-const getElapsedTimeInSeconds = (startTime) => {
-  if (!startTime) {
-    return 0;
-  }
-  return Math.trunc((Date.now() - startTime) / 1000);
-};
-
-const formatTime = secondsElapsed  => {
-  let secNum = parseInt(secondsElapsed, 10);
-  let hours = Math.floor(secNum / 3600);
-  let minutes = Math.floor((secNum - hours * 3600) / 60);
-  let seconds = secNum - hours * 3600 - minutes * 60;
-
-  if (hours < 10) {
-    hours = '0' + hours;
-  }
-  if (minutes < 10) {
-    minutes = '0' + minutes;
-  }
-  if (seconds < 10) {
-    seconds = '0' + seconds;
-  }
-  if (hours > 0) {
-    return hours + ':' + minutes + ':' + seconds;
-  }
-
-  return minutes + ':' + seconds;
-};
 
 function updateTimer() {
   const formattedTime = formatTime(currentSession.getElapsedTimeInSeconds());
@@ -468,12 +440,12 @@ function updateScenes(status) {
   
   Object.keys(sessions).forEach(sessionId => {
     const callSession = sessions[sessionId];
-    const newScene = addScene(callSession, callSession.cameraEnabled);
+    const $newScene = addScene(callSession, callSession.cameraEnabled);
     const isActive = currentSession.is(callSession);
     const label = getNumber(callSession);
 
     if (!isActive) {
-      newScene.hide();
+      $newScene.hide();
     }
 
     const bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${label}</button>`);
