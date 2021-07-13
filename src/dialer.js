@@ -70,7 +70,6 @@ const initializeWebRtc = () => {
   Wazo.Phone.on(Wazo.Phone.ON_REINVITE, (session, request, updatedCalleeName) => {
     const sessionId = Wazo.Phone.getSipSessionId(session);
     const callSession = sessions[sessionId];
-    console.log('ON_REINVITE', callSession);
     if (callSession) {
       currentSession.realDisplayName = updatedCalleeName;
 
@@ -184,7 +183,6 @@ const transfer = (callSession, target) => {
 };
 
 const reinvite = async (callSession, enableVideo) => {
-  console.log('reinvite', enableVideo);
   await Wazo.Phone.reinvite(callSession, { audio: true, video: enableVideo });
   callSession.cameraEnabled = enableVideo;
   sessions[callSession.getId()] = callSession;
