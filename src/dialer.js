@@ -76,17 +76,6 @@ const initializeWebRtc = () => {
       onSessionUpdate(currentSession);
     }
   });
-  Wazo.Phone.on(Wazo.Phone.ON_TRACK, (session) => {
-    const sessionId = Wazo.Phone.getSipSessionId(session);
-    const callSession = sessions[sessionId];
-    if (!callSession.cameraEnabled) {
-      // callSession.cameraEnabled = Wazo.Phone.phone.client.sessionWantsToDoVideo(session);
-      // TMP
-      callSession.cameraEnabled = true;
-    }
-
-    onSessionUpdate(callSession);
-  });
 
   setFullName();
   resetMainDialer();
@@ -284,11 +273,11 @@ function addDialer(callSession, withVideo) {
 
   // Videos
   const videoContainer = $('.videos', newDialer);
-  if (localVideoStream || remoteVideoStream) {
+  if ((localVideoStream && localVideoStream.active) || (remoteVideoStream && remoteVideoStream.active)) {
     videoContainer.show();
 
     // Local video
-    if (localVideoStream) {
+    if (localVideoStream && localVideoStream.active) {
       const localVideo = $('video.local', newDialer)[0];
       localVideo.srcObject = localVideoStream;
       localVideo.play();
@@ -297,7 +286,7 @@ function addDialer(callSession, withVideo) {
     // Remote video
     const $remoteVideo = $('video.remote', newDialer);
 
-    if (remoteVideoStream) {
+    if (remoteVideoStream && remoteVideoStream.active) {
       $remoteVideo.show();
       const wazoStream = new Wazo.Stream(remoteVideoStream);
       wazoStream.attach($remoteVideo[0]);
@@ -307,7 +296,7 @@ function addDialer(callSession, withVideo) {
   }
 
   // Upgrade / Downgrade
-  if (localVideoStream) {
+  if (localVideoStream && localVideoStream.active) {
     downgradeVideoButton.show();
     downgradeVideoButton.off('click').on('click', async e => {
       e.preventDefault();
