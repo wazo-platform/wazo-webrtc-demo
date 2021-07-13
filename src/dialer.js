@@ -176,7 +176,7 @@ const reinvite = async (callSession, enableVideo) => {
   callSession.cameraEnabled = enableVideo;
   sessions[callSession.getId()] = callSession;
 
-  // Let some times to track to be retrieve
+  // Let some times to track to be retrieved
   await new Promise(resolve => setTimeout(resolve, 1000));
   updateDialers();
 };
@@ -239,7 +239,7 @@ function resetMainDialer(status) {
   updateDialers();
 }
 
-function addDialer(callSession, withVideo) {
+function addDialer(callSession) {
   const newDialer = $('#dialer').clone().attr('id', 'call-' + callSession.getId());
   // const isSessionInMerge = sessionIdsInMerge.indexOf(session.getId()) !== -1;
   const hangupButton = $('.hangup', newDialer);
@@ -296,7 +296,7 @@ function addDialer(callSession, withVideo) {
   }
 
   // Upgrade / Downgrade
-  if (localVideoStream && localVideoStream.active) {
+  if (callSession.cameraEnabled && localVideoStream && localVideoStream.active) {
     downgradeVideoButton.show();
     downgradeVideoButton.off('click').on('click', async e => {
       e.preventDefault();
