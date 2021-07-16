@@ -184,6 +184,7 @@ function initializeMainDialer() {
   const $dialer = $('#dialer');
   const $numberField = $('.number', $dialer);
   const $videoButton = $('.video-call', $dialer);
+  const $indirectTransfer = $('#indirect-transfer');
   
   const $scene = $('#root-scene');
   const $mergeButton = $('.merge', $scene);
@@ -194,6 +195,7 @@ function initializeMainDialer() {
   $unmergeButton.hide();
   $mergeButton.hide();
   $numberField.val('');
+  $indirectTransfer.hide();
 
   const call = async (video = false) => {
     const number = $numberField.val();
@@ -367,9 +369,37 @@ function addScene(callSession, withVideo) {
       updateScenes();
     } else {
       const target = prompt('To which extension would you transfer this call ? (you will first talk with this person)');
+
       if (target != null) {
         currentAtxfer = Wazo.Phone.atxfer(callSession);
         currentAtxfer.init(target);
+        $('#indirect-transfer').show();
+
+        $('#indirect-transfer-cancel').off('click').on('click', e => {
+          e.preventDefault();
+          currentAtxfer.cancel();
+          $('#indirect-transfer').hide();
+          currentAtxfer = null;
+        });
+
+        $('#indirect-transfer-complete').off('click').on('click', e => {
+          e.preventDefault();
+          currentAtxfer.complete();
+          $('#indirect-transfer').hide();
+          //
+          
+          const targetCallSession = getCallSessionFromNumber(target);
+
+          console.log('completing indirect transfer', { source: callSession.number, target: targetCallSession && targetCallSession.number });
+
+          delete sessions[callSession.getId()];
+          if (targetCallSession) {
+            delete sessions[targetCallSession.getId()];
+          }
+          
+          currentAtxfer = null;
+          updateScenes();
+        });
       }
     }
   });
