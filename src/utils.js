@@ -1,11 +1,4 @@
-export const getElapsedTimeInSeconds = (startTime) => {
-  if (!startTime) {
-    return 0;
-  }
-  return Math.trunc((Date.now() - startTime) / 1000);
-};
-
-export const formatTime = secondsElapsed  => {
+const formatTime = secondsElapsed  => {
   let secNum = parseInt(secondsElapsed, 10);
   let hours = Math.floor(secNum / 3600);
   let minutes = Math.floor((secNum - hours * 3600) / 60);

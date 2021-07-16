@@ -265,15 +265,28 @@ main {
 #logout {
   text-decoration: none;
   text-transform: uppercase;
-  color: #fff;
+  color: #515454;
   font-weight: bold;
+  transition: color 1s;
 }
 
 #logout:hover {
   color: #fff;
+  transition: color 1s;
 }
 
 /* PHONE dialer */
+
+.dialer-btn {
+  border: 1px solid #98c451;
+  box-shadow: inset 0 0 0 1px #98c451;
+  transition: box-shadow 1s;
+}
+
+.dialer-btn:hover {
+  box-shadow: inset 0 0 0 70px #98c451;
+  transition: box-shadow 1.5s;
+}
 
 .number {
   background: #000;

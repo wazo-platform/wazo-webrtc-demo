@@ -1,4 +1,3 @@
-import formatTime from "./utils";
 
 const sessions = {};
 let currentSession;
@@ -183,12 +182,12 @@ function transfer(callSession, target) {
 
 function initializeMainDialer() {
   const $dialer = $('#dialer');
-  const $numberField = $('.number', dialer);
-  const $videoButton = $('.video-call', dialer);
+  const $numberField = $('.number', $dialer);
+  const $videoButton = $('.video-call', $dialer);
   
   const $scene = $('#root-scene');
-  const $mergeButton = $('.merge', scene);
-  const $unmergeButton = $('.unmerge', scene);
+  const $mergeButton = $('.merge', $scene);
+  const $unmergeButton = $('.unmerge', $scene);
 
   $videoButton.show();
   $('.hangup', $scene).hide();
@@ -197,7 +196,7 @@ function initializeMainDialer() {
   $numberField.val('');
 
   const call = async (video = false) => {
-    const number = numberField.val();
+    const number = $numberField.val();
     console.log(`Calling ${number}...`);
     const callSession = await Wazo.Phone.call(number, video);
 
@@ -210,13 +209,13 @@ function initializeMainDialer() {
     updateScenes();
   };
 
-  dialer.off('submit').on('submit', e => {
+  $dialer.off('submit').on('submit', e => {
     e.preventDefault();
 
     call(false);
   });
 
-  videoButton.off('click').on('click', e => {
+  $videoButton.off('click').on('click', e => {
     e.preventDefault();
     call(true);
   });
@@ -367,11 +366,10 @@ function addScene(callSession, withVideo) {
 
       updateScenes();
     } else {
-      const target = prompt('Phone number atxfer?');
+      const target = prompt('To which extension would you transfer this call ? (you will first talk with this person)');
       if (target != null) {
         currentAtxfer = Wazo.Phone.atxfer(callSession);
         currentAtxfer.init(target);
-        $atxferButton.html('Complete');
       }
     }
   });
@@ -380,7 +378,7 @@ function addScene(callSession, withVideo) {
   $transferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
-    const target = prompt('Phone number transfer?');
+    const target = prompt('To which extension would you transfer this call ?');
     if (target != null) {
       transfer(callSession, target);
     }
@@ -440,16 +438,16 @@ function updateScenes(status) {
   
   Object.keys(sessions).forEach(sessionId => {
     const callSession = sessions[sessionId];
-    const $newScene = addScene(callSession, callSession.cameraEnabled);
+    const newScene = addScene(callSession, callSession.cameraEnabled);
     const isActive = currentSession.is(callSession);
     const label = getNumber(callSession);
 
     if (!isActive) {
-      $newScene.hide();
+      newScene.hide();
     }
 
-    const bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${label}</button>`);
-    bouton.click(switchCall);
+    const $bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${label}</button>`);
+    $bouton.click(switchCall);
 
   })
 }
