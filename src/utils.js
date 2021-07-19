@@ -19,3 +19,9 @@ const formatTime = secondsElapsed  => {
 
   return minutes + ':' + seconds;
 };
+
+const getCallSessionFromNumber = number => {
+  if (!number) return null;
+  const targetCallSessionId = Object.keys(sessions).find(callSessionId => sessions[callSessionId].number === number);
+  return targetCallSessionId && sessions[targetCallSessionId];
+}
