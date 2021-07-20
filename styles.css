@@ -489,11 +489,12 @@ h3.contact {
   background-color: rgba(255, 255, 255, .85);
 }
 
+/* RINGING & LOADING ANIMATION */
+
 #ringing {
-  position: absolute;
-  top: 20px;
-  left: 200px;
+  margin: auto;
   z-index: 9999;
+  display: none;
 }
 
 #ringing .dot {
@@ -502,17 +503,45 @@ h3.contact {
   height: 4px;
   border-radius: 50%;
   margin-right: 3px;
-  animation: wave 1.3s ease-in-out infinite;
-  background: #f00;
+  animation: wave 2s ease-in-out infinite;
+  background: #fff;
 }
 
 #ringing .dot:nth-child(2) {
-  animation-delay: -1.1s;
+  animation-delay: -1.8s;
 }
 
 #ringing .dot:nth-child(3) {
+  animation-delay: -1.6s;
+}
+
+#loading {
+  display: flex;
+}
+
+#load-animation {
+  z-index: 9999;
+  margin-left: 1rem;
+}
+
+#load-animation  .dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin-right: 3px;
+  animation: wave 1.3s ease-in-out infinite;
+  background: #fff;
+}
+
+#load-animation  .dot:nth-child(2) {
+  animation-delay: -1.1s;
+}
+
+#load-animation  .dot:nth-child(3) {
   animation-delay: -0.9s;
 }
+
 
 @keyframes wave {
   0%,

@@ -249,6 +249,7 @@ function addScene(callSession, withVideo) {
   const $expandVideoButton = $('.expand', $newScene);
   const $contact = $('.contact', $newScene);
   const $timer = $('.timer', $newScene);
+  const $ringingDots = $('#ringing', $newScene);
 
   $('.form-group', $newScene).hide();
   $holdButton.hide();
@@ -262,6 +263,7 @@ function addScene(callSession, withVideo) {
   $transferButton.hide();
   $reduceVideoButton.hide();
   $expandVideoButton.hide();
+  $ringingDots.show();
   $timer.show();
 
   $contact.html(label);
@@ -438,7 +440,8 @@ function switchCall(event) {
 }
 
 function updateTimer() {
-  const formattedTime = currentSession.answered ? formatTime(currentSession.getElapsedTimeInSeconds()) : '...';
+  const $ringingDots = $('#ringing');
+  const formattedTime = currentSession.answered ? formatTime(currentSession.getElapsedTimeInSeconds()) : $ringingDots.show();
   $(`#call-${currentSession.getId()} .timer`).html(formattedTime);
 }
 

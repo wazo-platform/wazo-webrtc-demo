@@ -17,7 +17,14 @@
 
   <div id="loader">
     <img src="img/wazo-platform-square-white.png" alt="Wazo platform loader" />
-    <p>Loading...</p>
+    <div id="loading">
+      <p>Loading</p>
+      <div id="load-animation">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>  
+    </div> 
   </div>
 
   <!--  Authentication -->
@@ -98,6 +105,13 @@
         <div class="call-page">
           <h3 class="contact"></h3>
           <div class="timer">&nbsp;</div>
+
+          <div id="ringing">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          
             <!-- Buttons appearing when calling -->
           <div class="btn-group me-2 buttons buttons-call">
             <div>
@@ -209,12 +223,6 @@
     <button type="button" id="indirect-transfer-complete" class="btn bg-success">
       Confirm
     </button>
-  </div>
-
-  <div id="ringing">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
