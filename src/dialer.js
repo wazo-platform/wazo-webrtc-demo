@@ -437,7 +437,7 @@ function switchCall(event) {
 }
 
 function updateTimer() {
-  const formattedTime = formatTime(currentSession.getElapsedTimeInSeconds());
+  const formattedTime = currentSession.answered ? formatTime(currentSession.getElapsedTimeInSeconds()) : '...';
   $(`#call-${currentSession.getId()} .timer`).html(formattedTime);
 }
 
