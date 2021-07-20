@@ -108,6 +108,7 @@ function onPhoneCalled(callSession) {
 
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
+  console.log(sessions);
   $('.buttons').removeClass('buttons-video');
   $('#incoming-modal').hide();
   $('#dialer').show();
