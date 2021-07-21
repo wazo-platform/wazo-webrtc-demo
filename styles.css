@@ -268,29 +268,27 @@ main {
   align-items: center;
 }
 
-#logout > p {
-  margin-top: 0.2rem;
-  margin-left: 1rem;
-  margin-right: -4rem;
-  border-bottom: 2px solid #fff;
-  transition: margin-right 1s;
+#logout > div {
+  padding-left: 1rem;
+  margin-right: -5rem;
+  transition: margin-right 0.3s;
 }
 
-#logout:hover > p {
+#logout:hover > div {
   margin-right: 0rem;
-  transition: margin-right 1s;
+  transition: margin-right 0.5s;
 }
 
 #logout > svg {
   transform: rotate(0deg);
   color: #fff;
-  transition: transform 1s, color 1s;
+  transition: transform 1s, color 0.5s;
 }
 
 #logout:hover > svg {
-  transform: rotate(-180deg);
+  transform: rotate(-360deg);
   color: #98c451;
-  transition: transform 0.5s, color 1s;
+  transition: transform 0.5s, color 0.7s;
 }
 
 /* PHONE dialer */
