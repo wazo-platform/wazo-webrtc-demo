@@ -191,7 +191,6 @@ input.login:focus {
 }
 
 .actions-btns {
-  border: none;
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -263,15 +262,28 @@ main {
 #logout {
   text-decoration: none;
   text-transform: uppercase;
-  color: #515454;
+  color: #fff;
   font-weight: bold;
-  transition: color 1s;
+  border-bottom: none;
 }
 
-#logout:hover {
-  color: #fff;
-  transition: color 1s;
+#logout > p {
+  display: none;
 }
+
+#logout > svg {
+  transform: rotate(0deg);
+  color: #fff;
+  transition: transform 1s, color 1s;
+}
+
+#logout > svg:hover {
+  transform: rotate(-180deg);
+  color: #98c451;
+  transition: transform 0.5s, color 1s;
+}
+
+#logout > svg:hover 
 
 /* PHONE dialer */
 
@@ -493,6 +505,8 @@ h3.contact {
   color: #fff;
   text-align: center;
 }
+
+/* INDIRECT TRANSFER */
 
 #indirect-transfer {
   position: absolute;
