@@ -261,14 +261,24 @@ main {
 
 #logout {
   text-decoration: none;
-  text-transform: uppercase;
   color: #fff;
   font-weight: bold;
   border-bottom: none;
+  display: flex;
+  align-items: center;
 }
 
 #logout > p {
-  display: none;
+  margin-top: 0.2rem;
+  margin-left: 1rem;
+  margin-right: -4rem;
+  border-bottom: 2px solid #fff;
+  transition: margin-right 1s;
+}
+
+#logout:hover > p {
+  margin-right: 0rem;
+  transition: margin-right 1s;
 }
 
 #logout > svg {
@@ -277,13 +287,11 @@ main {
   transition: transform 1s, color 1s;
 }
 
-#logout > svg:hover {
+#logout:hover > svg {
   transform: rotate(-180deg);
   color: #98c451;
   transition: transform 0.5s, color 1s;
 }
-
-#logout > svg:hover 
 
 /* PHONE dialer */
 
