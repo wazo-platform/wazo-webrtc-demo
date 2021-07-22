@@ -231,10 +231,10 @@ main {
 .scene {
   background: rgba(0,0,0, 0.6);
   position: absolute;
-  top: 66px;
+  top: 60px;
   left: 0;
   width: 100vw;
-  height: calc(100vh - 66px);
+  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -247,7 +247,7 @@ main {
   z-index: 1;
   left: 0;
   width: 100vw;
-  height: calc(100vh - 66px);
+  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;
