@@ -170,8 +170,7 @@ input.login:focus {
 .two {
   background-image: url('/img/flying.png');
   background-repeat: repeat;
-  background-size: 200px;
-  offset: vertical;
+  background-size: 210px;
   display: flex;
   justify-content: space-between;
   padding-left: 20px;
