@@ -204,7 +204,6 @@ input.login:focus {
   transition: box-shadow 0.5s, color 0.3s;
 }
 
-
 /* PHONE */
 
 .card {
@@ -281,6 +280,13 @@ main {
 }
 
 /* PHONE header */
+
+.navbar {
+  background: #98c451;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 15px 5px 15px;
+}
 
 #logout {
   text-decoration: none;
