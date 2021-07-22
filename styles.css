@@ -168,9 +168,10 @@ input.login:focus {
 /* LOGIN right part */
 
 .two {
-  background-image: url('/img/logo-drawing.PNG');
+  background-image: url('/img/flying.png');
   background-repeat: repeat;
   background-size: 200px;
+  offset: vertical;
   display: flex;
   justify-content: space-between;
   padding-left: 20px;
