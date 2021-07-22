@@ -22,8 +22,8 @@ const authenticate = async (username, password, server) => {
 };
 
 const openLogin = () => {
-  $('.alert').hide();
-  $('#login-form').on('submit', async (e) => {
+  $('#loader').hide();
+  $('#login-form').on('submit', async e => {
     e.preventDefault();
 
     $('#submit-login').prop('disabled', true);
@@ -36,11 +36,13 @@ const onLogin = () => {
   $('#submit-login').prop('disabled', false);
   $('#authentication').hide();
   $('#phone').show();
+  $('#loader').hide();
   $('#logout').on('click', () => {
     removeSessionOnStorage();
-    location.reload();
+    window.location.reload(false);
   });
 
+  // eslint-disable-next-line no-undef
   initializeWebRtc();
 };
 
@@ -55,6 +57,8 @@ const removeSessionOnStorage = () => {
 };
 
 const launchPhone = async () => {
+  $('.alert').hide();
+
   const rawSession = getSessionOnStorage();
   if (!rawSession) {
     return openLogin();
@@ -66,11 +70,11 @@ const launchPhone = async () => {
     if (session) {
       return onLogin(session);
     }
-  } catch(e) {
+  } catch (e) {
     displayAuthError(e);
   }
 
-  openLogin();
+  return openLogin();
 };
 
 $(window).on('load', launchPhone);
