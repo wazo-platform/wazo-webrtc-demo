@@ -376,7 +376,7 @@ function addScene(callSession, withVideo) {
       if (target != null) {
         currentAtxfer = Wazo.Phone.atxfer(callSession);
         currentAtxfer.init(target);
-        $('#indirect-transfer').show();
+        $('#indirect-transfer').css('display', 'flex');
 
         $('#indirect-transfer-cancel').off('click').on('click', e => {
           e.preventDefault();
