@@ -35,7 +35,7 @@
 }
 
 .two {
-  background: #98c451;
+  background: #515454;
   display: flex;
   align-items: center;
 }
@@ -151,36 +151,59 @@ input.login:focus {
   font-style: italic;
 }
 
+#submit-login {
+  border: 2px solid #98c451;
+  color: #98c451;
+  box-shadow: inset 0px 0px 0px 0px #98c451;
+  font-weight: bold;
+  transition: box-shadow 1s, color 0.6s;
+}
+
+#submit-login:hover {
+  color: #fff;
+  box-shadow: inset 0px 50px 0px 0px #98c451;
+  transition: box-shadow 0.5s, color 0.3s;
+}
+
 /* LOGIN right part */
 
-.bg-wazo {
-  background-color: #98c451;
+.two {
+  background-image: url('/img/logo-drawing.PNG');
+  background-repeat: repeat;
+  background-size: 200px;
   display: flex;
   justify-content: space-between;
   padding-left: 20px;
   padding-right: 20px;
 }
 
-.learn-more {
-  background: #515454;
-}
-
-.learn-more > a {
-  text-decoration: none;
-  color: #fff;
-}
-
 .right-quote {
-  color: #fff;
-  text-align: center;
-  font-size: 3rem;
-  padding: 0 20rem;
-  font-weight: bold;
+  margin: auto;
+  width: 1000px;
 }
 
 .right-content {
   text-align: center;
 }
+
+.learn-more {
+  border: 2px solid #febe52;
+  color: #febe52;
+  box-shadow: inset 0px 0px 0px 0px #febe52;
+  font-weight: bold;
+  transition: box-shadow 1s, color 0.6s;
+}
+
+.learn-more > a {
+  text-decoration: none;
+}
+
+.learn-more:hover {
+  color: #fff;
+  box-shadow: inset 0px 50px 0px 0px #febe52;
+  transition: box-shadow 0.5s, color 0.3s;
+}
+
 
 /* PHONE */
 
