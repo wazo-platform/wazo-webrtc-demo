@@ -178,15 +178,18 @@ input.login:focus {
 }
 
 .right-quote {
-  margin: auto;
   width: 1000px;
 }
 
 .right-content {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .learn-more {
+  width: 200px;
   border: 2px solid #febe52;
   color: #febe52;
   box-shadow: inset 0px 0px 0px 0px #febe52;
