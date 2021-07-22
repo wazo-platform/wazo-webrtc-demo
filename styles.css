@@ -422,6 +422,26 @@ h3 {
   font-style: italic;
 }
 
+/* CALLS HANDLER */
+
+.switch-btn {
+  border: 1px solid #98c451;
+  color: #98c451;
+  box-shadow: inset 0px 0px 0px 0px #98c451;
+  transition: box-shadow 0.5s, color 0.3s;
+}
+
+.switch-btn:hover {
+  color: rgb(46, 44, 41);
+  box-shadow: inset 0px 50px 0px 0px #98c451;
+  transition: box-shadow 0.5s, color 0.3s;
+}
+
+.active {
+  background: #98c451;
+  color: rgb(46, 44, 41);
+}
+
 /* VIDEO */ 
 
 .remote,

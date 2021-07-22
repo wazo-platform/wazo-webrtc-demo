@@ -371,7 +371,7 @@ function addScene(callSession, withVideo) {
 
       updateScenes();
     } else {
-      const target = prompt('To which extension would you transfer this call ? (you will first talk with this person)');
+      const target = prompt('Indirect transfer : To which extension would you transfer this call ? (you will first talk with this person)');
 
       if (target != null) {
         currentAtxfer = Wazo.Phone.atxfer(callSession);
@@ -411,7 +411,7 @@ function addScene(callSession, withVideo) {
   $transferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
-    const target = prompt('To which extension would you transfer this call ?');
+    const target = prompt('Transfer : To which extension would you transfer this call ?');
     if (target != null) {
       transfer(callSession, target);
     }
@@ -480,7 +480,7 @@ function updateScenes(status) {
       newScene.hide();
     }
 
-    const $bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn btn-primary${isActive ? ' active' : ''}">${label}</button>`);
+    const $bouton = $('#calls-handler').append(`<button type="button" data-sessionid="${sessionId}" class="btn switch-btn ${isActive ? 'active' : ''}">${label}</button>`);
     $bouton.click(switchCall);
 
   })
