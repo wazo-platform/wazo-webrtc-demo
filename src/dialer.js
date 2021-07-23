@@ -47,6 +47,14 @@ const getStatus = (callSession) => {
   }
 };
 
+function onReload() {
+  $(window).on('beforeunload', function(){
+    sessions.map(session => {
+      Wazo.Phone.hangup(session);
+    })
+  });
+};
+
 const initializeWebRtc = () => {
   Wazo.Phone.connect({
     media: {
@@ -76,6 +84,8 @@ const initializeWebRtc = () => {
   );
 
   setGreeter();
+
+  onReload();
 
   initializeMainDialer();
 };
