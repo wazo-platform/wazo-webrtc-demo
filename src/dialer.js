@@ -5,7 +5,6 @@ const inConference = false;
 let currentAtxfer;
 let countDown;
 let timerId;
-// let sessionIdsInMerge = [];
 
 const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
@@ -48,10 +47,9 @@ const getStatus = (callSession) => {
 };
 
 function onReload() {
-  $(window).on('beforeunload', function(){
-    sessions.map(session => {
-      Wazo.Phone.hangup(session);
-    })
+  $(window).on('beforeunload', () => {
+    console.log('reloading');
+    Object.values(sessions).map(callSession => Wazo.Phone.hangup(callSession));
   });
 };
 
@@ -118,7 +116,7 @@ function onPhoneCalled(callSession) {
 
 function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
-  console.log(sessions);
+
   $('.buttons').removeClass('buttons-video');
   $('#incoming-modal').hide();
   $('#dialer').show();
