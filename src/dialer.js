@@ -46,7 +46,7 @@ const getStatus = (callSession) => {
   }
 };
 
-function onReload() {
+const onReload = () => {
   $(window).on('beforeunload', () => {
     console.log('reloading');
     Object.values(sessions).map(callSession => Wazo.Phone.hangup(callSession));
@@ -88,7 +88,7 @@ const initializeWebRtc = () => {
   initializeMainDialer();
 };
 
-function onCallAccepted(callSession, withVideo) {
+const onCallAccepted = (callSession, withVideo) => {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $('.buttons').removeClass('buttons-video');
@@ -97,24 +97,24 @@ function onCallAccepted(callSession, withVideo) {
   updateScenes();
 }
 
-function onCallFailed(callSession) {
+const onCallFailed = (callSession) => {
   const number = getNumber(callSession);
   setMainStatus(`Call with ${number} failed`);
   onCallTerminated(callSession);
 }
 
-function onCallEnded(callSession) {
+const onCallEnded = (callSession) => {
   const number = getNumber(callSession);
   setMainStatus(`Call with ${number} ended`);
   onCallTerminated(callSession);
 }
 
-function onPhoneCalled(callSession) {
+const onPhoneCalled = (callSession) => {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
 }
 
-function onCallTerminated(callSession) {
+const onCallTerminated = (callSession) => {
   delete sessions[callSession.getId()];
 
   $('.buttons').removeClass('buttons-video');
@@ -140,12 +140,12 @@ function onCallTerminated(callSession) {
   updateScenes(`Call with ${getNumber(callSession)} ended`);
 }
 
-function onSessionUpdate(callSession) {
+const onSessionUpdate = (callSession) => {
   sessions[callSession.getId()] = callSession;
   updateScenes();
 }
 
-function accept(callSession, withVideo) {
+const accept = (callSession, withVideo) => {
   console.log(`accepting ${getNumber(callSession)} ${withVideo ? 'withVideo' : 'withoutVideo'}`);
   // Hold current session & creates the multiple calls handler if exists 
   if (currentSession && !inConference) {
@@ -158,38 +158,38 @@ function accept(callSession, withVideo) {
   Wazo.Phone.accept(callSession, withVideo);
 }
 
-function unhold(callSession) {
+const unhold = (callSession) => {
   console.log(`resuming ${getNumber(callSession)}`);
   Wazo.Phone.resume(callSession);
 }
 
-function hold(callSession) {
+const hold = (callSession) => {
   console.log(`holding ${getNumber(callSession)}`);
   Wazo.Phone.hold(callSession);
 }
 
-function mute(callSession) {
+const mute = (callSession) => {
   console.log(`muting ${getNumber(callSession)}`);
   Wazo.Phone.mute(callSession);
 }
 
-function unmute(callSession) {
+const unmute = (callSession) => {
   console.log(`unmuting ${getNumber(callSession)}`);
   Wazo.Phone.unmute(callSession);
 }
 
-function hangup(callSession) {
+const hangup = (callSession) => {
   console.log(`hanging up ${getNumber(callSession)}`);
   Wazo.Phone.hangup(callSession);
 }
 
-function transfer(callSession, target) {
+const transfer = (callSession, target) => {
   Wazo.Phone.transfer(callSession, target);
 
   updateScenes();
 }
 
-function initializeMainDialer() {
+const initializeMainDialer = () => {
   const $dialer = $('#dialer');
   const $numberField = $('.number', $dialer);
   const $videoButton = $('.video-call', $dialer);
@@ -234,7 +234,7 @@ function initializeMainDialer() {
   updateScenes();
 }
 
-function addScene(callSession, withVideo) {
+const addScene = (callSession, withVideo) => {
   const label = getNumber(callSession);
   const $newScene = $('#root-scene')
     .clone()
@@ -430,7 +430,7 @@ function addScene(callSession, withVideo) {
   return $newScene;
 }
 
-function switchCall(event) {
+const switchCall = (event) => {
   event.stopImmediatePropagation();
 
   const sessionId = $(event.target).attr('data-sessionid');
@@ -447,13 +447,13 @@ function switchCall(event) {
   updateScenes();
 }
 
-function updateTimer() {
+const updateTimer = () => {
   const $ringingDots = $('#ringing');
   const formattedTime = currentSession.answered ? formatTime(currentSession.getElapsedTimeInSeconds()) : $ringingDots.show();
   $(`#call-${currentSession.getId()} .timer`).html(formattedTime);
 }
 
-function updateScenes(status) {
+const updateScenes = (status) => {
   const noActiveSession = !Object.keys(sessions).length;
 
   $('#scenes').html('');
@@ -494,7 +494,7 @@ function updateScenes(status) {
   })
 }
 
-function openIncomingCallModal(callSession, withVideo) {
+const openIncomingCallModal = (callSession, withVideo) => {
   const number = callSession.realDisplayName
     || callSession.displayName
     || callSession.number;

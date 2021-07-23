@@ -22,7 +22,7 @@ const authenticate = async (username, password, server) => {
 };
 
 const openLogin = () => {
-  $('#loader').hide();
+  setTimeout(function(){$('#loader').hide()}, 2000);
   $('#login-form').on('submit', async e => {
     e.preventDefault();
 
@@ -35,8 +35,8 @@ const openLogin = () => {
 const onLogin = () => {
   $('#submit-login').prop('disabled', false);
   $('#authentication').hide();
-  $('#phone').show();
   setTimeout(function(){$('#loader').hide()}, 2000);
+  $('#phone').show();
   $('#logout').on('click', () => {
     removeSessionOnStorage();
     window.location.reload(false);
