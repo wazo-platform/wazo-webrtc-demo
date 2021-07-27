@@ -136,7 +136,9 @@ const onCallTerminated = (callSession) => {
 
   const modalElement = document.getElementById('incoming-modal');
   const modal = bootstrap.Modal.getInstance(modalElement);
-  modal.hide();
+  if (modal) {
+    modal.hide();
+  }
   updateScenes(`Call with ${getNumber(callSession)} ended`);
 }
 
@@ -448,6 +450,9 @@ const switchCall = (event) => {
 }
 
 const updateTimer = () => {
+  if (!currentSession) {
+    return;
+  }
   const $ringingDots = $('#ringing');
   const formattedTime = currentSession.answered ? formatTime(currentSession.getElapsedTimeInSeconds()) : $ringingDots.show();
   $(`#call-${currentSession.getId()} .timer`).html(formattedTime);
