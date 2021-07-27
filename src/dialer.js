@@ -53,6 +53,15 @@ const onReload = () => {
   });
 };
 
+const fakePlaySound = (event, deviceId, audioRingVolume) => {
+  if (event === Wazo.Phone.ON_TERMINATE_SOUND) {
+    console.info('Stopping sound');
+    return;
+  }
+
+  console.info(`Playing "${event}" sound ${deviceId ? `on device ID "${deviceId}"` : 'on default device'} with volume set at ${Math.round(audioRingVolume * 100)}%`);
+}
+
 const initializeWebRtc = () => {
   Wazo.Phone.connect({
     media: {
@@ -79,6 +88,18 @@ const initializeWebRtc = () => {
         onSessionUpdate(currentSession);
       }
     },
+  );
+
+  // Sound handling example
+  const soundEvents = [
+    Wazo.Phone.ON_TERMINATE_SOUND,
+    Wazo.Phone.ON_PLAY_RING_SOUND,
+    Wazo.Phone.ON_PLAY_INBOUND_CALL_SIGNAL_SOUND,
+    Wazo.Phone.ON_PLAY_HANGUP_SOUND,
+    Wazo.Phone.ON_PLAY_PROGRESS_SOUND,
+  ];
+  soundEvents.forEach(event => 
+    Wazo.Phone.on(event, (audioRingDeviceId, audioRingVolume) => fakePlaySound(event, audioRingDeviceId, audioRingVolume))
   );
 
   setGreeter();
