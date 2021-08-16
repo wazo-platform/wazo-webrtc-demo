@@ -49,6 +49,8 @@ const initializeWebRtc = () => {
     // log: { builtinEnabled: true, logLevel: 'debug' },
   });
 
+  Wazo.Phone.useLocalVideoElement($('video.local')[0]);
+
   const onSessionUpdate = callSession => {
     sessions[callSession.getId()] = callSession;
     updateDialers();
@@ -77,9 +79,38 @@ const initializeWebRtc = () => {
     }
   });
 
+  Wazo.Phone.on(Wazo.Phone.ON_SIGNAL, payload => {
+    if (payload.action === Wazo.Phone.ON_MESSAGE_TRACK_UPDATED) {
+      console.log('ON_MESSAGE_TRACK_UPDATED');
+      updateDialers();
+    }
+  });
+
+
   setFullName();
   resetMainDialer();
+
+  displayVideoDevices();
 };
+
+function displayVideoDevices() {
+  const $videoDeviceId = $('#videoDeviceId');
+
+  $videoDeviceId.change(() => {
+    Wazo.Phone.phone.changeVideoInputDevice($videoDeviceId.val());
+  });
+
+  navigator.mediaDevices.enumerateDevices().then(devices => {
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+    videoDevices.forEach(device => {
+      const option = document.createElement('option');
+      option.value = device.deviceId;
+      option.innerHTML = device.label;
+      $videoDeviceId.append(option);
+    });
+  })
+}
 
 function onCallAccepted(callSession, withVideo) {
   sessions[callSession.getId()] = callSession;
@@ -172,13 +203,27 @@ const transfer = (callSession, target) => {
 };
 
 const reinvite = async (callSession, enableVideo) => {
-  await Wazo.Phone.reinvite(callSession, { audio: true, video: enableVideo });
+  await Wazo.Phone.reinvite(callSession, { audio: true, video: enableVideo }, false);
   callSession.cameraEnabled = enableVideo;
   sessions[callSession.getId()] = callSession;
 
   // Let some times to track to be retrieved
   await new Promise(resolve => setTimeout(resolve, 1000));
   updateDialers();
+};
+
+const addScreenTrack = async (callSession) => {
+  const session = Wazo.Phone.phone.currentSipSession;
+  const newStream = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: 'always' }, audio: false });
+  const videoTracks = newStream.getVideoTracks();
+  const localStream = session.sessionDescriptionHandler.localMediaStream;
+  const pc = session.sessionDescriptionHandler.peerConnection;
+
+  localStream.addTrack(videoTracks[0]);
+  pc.addTrack(videoTracks[0], newStream);
+
+  await Wazo.Phone.reinvite(callSession, { audio: true, video: true }, false);
+  // session.sessionDescriptionHandler.peerConnection.getSenders()[1].replaceTrack(videoTracks[0]);
 };
 
 function resetMainDialer(status) {
@@ -197,7 +242,9 @@ function resetMainDialer(status) {
   setMainStatus(status || '');
 
   const call = async (video = false) => {
-    const callSession = await Wazo.Phone.call(numberField.val(), video);
+    const number = numberField.val();
+    const isConference = false;
+    const callSession = await Wazo.Phone.call(number, video, null, false, isConference);
 
     if (currentSession && !currentConference) {
       hold(currentSession);
@@ -255,8 +302,9 @@ function addDialer(callSession) {
   const videoButton = $('.video-call', newDialer);
   const upgradeVideoButton = $('.upgrade-video', newDialer);
   const downgradeVideoButton = $('.downgrade-audio', newDialer);
-  const localVideoStream = Wazo.Phone.getLocalVideoStream(callSession);
-  const remoteVideoStream = Wazo.Phone.getRemoteStreamForCall(callSession);
+  const remoteVideoStreams = Wazo.Phone.getRemoteVideoStreams(callSession);
+  const hasLocalVideo = Wazo.Phone.phone.hasLocalVideo(callSession);
+  console.log('remoteVideoStreams', remoteVideoStreams);
 
   $('.form-group', newDialer).hide();
   holdButton.hide();
@@ -273,30 +321,33 @@ function addDialer(callSession) {
 
   // Videos
   const videoContainer = $('.videos', newDialer);
-  if ((localVideoStream && localVideoStream.active) || (remoteVideoStream && remoteVideoStream.active)) {
+  if (remoteVideoStreams.length) {
     videoContainer.show();
 
-    // Local video
-    if (localVideoStream && localVideoStream.active) {
-      const localVideo = $('video.local', newDialer)[0];
-      localVideo.srcObject = localVideoStream;
-      localVideo.play();
-    }
-
-    // Remote video
+    // Remote videos
     const $remoteVideo = $('video.remote', newDialer);
+    const $remoteVideos = $('video', newDialer);
+    $remoteVideos.toArray().forEach(video => {
+      video.remove();
+    });
 
-    if (remoteVideoStream && remoteVideoStream.active) {
-      $remoteVideo.show();
-      const wazoStream = new Wazo.Stream(remoteVideoStream);
-      wazoStream.attach($remoteVideo[0]);
-    }
+    $remoteVideo.show();
+
+    remoteVideoStreams.forEach(remoteStream => {
+      const videoElement = document.createElement('video');
+      videoElement.style.width = '120px';
+      videoElement.style.height = '120px';
+      videoContainer[0].appendChild(videoElement);
+
+      const wazoStream = new Wazo.Stream(remoteStream);
+      wazoStream.attach(videoElement);
+    });
   } else {
     videoContainer.hide();
   }
 
   // Upgrade / Downgrade
-  if (callSession.cameraEnabled && localVideoStream && localVideoStream.active) {
+  if (hasLocalVideo) {
     downgradeVideoButton.show();
     downgradeVideoButton.off('click').on('click', async e => {
       e.preventDefault();

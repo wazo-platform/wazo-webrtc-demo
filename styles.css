@@ -13,12 +13,23 @@
   display: none;
 }
 
+#videoDeviceId {
+  display: block;
+}
+
+#dialers #videoDeviceId {
+  display: none;
+}
+
 #dialer .unhold, #dialer .hold, #dialer .mute, #dialer .unmute, #dialer .merge, #dialer .unmerge, #dialer .atxfer,
 #dialer .transfer, #dialer .video-call, #dialer video, #dialer .upgrade-video, #dialer .downgrade-audio  {
   display: none;
 }
 
 video.local {
+  position: absolute;
+  right: 30px;
+  top: 60px;
   width: 200px;
   height: 200px;
   display: block;

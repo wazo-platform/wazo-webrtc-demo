@@ -1,0 +1,78 @@
+<div>
+    <video id="localVideo"></video>
+    <button id="showVideo">Open camera</button>
+    <button id="removeVideo">Remove video</button>
+    <button id="makeCall">Make call</button>
+</div>
+
+<script>
+  var pc, stream;
+
+  const constraints = window.constraints = {
+    audio: true,
+    video: true
+  };
+
+  function handleSuccess(stream) {
+    const video = document.querySelector('video#localVideo');
+    const videoTracks = stream.getVideoTracks();
+    video.srcObject = stream;
+    video.play();
+  }
+
+  async function init(e) {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(constraints);
+      handleSuccess(stream);
+      //e.target.disabled = true;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function makeCall() {
+    const configuration = {'iceServers': [{'urls': 'stun:stun.wazo.io:443'}]}
+    pc = new RTCPeerConnection(configuration);
+    pc.addStream(stream);
+    pc.onicecandidate = iceCallback;
+    createSDP(false);
+
+    console.log('pc.getSenders()', pc.getSenders());
+  }
+
+  async function createSDP(ice) {
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+    if (ice) {
+      console.log(offer.sdp);
+    }
+  }
+
+  async function removeVideo() {
+    const videoTrack = stream.getVideoTracks();
+    if (videoTrack.length > 0) {
+      stream.removeTrack(videoTrack[0]);
+      const video = document.querySelector('video#localVideo');
+      video.src = stream;
+    }
+
+    //
+
+
+    console.log('pc.getSenders()', pc.getSenders());
+  }
+
+  function iceCallback(event) {
+    if (event?.target?.iceGatheringState === 'complete') {
+      console.log('ICE CANDIDATE FINISHED')
+      createSDP(true);
+    }
+  }
+
+  document.querySelector('#showVideo').addEventListener('click', e => init(e));
+  document.querySelector('#makeCall').addEventListener('click', e => makeCall(e));
+  document.querySelector('#removeVideo').addEventListener('click', e => removeVideo(e));
+</script>
+
+</body>
+</html>
