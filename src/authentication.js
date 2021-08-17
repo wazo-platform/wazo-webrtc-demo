@@ -38,6 +38,9 @@ const openLogin = () => {
   $('#login-form').on('submit', async e => {
     e.preventDefault();
 
+    $('.login-txt').hide();
+    $('#login-animation').show();
+
     $('#submit-login').prop('disabled', true);
 
     authenticate($('#username').val(), $('#password').val(), $('#server').val());
