@@ -298,20 +298,22 @@ main {
   border-bottom: none;
   display: flex;
   align-items: center;
+  width: 5rem;
 }
 
 #logout > div {
-  padding-left: 1rem;
-  margin-right: -5rem;
-  transition: margin-right 0.3s;
+  position: absolute;
+  padding-left: 7rem;
+  transition: padding-left 0.3s;
 }
 
 #logout:hover > div {
-  margin-right: 0rem;
-  transition: margin-right 0.5s;
+  padding-left: 2rem;
+  transition: padding-left 0.5s;
 }
 
 #logout > svg {
+  margin-left: 3rem;
   transform: rotate(0deg);
   color: #fff;
   transition: transform 1s, color 0.5s;
@@ -615,6 +617,22 @@ h3.contact {
   box-shadow: inset 100px 0px 0px 0px #98c451;
   color: #fff;
   transition: box-shadow 0.5s, color 0.3s;
+}
+
+/* ON CALL DIALER */
+
+.nav-btns {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: none;
+  border: 2px solid #fff;
+}
+
+#on-call-dialer > input {
+  background: #000;
+  border-radius: 5px;
+  padding: 0.2rem;
 }
 
 /* RINGING & LOADING ANIMATION */
