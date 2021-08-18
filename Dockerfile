@@ -10,4 +10,4 @@ COPY yarn.lock /demo
 RUN yarn install
 COPY . /demo
 
-RUN yarn start
+CMD yarn start
