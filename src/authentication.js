@@ -7,6 +7,7 @@ Wazo.Auth.init('wazo-webrtc-demo');
 
 const displayAuthError = (error) => {
   $('#auth-error').html(error.message).show();
+ 
   $('#submit-login').prop('disabled', false);
 };
 
@@ -38,9 +39,6 @@ const openLogin = () => {
   $('#login-form').on('submit', async e => {
     e.preventDefault();
 
-    $('.login-txt').hide();
-    $('#login-animation').show();
-
     $('#submit-login').prop('disabled', true);
 
     authenticate($('#username').val(), $('#password').val(), $('#server').val());
@@ -48,6 +46,8 @@ const openLogin = () => {
 };
 
 const onLogin = () => {
+  $('.login-txt').hide();
+  $('#login-animation').show();
   $('#submit-login').prop('disabled', false);
   $('#authentication').hide();
   $('#phone').show();

@@ -13,6 +13,10 @@
 
 /* MAIN */
 
+/* object {
+  margin: auto;
+} */
+
 #authentication.row { 
   margin: 0 !important;
 }
@@ -168,9 +172,6 @@ input.login:focus {
 /* LOGIN right part */
 
 .two {
-  background-image: url('img/flying.png');
-  background-repeat: repeat;
-  background-size: 210px;
   display: flex;
   justify-content: space-between;
   padding-left: 20px;
@@ -621,6 +622,10 @@ h3.contact {
 
 /* ON CALL DIALER */
 
+#on-call-dialer {
+  display: none;
+}
+
 .nav-btns {
   width: 35px;
   height: 35px;
@@ -630,10 +635,12 @@ h3.contact {
 }
 
 #on-call-dialer > input {
-  background: #000;
+  background-color: rgba(0,0,0, 0.8);
+  border: none;
   border-radius: 5px;
   padding: 0.2rem;
 }
+
 
 /* RINGING & LOADING ANIMATION */
 

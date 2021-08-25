@@ -114,6 +114,7 @@ const onCallAccepted = (callSession, withVideo) => {
   currentSession = callSession;
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
+  $('#on-call-dialer').show();
 
   updateScenes();
 }
@@ -141,6 +142,7 @@ const onCallTerminated = (callSession) => {
   $('.buttons').removeClass('buttons-video');
   $('#incoming-modal').hide();
   $('#dialer').show();
+  $('#on-call-dialer').hide();
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -257,6 +259,20 @@ const initializeMainDialer = () => {
   updateScenes();
 }
 
+const initializeHeadDialer = () => {
+  const $dialer = $('#on-call-dialer');
+  const $numberField = $('.head-number', $dialer);
+  const $callButton = $('.dial-audio', $dialer);
+  const $videoButton = $('.dial-video', $dialer);
+
+  $dialer.on("submit", e => {
+    e.preventDefault;
+    
+  })
+
+  updateScenes();
+}
+
 const addScene = (callSession, withVideo) => {
   const label = getNumber(callSession);
   const $newScene = $('#root-scene')
@@ -281,6 +297,7 @@ const addScene = (callSession, withVideo) => {
   const $contact = $('.contact', $newScene);
   const $timer = $('.timer', $newScene);
   const $ringingDots = $('#ringing', $newScene);
+  const $headDialer = $('#on-call-dialer', $newScene);
 
   $('.form-group', $newScene).hide();
   $holdButton.hide();
@@ -296,6 +313,7 @@ const addScene = (callSession, withVideo) => {
   $expandVideoButton.hide();
   $ringingDots.show();
   $timer.show();
+  $headDialer.show();
 
   $contact.html(label);
 

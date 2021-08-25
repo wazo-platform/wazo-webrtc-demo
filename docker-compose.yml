@@ -4,6 +4,8 @@ version: "3"
 services:
   demo:
     build: .
+    volumes:
+      - .:/demo
     image: local/demo:latest
     restart: unless-stopped
     ports:
