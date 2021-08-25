@@ -8,7 +8,6 @@ COPY yarn.lock /demo
 RUN yarn install --frozen-lockfile
 COPY . /demo
 CMD yarn build
-RUN ls -la
 
 FROM nginx:alpine
 COPY --from=builder /demo/build /usr/share/nginx/html
