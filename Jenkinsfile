@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('Docker build') {
       steps {
-        sh "docker build -t wazoplatform/${JOB_NAME}:latest ."
+        sh "docker build -t wazoplatform/${JOB_NAME}:latest -f production.Dockerfile ."
       }
     }
     stage('Docker publish') {
@@ -29,3 +29,4 @@ pipeline {
     }
   }
 }
+

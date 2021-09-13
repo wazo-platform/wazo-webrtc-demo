@@ -13,9 +13,9 @@
 
 /* MAIN */
 
-/* object {
-  margin: auto;
-} */
+object {
+  align-self: center;
+}
 
 #authentication.row { 
   margin: 0 !important;
