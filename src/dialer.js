@@ -259,20 +259,6 @@ const initializeMainDialer = () => {
   updateScenes();
 }
 
-const initializeHeadDialer = () => {
-  const $dialer = $('#on-call-dialer');
-  const $numberField = $('.head-number', $dialer);
-  const $callButton = $('.dial-audio', $dialer);
-  const $videoButton = $('.dial-video', $dialer);
-
-  $dialer.on("submit", e => {
-    e.preventDefault;
-    
-  })
-
-  updateScenes();
-}
-
 const addScene = (callSession, withVideo) => {
   const label = getNumber(callSession);
   const $newScene = $('#root-scene')

@@ -7,7 +7,7 @@
   display: none;
 }
 
-#root-scene .unhold, #root-scene .hold, #root-scene .mute, #root-scene .unmute, #root-scene .merge, #root-scene .unmerge, #root-scene .atxfer, #root-scene .transfer, #root-scene .video-call, #root-scene .expand, #root-scene .reduce, #root-scene video  {
+#auth-error, #root-scene .unhold, #root-scene .hold, #root-scene .mute, #root-scene .unmute, #root-scene .merge, #root-scene .unmerge, #root-scene .atxfer, #root-scene .transfer, #root-scene .video-call, #root-scene .expand, #root-scene .reduce, #root-scene video  {
   display: none;
 }
 
