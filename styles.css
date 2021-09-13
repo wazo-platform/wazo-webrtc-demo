@@ -39,7 +39,6 @@ object {
 }
 
 .two {
-  background: #515454;
   display: flex;
   align-items: center;
 }
@@ -83,7 +82,7 @@ object {
 #loader {
   position : fixed;
   z-index: 9999;
-  background-image: url('./img/back.jpeg');
+  background-image: url('img/dawn.jpg');
   background-size: cover;
   top : 0;
   left : 0;
@@ -172,6 +171,8 @@ input.login:focus {
 /* LOGIN right part */
 
 .two {
+  background-image: url('img/dawn.jpg');
+  background-size: cover;
   display: flex;
   justify-content: space-between;
   padding-left: 20px;
@@ -224,7 +225,7 @@ input.login:focus {
 }
 
 main {
-  background-image: url("./img/back.jpeg");
+  background-image: url("img/day.jpg");
   background-size: cover;
   height: 100vh;
   display: flex;
@@ -286,7 +287,7 @@ main {
 /* PHONE header */
 
 .navbar {
-  background: #98c451;
+  background: #034f49;
   display: flex;
   justify-content: space-between;
   padding: 5px 15px 5px 15px;
@@ -322,7 +323,7 @@ main {
 
 #logout:hover > svg {
   transform: rotate(-360deg);
-  color: #98c451;
+  color: #034f49;
   transition: transform 0.5s, color 0.7s;
 }
 
@@ -476,6 +477,7 @@ h3 {
   background: #98c451;
   color: rgb(46, 44, 41);
 }
+
 
 /* VIDEO */ 
 
@@ -631,7 +633,15 @@ h3.contact {
   height: 35px;
   border-radius: 50%;
   background: none;
-  border: 2px solid #fff;
+  border: 2px solid #98c451;
+  box-shadow: inset 0px 0px 0px 0px #98c451;
+  transition: box-shadow 0.3s, color 1s;
+}
+
+.nav-btns:hover {
+  border: 2px solid #98c451;
+  box-shadow: inset 0px 0px 0px 20px #98c451;
+  transition: box-shadow 0.5s, color 0.3s;
 }
 
 #on-call-dialer > input {
