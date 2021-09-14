@@ -295,7 +295,7 @@ main {
 
 #logout {
   text-decoration: none;
-  color: #fff;
+  color: #98c451;
   font-weight: bold;
   border-bottom: none;
   display: flex;
@@ -409,7 +409,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: height 1s;
+  transition: height 0.5s;
 }
 
 .dialer-btn > img {
@@ -635,7 +635,7 @@ h3.contact {
   z-index: 10000 !important;
   flex-direction: row !important;
   padding: 0px !important;
-  transition: margin-top 0.3s, z-index 3s;
+  transition: margin-top 0.4s, z-index 0.3s;
 }
 
 .mini-dialer > input {
@@ -652,13 +652,13 @@ h3.contact {
   height: 40px !important;
   padding: 0px !important;
   margin: 10px;
-  transition: width 0.5s, height 0.5s;
+  transition: width 0.2s, height 0.2s;
 }
 
 .mini-btns > img {
   width: 20px !important;
   height: 20px !important;
-  transition: width 0.5s, height 0.5s;
+  transition: width 0.2s, height 0.2s;
 }
 
 .hidden {
