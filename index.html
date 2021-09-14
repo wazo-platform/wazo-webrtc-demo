@@ -69,20 +69,8 @@
         <img src="img/logo.svg" height="40" alt="logo" />
       </a>
 
-      <!-- On call dialer -->
-      
-      <div id="on-call-dialer">
-        <input class="head-number" type="text" name="number" placeholder="Make another Call...">
-        <button type="submit" class="btn-small mb-2 dial-audio nav-btns">
-          <img src="img/icons/phone-white.svg" width="15" height="15" />
-        </button>
-        <button class="btn-small mb-2 dial-video nav-btns">
-          <img src="img/icons/video-white.svg" width="15" height="15" />
-        </button>
-      </div>
-
       <a href="#" id="logout">
-        <!-- <object data="img/icons/logout-white.svg" width="25" height="25"></object> -->
+        <!-- Logout icon -->
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
           <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
@@ -94,17 +82,17 @@
     <!-- Container with dialer & actions -->
     <main role="main">
       <form id="dialer" class="form-group mb-2">
-        <h3 class="greeter"></h3>
-        <label for="number">Please dial the number you want to reach.</label>
+        <h3 class="greeter dial-texts"></h3>
+        <label for="number" class="dial-texts">Please dial the number you want to reach.</label>
         <input type="text" name="number" class="form-control number" placeholder="1-800-123-1234">
 
         <div class="buttons">
           <button type="submit" class="btn mb-2 audio-call dialer-btn actions-btns">
-            <img src="img/icons/phone-white.svg" width="30" height="30" />
+            <img src="img/icons/phone-white.svg"/>
           </button>
 
           <button class="btn mb-2 video-call dialer-btn actions-btns">
-            <img src="img/icons/video-white.svg" width="30" height="30" />
+            <img src="img/icons/video-white.svg"/>
           </button>
         </div>
         <p id="status"></p>
@@ -195,7 +183,7 @@
               <img src="img/icons/video-white.svg" width="30" height="30" />
             </button>
             <button type="button" id="reject" class="btn btn-reject actions-btns">
-              <src src="img/icons/hangup-white.svg" width="30" height="30" />
+              <img src="img/icons/hangup-white.svg" width="30" height="30" />
             </button>
           </div>
         </div>

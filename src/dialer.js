@@ -114,7 +114,9 @@ const onCallAccepted = (callSession, withVideo) => {
   currentSession = callSession;
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
-  $('#on-call-dialer').show();
+  $('#dialer').addClass('mini-dialer');
+  $('.dial-texts').addClass('hidden');
+  $('.dialer-btn').addClass('mini-btns');
 
   updateScenes();
 }
@@ -134,6 +136,9 @@ const onCallEnded = (callSession) => {
 const onPhoneCalled = (callSession) => {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
+  $('#dialer').addClass('mini-dialer');
+  $('.dial-texts').addClass('hidden');
+  $('.dialer-btn').addClass('mini-btns');
 }
 
 const onCallTerminated = (callSession) => {
@@ -141,8 +146,9 @@ const onCallTerminated = (callSession) => {
 
   $('.buttons').removeClass('buttons-video');
   $('#incoming-modal').hide();
-  $('#dialer').show();
-  $('#on-call-dialer').hide();
+  $('#dialer').removeClass('mini-dialer');
+  $('.dial-texts').removeClass('hidden');
+  $('.dialer-btn').removeClass('mini-btns');
 
   // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
@@ -283,7 +289,6 @@ const addScene = (callSession, withVideo) => {
   const $contact = $('.contact', $newScene);
   const $timer = $('.timer', $newScene);
   const $ringingDots = $('#ringing', $newScene);
-  const $headDialer = $('#on-call-dialer', $newScene);
 
   $('.form-group', $newScene).hide();
   $holdButton.hide();
@@ -299,7 +304,6 @@ const addScene = (callSession, withVideo) => {
   $expandVideoButton.hide();
   $ringingDots.show();
   $timer.show();
-  $headDialer.show();
 
   $contact.html(label);
 
@@ -506,7 +510,9 @@ const updateScenes = (status) => {
     }
   }
 
-  $('#dialer')[noActiveSession ? 'show' : 'hide']();
+  noActiveSession ? $('#dialer').removeClass('mini-dialer') : $('#dialer').addClass('mini-dialer');
+  noActiveSession ? $('.dial-texts').removeClass('hidden') : $('.dial-texts').addClass('hidden');
+  noActiveSession ? $('.dialer-btn').removeClass('mini-btns') : $('.dialer-btn').addClass('mini-btns');
   
   Object.keys(sessions).forEach(sessionId => {
     const callSession = sessions[sessionId];
@@ -532,7 +538,9 @@ const openIncomingCallModal = (callSession, withVideo) => {
   const modal = new bootstrap.Modal($('#incoming-modal'), { backdrop: 'static', keyboard: false });
   modal.show();
 
-  $('#dialer').hide();
+  $('#dialer').addClass('mini-dialer');
+  $('.dial-texts').addClass('hidden');
+  $('.dialer-btn').addClass('mini-btns');
   $('#incoming-modal h5 span').html(number);
 
   $('#accept-video')[withVideo ? 'show' : 'hide']();

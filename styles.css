@@ -403,13 +403,18 @@ h3 {
 #dialer {
   width: 398px;
   height: 341px;
-  border: none;
   background: rgba(0,0,0,0.8);
   padding: 2rem 2rem 0;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: height 1s;
+}
+
+.dialer-btn > img {
+  width: 30px;
+  height: 30px;
 }
 
 .greeter {
@@ -624,33 +629,41 @@ h3.contact {
 
 /* ON CALL DIALER */
 
-#on-call-dialer {
-  display: none;
+.mini-dialer {
+  height: 50px !important;
+  margin-top: -43.5rem !important;
+  z-index: 10000 !important;
+  flex-direction: row !important;
+  padding: 0px !important;
+  transition: margin-top 0.3s, z-index 3s;
 }
 
-.nav-btns {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background: none;
-  border: 2px solid #98c451;
-  box-shadow: inset 0px 0px 0px 0px #98c451;
-  transition: box-shadow 0.3s, color 1s;
+.mini-dialer > input {
+  width: 220px !important;
+  height: 40px !important;
 }
 
-.nav-btns:hover {
-  border: 2px solid #98c451;
-  box-shadow: inset 0px 0px 0px 20px #98c451;
-  transition: box-shadow 0.5s, color 0.3s;
+.mini-dialer > .buttons {
+  display: flex !important;
 }
 
-#on-call-dialer > input {
-  background-color: rgba(0,0,0, 0.8);
-  border: none;
-  border-radius: 5px;
-  padding: 0.2rem;
+.mini-btns {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0px !important;
+  margin: 10px;
+  transition: width 0.5s, height 0.5s;
 }
 
+.mini-btns > img {
+  width: 20px !important;
+  height: 20px !important;
+  transition: width 0.5s, height 0.5s;
+}
+
+.hidden {
+  display: none !important;
+}
 
 /* RINGING & LOADING ANIMATION */
 
