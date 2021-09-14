@@ -402,6 +402,10 @@ h3 {
 }
 
 #dialer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 398px;
   height: 341px;
   background: rgba(0,0,0,0.8);
@@ -410,7 +414,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: height 0.5s;
+  transition: all .3s ease-out;
 }
 
 .dialer-btn > img {
@@ -632,11 +636,11 @@ h3.contact {
 
 .mini-dialer {
   height: 50px !important;
-  margin-top: -43.5rem !important;
+  top: 32px !important;
   z-index: 10000 !important;
   flex-direction: row !important;
   padding: 0px !important;
-  transition: margin-top 0.4s, z-index 0.3s;
+  background: transparent !important;
 }
 
 .mini-dialer > input {
