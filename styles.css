@@ -97,6 +97,7 @@ object {
 
 #loader img {
   width: 400px;
+  margin-bottom: 2rem;
   animation-name: loading;
   animation-duration: 3s;
   animation-iteration-count: infinite;
