@@ -1,3 +1,51 @@
+@media screen and (min-width: 300px) {
+  #authentication { 
+    display: flex;
+    flex-direction: column;
+  }
+
+  .one {
+    width: 100%;
+  }
+
+  .two {
+    width: 100%;
+  }
+
+  .mini-dialer > input {
+    width: 100px !important;
+    height: 40px !important;
+  }
+
+  .mini-dialer {
+    margin-left: 2rem !important;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  #authentication { 
+    display: flex;
+    flex-direction: row;
+  }
+
+  .one {
+    width: 30%;
+  }
+
+  .two {
+    width: 70%;
+  }
+
+  .mini-dialer > input {
+    width: 220px !important;
+    height: 40px !important;
+  }
+
+  .mini-dialer {
+    margin-left: 0 !important;
+  }
+}
+
 /* DISPLAY NONE */
 #root-scene {
   display: none;
@@ -13,13 +61,7 @@
 
 /* MAIN */
 
-object {
-  align-self: center;
-}
 
-#authentication.row { 
-  margin: 0 !important;
-}
 
 .btn {
   text-transform: uppercase;
@@ -38,11 +80,6 @@ object {
   background: #fff;
 }
 
-.two {
-  display: flex;
-  align-items: center;
-}
-
 .alert {
   margin-top: 40px;
 }
@@ -54,7 +91,6 @@ object {
 .background {
   width: auto;
   height: 100vh;
-  margin-left: -120px;
 }
 
 .col {
@@ -174,21 +210,13 @@ input.login:focus {
 .two {
   background-image: url('img/dawn.jpg');
   background-size: cover;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.right-quote {
-  width: 90%;
+  display: grid;
+  place-items: center;
 }
 
 .right-content {
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
 }
 
 .learn-more {
@@ -641,11 +669,6 @@ h3.contact {
   flex-direction: row !important;
   padding: 0px !important;
   background: transparent !important;
-}
-
-.mini-dialer > input {
-  width: 220px !important;
-  height: 40px !important;
 }
 
 .mini-dialer > .buttons {

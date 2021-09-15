@@ -139,6 +139,7 @@ const onPhoneCalled = (callSession) => {
   $('#dialer').addClass('mini-dialer');
   $('.dial-texts').addClass('hidden');
   $('.dialer-btn').addClass('mini-btns');
+  $('.number').val('');
 }
 
 const onCallTerminated = (callSession) => {
