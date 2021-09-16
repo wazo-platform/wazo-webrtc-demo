@@ -20,6 +20,25 @@
   .mini-dialer {
     margin-left: 2rem !important;
   }
+
+  .actions-btns {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 1rem;
+  }
+
+  .actions-btns > img {
+    width: 15px;
+    height: 15px;
+    margin: 0;
+  }
+
+  .hangup > img {
+    width: 20px;
+    height: 20px;
+    padding-right: 5px;
+  }
 }
 
 @media screen and (min-width: 700px) {
@@ -44,6 +63,24 @@
   .mini-dialer {
     margin-left: 0 !important;
   }
+
+
+  .actions-btns {
+    width: 70px;
+    height: 70px;
+  }
+
+  .actions-btns > img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .hangup > img {
+    width: 35px;
+    height: 35px;
+    padding-right: 0;
+  }
+
 }
 
 /* DISPLAY NONE */
@@ -81,10 +118,6 @@
 }
 
 .alert {
-  margin-top: 40px;
-}
-
-.btn {
   margin-top: 20px;
 }
 
@@ -246,13 +279,6 @@ input.login:focus {
   float: none;
 }
 
-.actions-btns {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  margin: 1rem;
-}
-
 main {
   background-image: url("img/day.jpg");
   background-size: cover;
@@ -358,18 +384,25 @@ main {
 
 /* PHONE dialer */
 
-.dialer-btn {
+.dialer-btn, .call-btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 1rem;
   border: 1px solid #98c451;
   box-shadow: inset 0 0 0 1px #98c451;
   transition: box-shadow 1.3s;
 }
 
-.dialer-btn:hover {
+.dialer-btn:hover, .call-btn:hover {
   box-shadow: inset 0 0 0 70px #98c451;
   transition: box-shadow 1s;
 }
 
 .btn-reject {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
   border: 1px solid red;
   box-shadow: inset 0 0 0 1px red;
   transition: box-shadow 1.3s;
@@ -443,11 +476,6 @@ h3 {
   align-items: center;
   justify-content: center;
   transition: all .3s ease-out;
-}
-
-.dialer-btn > img {
-  width: 30px;
-  height: 30px;
 }
 
 .greeter {
