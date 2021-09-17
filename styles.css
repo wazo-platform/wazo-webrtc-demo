@@ -1,5 +1,5 @@
 @media screen and (min-width: 300px) {
-  #authentication { 
+  .auth-display { 
     display: flex;
     flex-direction: column;
   }
@@ -42,7 +42,7 @@
 }
 
 @media screen and (min-width: 700px) {
-  #authentication { 
+  .auth-display { 
     display: flex;
     flex-direction: row;
   }
@@ -130,6 +130,10 @@
   min-height: 100vh;
 }
 
+#authentication {
+  display: none;
+}
+
 /* LOADER */
 
 @keyframes loading {
@@ -149,7 +153,7 @@
 #loader {
   position : fixed;
   z-index: 9999;
-  background-image: url('img/dawn.jpg');
+  background: url('img/dawn.jpg'), #604554;
   background-size: cover;
   top : 0;
   left : 0;
@@ -278,7 +282,7 @@ input.login:focus {
 }
 
 main {
-  background-image: url("img/day.jpg");
+  background: url("img/day.jpg"), #034f49;
   background-size: cover;
   height: 100vh;
   display: flex;

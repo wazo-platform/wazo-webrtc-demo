@@ -29,28 +29,30 @@
 
   <!--  Authentication -->
   <div class="row" id="authentication">
-    <div class="col-xs-12 col-sm-12 col-md-3 one col">
-      <form id="login-form">
-        <img class="wazo-logo" src="img/wazo-logo.svg" />
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" class="login" placeholder="yourname@mail.com" required autofocus />
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="login" placeholder="********" required />
-          <label for="server">Server URI</label>
-          <input type="text" id="server" name="server" class="login" placeholder="your.server.io" required />
-          <button class="btn" id="submit-login" type="submit">
-            <span class="login-txt">Login</span>
-          </button>
-          <div id="auth-error" class="alert alert-danger" role="alert"></div>
-        </div>      
-      </form>
-    </div>
-    <div class="hidden-xs hidden-sm col-md-9 two col">
-      <div class="col-md-12 right-content">
-        <a class="btn learn-more" href="https://wazo-platform.org/" target="_blank">
-          Learn More
-        </a>
+    <div class="auth-display">
+      <div class="col-xs-12 col-sm-12 col-md-3 one col">
+        <form id="login-form">
+          <img class="wazo-logo" src="img/wazo-logo.svg" />
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="login" placeholder="yourname@mail.com" required autofocus />
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="login" placeholder="********" required />
+            <label for="server">Server URI</label>
+            <input type="text" id="server" name="server" class="login" placeholder="your.server.io" required />
+            <button class="btn" id="submit-login" type="submit">
+              <span class="login-txt">Login</span>
+            </button>
+            <div id="auth-error" class="alert alert-danger" role="alert"></div>
+          </div>      
+        </form>
+      </div>
+      <div class="hidden-xs hidden-sm col-md-9 two col">
+        <div class="col-md-12 right-content">
+          <a class="btn learn-more" href="https://wazo-platform.org/" target="_blank">
+            Learn More
+          </a>
+        </div>
       </div>
     </div>
   </div>

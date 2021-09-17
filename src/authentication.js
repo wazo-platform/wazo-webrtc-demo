@@ -36,6 +36,7 @@ const authenticate = async (username, password, server) => {
 };
 
 const openLogin = () => {
+  $('#authentication').show();
   $('#loader').hide();
   $('#login-form').on('submit', async e => {
     e.preventDefault();
