@@ -115,6 +115,7 @@ const onCallAccepted = (callSession, withVideo) => {
   $('.buttons').removeClass('buttons-video');
   $('.timer').show();
   $('#dialer').addClass('mini-dialer');
+  $('.mini-dialer').show();
   $('.dial-texts').addClass('hidden');
   $('.call-btn').addClass('mini-btns');
 
@@ -136,9 +137,6 @@ const onCallEnded = (callSession) => {
 const onPhoneCalled = (callSession) => {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
-  $('#dialer').addClass('mini-dialer');
-  $('.dial-texts').addClass('hidden');
-  $('.call-btn').addClass('mini-btns');
   $('.number').val('');
 }
 
@@ -540,6 +538,7 @@ const openIncomingCallModal = (callSession, withVideo) => {
   modal.show();
 
   $('#dialer').addClass('mini-dialer');
+  $('.mini-dialer').hide();
   $('.dial-texts').addClass('hidden');
   $('.call-btn').addClass('mini-btns');
   $('#incoming-modal h5 span').html(number);
