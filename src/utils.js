@@ -32,7 +32,7 @@ const checkJson = (item) => {
     const message = JSON.parse(item)
     return message.reason;
   } else {
-    return JSON.stringify(item).replace(/\"/g, "");
+    return item;
   }
 
 }
