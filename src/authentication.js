@@ -6,11 +6,12 @@ let session = null;
 Wazo.Auth.init('wazo-webrtc-demo');
 
 const displayAuthError = (error) => {
-  $('#auth-error').html(error.message).show();
- 
+
+  $('#auth-error').html(checkJson(error.message)).show();
+  
   $('#submit-login').prop('disabled', false);
   $('.login-txt').html('login');
-};
+}
 
 const testReadiness = () => {
   if (ready) {

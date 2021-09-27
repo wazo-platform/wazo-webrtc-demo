@@ -25,3 +25,14 @@ const getCallSessionFromNumber = number => {
   const targetCallSessionId = Object.keys(sessions).find(callSessionId => sessions[callSessionId].number === number);
   return targetCallSessionId && sessions[targetCallSessionId];
 }
+
+const checkJson = (item) => {
+
+  if (item.includes("{")) {
+    const message = JSON.parse(item)
+    return message.reason;
+  } else {
+    return JSON.stringify(item).replace(/\"/g, "");
+  }
+
+}
