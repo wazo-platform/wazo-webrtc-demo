@@ -15,14 +15,14 @@ const setGreeter = async () => {
   $('.greeter').html(`Hello ${name} 👋`);
 };
 
-const setMainStatus = (status) => {
+const setMainStatus = status => {
   $('#status').html(status);
   setTimeout(() => $('#status').html('&nbsp;'), 3000);
 };
 
-const getNumber = (callSession) => callSession.realDisplayName || callSession.displayName || callSession.number;
+const getNumber = callSession => callSession.realDisplayName || callSession.displayName || callSession.number;
 
-const getStatus = (callSession) => {
+const getStatus = callSession => {
   const number = getNumber(callSession);
 
   if (callSession.paused) {
@@ -122,25 +122,25 @@ const onCallAccepted = (callSession, withVideo) => {
   updateScenes();
 }
 
-const onCallFailed = (callSession) => {
+const onCallFailed = callSession => {
   const number = getNumber(callSession);
   setMainStatus(`Call with ${number} failed`);
   onCallTerminated(callSession);
 }
 
-const onCallEnded = (callSession) => {
+const onCallEnded = callSession => {
   const number = getNumber(callSession);
   setMainStatus(`Call with ${number} ended`);
   onCallTerminated(callSession);
 }
 
-const onPhoneCalled = (callSession) => {
+const onPhoneCalled = callSession => {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
   $('.number').val('');
 }
 
-const onCallTerminated = (callSession) => {
+const onCallTerminated = callSession => {
   delete sessions[callSession.getId()];
 
   $('.buttons').removeClass('buttons-video');
@@ -170,7 +170,7 @@ const onCallTerminated = (callSession) => {
   updateScenes(`Call with ${getNumber(callSession)} ended`);
 }
 
-const onSessionUpdate = (callSession) => {
+const onSessionUpdate = callSession => {
   sessions[callSession.getId()] = callSession;
   updateScenes();
 }
@@ -188,27 +188,27 @@ const accept = (callSession, withVideo) => {
   Wazo.Phone.accept(callSession, withVideo);
 }
 
-const unhold = (callSession) => {
+const unhold = callSession => {
   console.log(`resuming ${getNumber(callSession)}`);
   Wazo.Phone.resume(callSession);
 }
 
-const hold = (callSession) => {
+const hold = callSession => {
   console.log(`holding ${getNumber(callSession)}`);
   Wazo.Phone.hold(callSession);
 }
 
-const mute = (callSession) => {
+const mute = callSession => {
   console.log(`muting ${getNumber(callSession)}`);
   Wazo.Phone.mute(callSession);
 }
 
-const unmute = (callSession) => {
+const unmute = callSession => {
   console.log(`unmuting ${getNumber(callSession)}`);
   Wazo.Phone.unmute(callSession);
 }
 
-const hangup = (callSession) => {
+const hangup = callSession => {
   console.log(`hanging up ${getNumber(callSession)}`);
   Wazo.Phone.hangup(callSession);
 }
@@ -460,7 +460,7 @@ const addScene = (callSession, withVideo) => {
   return $newScene;
 }
 
-const switchCall = (event) => {
+const switchCall = event => {
   event.stopImmediatePropagation();
 
   const sessionId = $(event.target).attr('data-sessionid');
@@ -486,7 +486,7 @@ const updateTimer = () => {
   $(`#call-${currentSession.getId()} .timer`).html(formattedTime);
 }
 
-const updateScenes = (status) => {
+const updateScenes = status => {
   const noActiveSession = !Object.keys(sessions).length;
 
   $('#scenes').html('');

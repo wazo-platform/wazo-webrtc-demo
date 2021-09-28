@@ -5,7 +5,7 @@ let session = null;
 
 Wazo.Auth.init('wazo-webrtc-demo');
 
-const displayAuthError = (error) => {
+const displayAuthError = error => {
   $('.auth-error').html('');
   $('.serv-error').html('');
   $('.login').removeClass('onalert');

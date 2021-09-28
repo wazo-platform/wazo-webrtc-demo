@@ -26,13 +26,11 @@ const getCallSessionFromNumber = number => {
   return targetCallSessionId && sessions[targetCallSessionId];
 }
 
-const checkJson = (item) => {
-
-  if (item.includes("{")) {
+const checkJson = item => {
+  try {
     const message = JSON.parse(item)
-    return message.reason;
-  } else {
+    return message.reason || item;
+  } catch(_) {
     return item;
   }
-
 }
