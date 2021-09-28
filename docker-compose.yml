@@ -1,0 +1,14 @@
+---
+version: "3"
+
+services:
+  demo:
+    build:
+      context: .
+      dockerfile: development.Dockerfile
+    image: local/demo:latest
+    restart: unless-stopped
+    volumes:
+      - ".:/demo"
+    ports:
+      - 8000:8000

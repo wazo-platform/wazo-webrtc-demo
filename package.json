@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^27.0.4"
+  },
+  "scripts": {
+    "start": "python3 -m http.server",
+    "test": "jest --coverage"
+  }
+}

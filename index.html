@@ -4,104 +4,203 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
   <link href="./styles.css" rel="stylesheet">
   <link rel="icon" href="/favicon.ico" />
   <title>Wazo WebRTC Demo</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
 </head>
+
 <body>
-    <!--  Authentication -->
-    <div class="row" id="authentication">
+
+  <div id="loader">
+    <img src="img/white-logo.svg" alt="Wazo platform loader" />
+    <div id="loading">
+      <p>Loading</p>
+      <div id="load-animation">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>  
+    </div> 
+  </div>
+
+  <!--  Authentication -->
+  <div id="authentication">
+    <div class="auth-display">
       <div class="col-xs-12 col-sm-12 col-md-3 one col">
-        <form class="center" id="login-form">
+        <form id="login-form">
           <img class="wazo-logo" src="img/wazo-logo.svg" />
-          <input type="text" id="username" class="form-control login input-lg" placeholder="Login" required autofocus>
-          <input type="password" id="password" class="form-control login input-lg" placeholder="Password" required>
-          <input type="text" id="server" class="form-control login input-lg" placeholder="Server" required>
-	        <button class="btn btn-lg btn-primary btn-block btn-flat login" id="submit-login" type="submit">Login</button>
-          <div id="auth-error" class="alert alert-danger" role="alert"></div>
+          <div class="form-group">
+            <label class="auth-lab" for="email">E-mail</label>
+            <input type="text" id="email" name="email" class="login" placeholder="yourname@mail.com" required autofocus />
+            <div class="alert auth-error" role="alert"></div>
+            <label class="auth-lab" for="password">Password</label>
+            <input type="password" id="password" name="password" class="login" placeholder="********" required />
+            <div class="alert auth-error"></div>
+            <label class="serv-lab" for="server">Server URI</label>
+            <input type="text" id="server" name="server" class="login" placeholder="your.server.io" required />
+            <div class="alert serv-error"></div>
+            <button class="btn" id="submit-login" type="submit">
+              <span class="login-txt">Login</span>
+            </button>
+          </div>      
         </form>
       </div>
       <div class="hidden-xs hidden-sm col-md-9 two col">
-        <div class="col-md-12"></div>
-      </div>
-    </div>
-
-    <!-- Dialer -->
-    <div id="phone">
-      <nav class="navbar navbar-expand navbar-dark bg-wazo fixed-top">
-        <a class="navbar-brand" href="#">
-          <img src="img/wazo-platform-logo.svg" height="40" alt="logo">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-          <span class="navbar-text" id="user"></span>
-          <ul class="navbar-nav nav-flex-icons">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="navbarNavAltMarkup" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right dropdown-default"
-                aria-labelledby="navbarNavAltMarkup">
-                <a class="dropdown-item" href="#" id="logout">Logout</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <main role="main" class="container">
-        <form id="dialer" class="card" style="width: 18rem;">
-          <div class="form-group mb-2">
-            <input type="text" class="form-control number" placeholder="Dial a number">
-          </div>
-          <div class="videos">
-            <video class="local"></video>
-            <video class="remote"></video>
-          </div>
-          <button type="submit" class="btn btn-primary mb-2 dial">Dial</button>
-          <button class="btn btn-primary mb-2 video-call">Video dial</button>
-          <button class="btn btn-secondary mb-2 hangup">Hangup</button>
-          <button class="btn btn-secondary mb-2 unhold">Unhold</button>
-          <button class="btn btn-secondary mb-2 hold">Hold</button>
-          <button class="btn btn-secondary mb-2 mute">Mute</button>
-          <button class="btn btn-secondary mb-2 unmute">Unmute</button>
-<!--          <button class="btn btn-secondary mb-2 merge">Merge calls</button>-->
-<!--          <button class="btn btn-secondary mb-2 unmerge">Unmerge calls</button>-->
-          <button class="btn btn-secondary mb-2 atxfer">Atxfer</button>
-          <button class="btn btn-secondary mb-2 transfer">Transfer</button>
-          <p class="status"></p>
-        </form>
-
-        <div id="dialers"></div>
-      </main>
-    </div>
-
-    <!-- Incoming call -->
-    <div id="incoming-modal" class="modal" tabindex="-2" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Incoming call from <span></span></h5>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" id="accept">Accept</button>
-            <button class="btn btn-primary" id="accept-video">Accept with video</button>
-            <button class="btn btn-secondary" id="reject">Reject</button>
-          </div>
+        <div class="col-md-12 right-content">
+          <a class="btn learn-more" href="https://wazo-platform.org/" target="_blank">
+            Learn More
+          </a>
         </div>
       </div>
     </div>
+  </div>
+  
+  <!-- Dialer -->
+  <div id="phone">
+
+    <!-- Nav header when logged in -->
+    <nav class="navbar navbar-expand navbar-dark bg-wazo fixed-top">
+      <a class="navbar-brand" href="https://wazo-platform.org/">
+        <img src="img/logo.svg" height="40" alt="logo" />
+      </a>
+
+      <a href="#" id="logout">
+        <!-- Logout icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+          <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+        </svg>
+        <div class="logout-text">Logout</div>
+      </a>
+    </nav>
+
+    <!-- Container with dialer & actions -->
+    <main role="main">
+      <form id="dialer" class="form-group mb-2">
+        <h3 class="greeter dial-texts"></h3>
+        <label for="number" class="dial-texts">Please dial the number you want to reach.</label>
+        <input type="text" name="number" class="form-control number" placeholder="1-800-123-1234">
+
+        <div class="buttons">
+          <button type="submit" class="btn mb-2 audio-call call-btn">
+            <img src="img/icons/phone-white.svg"/>
+          </button>
+
+          <button class="btn mb-2 video-call call-btn">
+            <img src="img/icons/video-white.svg"/>
+          </button>
+        </div>
+        <p id="status" class="dial-texts"></p>
+      </form>
+
+      <div id="root-scene" class="scene">
+
+        <div class="videos">
+          <div class="remote"><video></video></div>
+          <div class="local"><video></video></div>
+        </div>
+
+        <div class="call-page">
+          <h3 class="contact"></h3>
+          <div class="timer">&nbsp;</div>
+
+          <div id="ringing">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+
+            <!-- Buttons appearing when calling -->
+          <div class="btn-group me-2 buttons buttons-call">
+            <div>
+              <button type="button" class="btn orange-btn actions-btns unhold">
+                <img src="img/icons/unhold-white.svg"/>
+              </button>
+              <button type="button" class="btn blue-btn actions-btns hold">
+                <img src="img/icons/hold-white.svg"/>
+              </button>
+              <button type="button" class="btn blue-btn actions-btns mute">
+                <img src="img/icons/mic-white.svg"/>
+              </button>
+              <button type="button" class="btn orange-btn actions-btns unmute">
+                <img src="img/icons/mute-white.svg"/>
+              </button>
+              <button type="button" class="btn blue-btn actions-btns atxfer">
+                <img src="img/icons/indi-white.svg"/>
+              </button>
+              <button type="button" class="btn blue-btn actions-btns transfer">
+                <img src="img/icons/transfer-white.svg"/>
+              </button>
+              <button type="button" class="btn actions-btns btn-reject hangup">
+                <img src="img/icons/hangup-white.svg"/>
+              </button>
+              <button type="button" class="btn orange-btn actions-btns reduce">
+                <img src="img/icons/reduce-white.svg"/>
+              </button>
+              <button type="button" class="btn blue-btn actions-btns expand">
+                <img src="img/icons/expand-white.svg"/>
+              </button>
+            </div>  
+          </div>  
+        </div>        
+      </div>
+
+      <div id="calls-handler" class="btn-group-vertical"></div>
+
+      <div id="scenes"></div>
+      
+    </main>
+  </div>
+
+  <!-- Incoming call -->
+  <div id="incoming-modal" class="modal" tabindex="-2" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Incoming call from <span class="name-called"></span></h5>
+        </div>
+        <div class="modal-footer">
+          <div role="group" aria-label="Basic example">
+            <button type="button" id="accept" class="btn dialer-btn">
+              <img src="img/icons/phone-white.svg" width="30" height="30" />
+            </button>
+            <button type="button" id="accept-video" class="btn dialer-btn">
+              <img src="img/icons/video-white.svg" width="30" height="30" />
+            </button>
+            <button type="button" id="reject" class="btn btn-reject">
+              <img src="img/icons/hangup-white.svg" width="35" height="35" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Indirect Transfert Window -->
+  <div id="indirect-transfer">
+    <div id="reaching-number">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div>
+      <button type="button" id="indirect-transfer-complete" class="btn">
+        Confirm
+      </button>
+      <button type="button" id="indirect-transfer-cancel" class="btn">
+        Cancel
+      </button>
+    </div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/@wazo/sdk@0.33.42/dist/wazo-sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script><script src="https://unpkg.com/@wazo/sdk@0.35.6/dist/wazo-sdk.js"></script>
+  <script src="./src/utils.js"></script>
   <script src="./src/dialer.js"></script>
   <script src="./src/authentication.js"></script>
 </body>
