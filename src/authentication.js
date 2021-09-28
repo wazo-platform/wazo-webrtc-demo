@@ -6,8 +6,24 @@ let session = null;
 Wazo.Auth.init('wazo-webrtc-demo');
 
 const displayAuthError = (error) => {
+  $('.auth-error').html('');
+  $('.serv-error').html('');
+  $('.login').removeClass('onalert');
+  $('label').removeClass('onerror');
 
-  $('#auth-error').html(checkJson(error.message)).show();
+  const message = checkJson(error.message);
+
+  console.log(message[0])
+  if (message[0].includes('Authentication')) {
+    $('.auth-error').html('Authentication failed, please verify you typed your authentication details right');
+    $('#password').addClass('onalert');
+    $('#email').addClass('onalert');
+    $('.auth-lab').addClass('onerror');
+  } else {
+    $('.serv-error').html('Couldn\'t reach server, please verify its name and your internet connection');
+    $('#server').addClass('onalert');
+    $('.serv-lab').addClass('onerror');
+  }
   
   $('#submit-login').prop('disabled', false);
   $('.login-txt').html('login');
@@ -77,7 +93,9 @@ const removeSessionOnStorage = () => {
 };
 
 const launchPhone = async () => {
-  $('.alert').hide();
+  $('.alert').html('');
+  $('.login').removeClass('onalert');
+  $('label').removeClass('onerror');
 
   const rawSession = getSessionOnStorage();
   if (!rawSession) {

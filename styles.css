@@ -92,7 +92,7 @@
   display: none;
 }
 
-#auth-error, #root-scene .unhold, #root-scene .hold, #root-scene .mute, #root-scene .unmute, #root-scene .merge, #root-scene .unmerge, #root-scene .atxfer, #root-scene .transfer, #root-scene .video-call, #root-scene .expand, #root-scene .reduce, #root-scene video  {
+#root-scene .unhold, #root-scene .hold, #root-scene .mute, #root-scene .unmute, #root-scene .merge, #root-scene .unmerge, #root-scene .atxfer, #root-scene .transfer, #root-scene .video-call, #root-scene .expand, #root-scene .reduce, #root-scene video  {
   display: none;
 }
 
@@ -116,7 +116,11 @@
 }
 
 .alert {
-  margin-top: 20px;
+  font-size: 12px;
+  color: #e21b1b;
+  height: 3rem;
+  margin-bottom: 1rem;
+  padding: 0;
 }
 
 .background {
@@ -208,12 +212,19 @@ label {
 }
 
 input.login {
-  margin-bottom: 3rem;
   color: #515454 !important;
   background-color: transparent !important;
   border: none;
   border-bottom: #515454 solid 1px;
   font-size: 16px;
+}
+
+.onalert {
+  border-bottom: #e21b1b solid 1px !important;
+}
+
+.onerror {
+  color: #e21b1b;
 }
 
 input.login:focus {

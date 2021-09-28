@@ -34,16 +34,18 @@
         <form id="login-form">
           <img class="wazo-logo" src="img/wazo-logo.svg" />
           <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" class="login" placeholder="yourname@mail.com" required autofocus />
-            <label for="password">Password</label>
+            <label class="auth-lab" for="email">E-mail</label>
+            <input type="text" id="email" name="email" class="login" placeholder="yourname@mail.com" required autofocus />
+            <div class="alert auth-error" role="alert"></div>
+            <label class="auth-lab" for="password">Password</label>
             <input type="password" id="password" name="password" class="login" placeholder="********" required />
-            <label for="server">Server URI</label>
+            <div class="alert auth-error"></div>
+            <label class="serv-lab" for="server">Server URI</label>
             <input type="text" id="server" name="server" class="login" placeholder="your.server.io" required />
+            <div class="alert serv-error"></div>
             <button class="btn" id="submit-login" type="submit">
               <span class="login-txt">Login</span>
             </button>
-            <div id="auth-error" class="alert alert-danger" role="alert"></div>
           </div>      
         </form>
       </div>
