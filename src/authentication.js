@@ -13,7 +13,6 @@ const displayAuthError = (error) => {
 
   const message = checkJson(error.message);
 
-  console.log(message[0])
   if (message[0].includes('Authentication')) {
     $('.auth-error').html('Authentication failed, please verify you typed your authentication details right');
     $('#password').addClass('onalert');
@@ -61,7 +60,7 @@ const openLogin = () => {
     $('.login-txt').html('loading...');
     $('#submit-login').prop('disabled', true);
 
-    authenticate($('#username').val(), $('#password').val(), $('#server').val());
+    authenticate($('#email').val(), $('#password').val(), $('#server').val());
   });
 };
 
