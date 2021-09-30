@@ -8,7 +8,7 @@ case "$1" in
 
     package)
         mkdir -p ${pkgdir}/var/www/html/wazo-webrtc-demo/
-	cp -a index.html src img favicon.ico styles.css ${pkgdir}/var/www/html/wazo-webrtc-demo/
+        cp -a index.html src img favicon.ico styles.css ${pkgdir}/var/www/html/wazo-webrtc-demo/
         cp -R etc ${pkgdir}/
         ;;
 
