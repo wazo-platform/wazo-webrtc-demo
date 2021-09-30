@@ -1,0 +1,3 @@
+location ^~ /demo {
+    alias /var/www/html/wazo-webrtc-demo;
+}
