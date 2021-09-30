@@ -1,0 +1,27 @@
+#!/bin/sh
+# Copyright 2021 The Wazo Authors  (see the AUTHORS file)
+# SPDX-License-Identifier: MIT
+
+case "$1" in
+    build)
+        ;;
+
+    package)
+        mkdir -p ${pkgdir}/var/www/html/wazo-webrtc-demo/
+        cp -a index.html src img favicon.ico styles.css ${pkgdir}/var/www/html/wazo-webrtc-demo/
+        cp -R etc ${pkgdir}/
+        ;;
+
+    install)
+        systemctl restart nginx
+        ;;
+
+    uninstall)
+        systemctl restart nginx
+        ;;
+
+    *)
+        echo "$0 called with unknown argument '$1'" >&2
+        exit 1
+    ;;
+esac
