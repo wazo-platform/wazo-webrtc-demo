@@ -1,5 +1,5 @@
 name: wazo-webrtc-demo
-namespace: official/wazo-webrtc-demo
+namespace: official
 version: 0.0.1
 author: Wazo Team
 display_name: WebRTC client demo
