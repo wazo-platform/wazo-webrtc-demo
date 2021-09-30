@@ -27,4 +27,4 @@ It's possible to install this demo as a plugin:
     apt install wazo-plugin-cli
     wazo-plugind-cli -c 'install git https://github.com/wazo-platform/wazo-webrtc-demo'
 
-Open your browser to https://server/demo
+Open your browser to https://server/wazo-webrtc-demo
