@@ -28,7 +28,7 @@
   </div>
 
   <!--  Authentication -->
-  <div class="row" id="authentication">
+  <div id="authentication">
     <div class="auth-display">
       <div class="col-xs-12 col-sm-12 col-md-3 one col">
         <form id="login-form">
@@ -101,7 +101,7 @@
 
         <div class="videos">
           <div class="remote"><video></video></div>
-          <div class="local"><video></video></div>
+          <div class="local"><video muted></video></div>
         </div>
 
         <div class="call-page">
@@ -149,17 +149,7 @@
         </div>        
       </div>
 
-      <div
-        id="calls-handler"
-        class="btn-group-vertical" 
-        style="
-        position:absolute;
-        left:1rem;
-        top:5rem;
-        z-index:10;
-        "
-      >
-      </div>
+      <div id="calls-handler" class="btn-group-vertical"></div>
 
       <div id="scenes"></div>
       

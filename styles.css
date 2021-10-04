@@ -96,6 +96,13 @@
   display: none;
 }
 
+#calls-handler {
+  position: absolute;
+  left: 1rem;
+  top: 5rem;
+  z-index: 10;
+}
+
 /* MAIN */
 
 .btn {
