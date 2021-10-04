@@ -157,7 +157,7 @@
 #loader {
   position : fixed;
   z-index: 9999;
-  background: url('img/dawn.jpg'), #604554;
+  background: url('img/dawn.svg'), #604554;
   background-size: cover;
   top : 0;
   left : 0;
@@ -255,7 +255,7 @@ input.login:focus {
 /* LOGIN right part */
 
 .two {
-  background-image: url('img/dawn.jpg');
+  background-image: url('img/dawn.svg');
   background-size: cover;
   display: grid;
   place-items: center;
@@ -294,7 +294,7 @@ input.login:focus {
 }
 
 main {
-  background: url("img/day.jpg"), #034f49;
+  background: url("img/day.svg"), #034f49;
   background-size: cover;
   height: 100vh;
   display: flex;
