@@ -49,8 +49,6 @@ const initializeWebRtc = () => {
     // log: { builtinEnabled: true, logLevel: 'debug' },
   });
 
-  Wazo.Phone.useLocalVideoElement($('video.local')[0]);
-
   const onSessionUpdate = callSession => {
     sessions[callSession.getId()] = callSession;
     updateDialers();
@@ -85,7 +83,6 @@ const initializeWebRtc = () => {
       updateDialers();
     }
   });
-
 
   setFullName();
   resetMainDialer();
@@ -125,7 +122,7 @@ function onPhoneCalled(callSession) {
   currentSession = callSession;
 }
 
-function onCallTerminated(callSession) {
+const onCallTerminated = callSession => {
   // Current session terminated ?
   if (currentSession && currentSession.is(callSession)) {
     // Remaining session ? take first
@@ -139,9 +136,9 @@ function onCallTerminated(callSession) {
   delete sessions[callSession.getId()];
 
   resetMainDialer('Call with ' + getNumber(callSession) + ' ended');
-}
+};
 
-function accept(callSession, withVideo) {
+const accept = (callSession, withVideo) => {
   // Hold current session if exists
   if (currentSession && !currentConference) {
     hold(currentSession);
@@ -150,23 +147,21 @@ function accept(callSession, withVideo) {
   Wazo.Phone.accept(callSession, withVideo);
 
   onCallAccepted(callSession, withVideo);
-}
+};
 
-function unhold(callSession) {
-  Wazo.Phone.unhold(callSession);
-}
+const unhold = async callSession => {
+  await Wazo.Phone.resume(callSession);
+  setTimeout(updateDialers, 3000);
+};
 
-function hold(callSession) {
-  Wazo.Phone.hold(callSession);
-}
+const hold = async callSession => {
+  await Wazo.Phone.hold(callSession);
+  setTimeout(updateDialers, 1000);
+};
 
-function mute(callSession) {
-  Wazo.Phone.mute(callSession);
-}
+const mute = callSession => Wazo.Phone.mute(callSession);
 
-function unmute(callSession) {
-  Wazo.Phone.unmute(callSession);
-}
+const unmute = callSession => Wazo.Phone.unmute(callSession);
 
 const startConference = async () => {
   const otherCalls = Object.values(sessions).filter(session => !session.is(currentSession));
@@ -208,8 +203,7 @@ const reinvite = async (callSession, enableVideo) => {
   sessions[callSession.getId()] = callSession;
 
   // Let some times to track to be retrieved
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  updateDialers();
+  setTimeout(updateDialers, 1000);
 };
 
 const addScreenTrack = async (callSession) => {
@@ -302,9 +296,9 @@ function addDialer(callSession) {
   const videoButton = $('.video-call', newDialer);
   const upgradeVideoButton = $('.upgrade-video', newDialer);
   const downgradeVideoButton = $('.downgrade-audio', newDialer);
-  const remoteVideoStreams = Wazo.Phone.getRemoteVideoStreams(callSession);
+  const remoteVideoStream = Wazo.Phone.getRemoteVideoStream(callSession);
+  const localVideoStream = Wazo.Phone.getLocalVideoStream(callSession);
   const hasLocalVideo = Wazo.Phone.phone.hasLocalVideo(callSession);
-  console.log('remoteVideoStreams', remoteVideoStreams);
 
   $('.form-group', newDialer).hide();
   holdButton.hide();
@@ -321,29 +315,27 @@ function addDialer(callSession) {
 
   // Videos
   const videoContainer = $('.videos', newDialer);
-  if (remoteVideoStreams.length) {
+  if (remoteVideoStream) {
     videoContainer.show();
 
     // Remote videos
     const $remoteVideo = $('video.remote', newDialer);
-    const $remoteVideos = $('video', newDialer);
-    $remoteVideos.toArray().forEach(video => {
-      video.remove();
-    });
-
     $remoteVideo.show();
-
-    remoteVideoStreams.forEach(remoteStream => {
-      const videoElement = document.createElement('video');
-      videoElement.style.width = '120px';
-      videoElement.style.height = '120px';
-      videoContainer[0].appendChild(videoElement);
-
-      const wazoStream = new Wazo.Stream(remoteStream);
-      wazoStream.attach(videoElement);
-    });
+    const wazoStream = new Wazo.Stream(remoteVideoStream);
+    wazoStream.attach($remoteVideo[0]);
   } else {
     videoContainer.hide();
+  }
+
+  const $localVideo = $('video.local');
+  console.log('hasLocalVideo', hasLocalVideo);
+  if (hasLocalVideo) {
+    $localVideo.show();
+
+    const wazoStream = new Wazo.Stream(localVideoStream);
+    wazoStream.attach($localVideo[0]);
+  } else {
+    $localVideo.hide();
   }
 
   // Upgrade / Downgrade
