@@ -118,34 +118,80 @@
 
             <!-- Buttons appearing when calling -->
           <div class="btn-group me-2 buttons buttons-call">
-            <div>
-              <button type="button" class="btn orange-btn actions-btns unhold">
-                <img src="img/icons/unhold-white.svg"/>
-              </button>
-              <button type="button" class="btn blue-btn actions-btns hold">
-                <img src="img/icons/hold-white.svg"/>
-              </button>
-              <button type="button" class="btn blue-btn actions-btns mute">
-                <img src="img/icons/mic-white.svg"/>
-              </button>
-              <button type="button" class="btn orange-btn actions-btns unmute">
-                <img src="img/icons/mute-white.svg"/>
-              </button>
-              <button type="button" class="btn blue-btn actions-btns atxfer">
-                <img src="img/icons/indi-white.svg"/>
-              </button>
-              <button type="button" class="btn blue-btn actions-btns transfer">
-                <img src="img/icons/transfer-white.svg"/>
-              </button>
-              <button type="button" class="btn actions-btns btn-reject hangup">
-                <img src="img/icons/hangup-white.svg"/>
-              </button>
-              <button type="button" class="btn orange-btn actions-btns reduce">
-                <img src="img/icons/reduce-white.svg"/>
-              </button>
-              <button type="button" class="btn blue-btn actions-btns expand">
-                <img src="img/icons/expand-white.svg"/>
-              </button>
+            <div class="call-commands">
+
+              <div class="unhold">
+                <button type="button" class="btn orange-btn actions-btns">
+                  <img src="img/icons/unhold-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">unhold</h5>
+              </div>
+              
+              <div class="hold">
+                <button type="button" class="btn blue-btn actions-btns">
+                  <img src="img/icons/hold-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">hold</h5>
+              </div>
+
+              <div class="mute">
+                <button type="button" class="btn blue-btn actions-btns">
+                  <img src="img/icons/mic-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">mute</h5>
+              </div>
+
+              <div class="unmute">
+                <button type="button" class="btn orange-btn actions-btns">
+                  <img src="img/icons/mute-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">unmute</h5>
+              </div>
+
+              <div class="atxfer">
+                <button type="button" class="btn blue-btn actions-btns">
+                  <img src="img/icons/indi-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">indirect transfer</h5>
+              </div>
+
+              <div class="transfer">
+                <button type="button" class="btn blue-btn actions-btns">
+                  <img src="img/icons/transfer-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">transfer</h5>
+              </div>
+
+              <div class="hangup">
+                <button type="button" class="btn actions-btns btn-reject">
+                  <img src="img/icons/hangup-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">hang up</h5>
+              </div>
+
+              <div class="reduce">
+                <button type="button" class="btn orange-btn actions-btns">
+                  <img src="img/icons/reduce-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">reduce video</h5>
+              </div>
+
+              <div class="expand">
+                <button type="button" class="btn blue-btn actions-btns">
+                  <img src="img/icons/expand-white.svg"/>
+                </button>
+
+                <h5 class="subtitle">expand video</h5>
+              </div>
+
             </div>  
           </div>  
         </div>        
@@ -173,7 +219,7 @@
             <button type="button" id="accept-video" class="btn dialer-btn">
               <img src="img/icons/video-white.svg" width="30" height="30" />
             </button>
-            <button type="button" id="reject" class="btn btn-reject">
+            <button type="button" id="reject" class="btn reject-call btn-reject">
               <img src="img/icons/hangup-white.svg" width="35" height="35" />
             </button>
           </div>
