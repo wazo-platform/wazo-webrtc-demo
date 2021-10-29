@@ -18,10 +18,6 @@ And open `localhost:8000` on your browser.
 Alternative installation
 ------------------------
 
-If you have Docker installed on your computer, you can also run `docker-compose up --build` and tadaaaa it's all set!
-
-or
-
 It's possible to install this demo as a plugin:
 
     apt install wazo-plugind-cli
