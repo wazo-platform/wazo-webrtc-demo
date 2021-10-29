@@ -105,6 +105,13 @@
 
 /* MAIN */
 
+.credits {
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  color: #98c451;
+}
+
 .btn {
   text-transform: uppercase;
 }
