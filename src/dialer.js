@@ -1,4 +1,3 @@
-
 const sessions = {};
 let currentSession;
 const inConference = false;
@@ -6,6 +5,7 @@ let currentAtxfer;
 let countDown;
 let timerId;
 
+// Custom welcome message
 const setGreeter = async () => {
   const user = await Wazo.getApiClient().confd.getUser(
     Wazo.Auth.getSession().uuid,
@@ -15,6 +15,7 @@ const setGreeter = async () => {
   $('.greeter').html(`Hello ${name} 👋`);
 };
 
+// Call status
 const setMainStatus = status => {
   $('#status').html(status);
   setTimeout(() => $('#status').html('&nbsp;'), 3000);
@@ -46,6 +47,7 @@ const getStatus = callSession => {
   }
 };
 
+// Phone will be hung up if the app is reloaded
 const onReload = () => {
   $(window).on('beforeunload', () => {
     console.log('reloading');
@@ -109,6 +111,8 @@ const initializeWebRtc = () => {
   initializeMainDialer();
 };
 
+// Phone events
+
 const onCallAccepted = (callSession, withVideo) => {
   sessions[callSession.getId()] = callSession;
   currentSession = callSession;
@@ -149,9 +153,7 @@ const onCallTerminated = callSession => {
   $('.dial-texts').removeClass('hidden');
   $('.call-btn').removeClass('mini-btns');
 
-  // Current session terminated ?
   if (currentSession && currentSession.getId() === callSession.getId()) {
-    // Remaining session ? take first
     currentSession = Object.keys(sessions).length
       ? sessions[Object.keys(sessions)[0]]
       : null;
@@ -174,6 +176,8 @@ const onSessionUpdate = callSession => {
   sessions[callSession.getId()] = callSession;
   updateScenes();
 }
+
+// Dialer actions
 
 const accept = (callSession, withVideo) => {
   console.log(`accepting ${getNumber(callSession)} ${withVideo ? 'withVideo' : 'withoutVideo'}`);
@@ -264,6 +268,7 @@ const initializeMainDialer = () => {
   updateScenes();
 }
 
+// scene = phone or video call scene
 const addScene = (callSession, withVideo) => {
   const label = getNumber(callSession);
   const $newScene = $('#root-scene')
@@ -362,7 +367,6 @@ const addScene = (callSession, withVideo) => {
   }
 
   if (inConference) {
-    // eslint-disable-next-line no-undef
     if (isSessionInMerge) {
       $unmergeButton.show();
     } else {
@@ -400,6 +404,7 @@ const addScene = (callSession, withVideo) => {
   });
 
   $atxferButton.show();
+  // Indirect transfer
   $atxferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
@@ -446,6 +451,7 @@ const addScene = (callSession, withVideo) => {
   });
 
   $transferButton.show();
+  // Direct transfer
   $transferButton.off('click').on('click', (e) => {
     e.preventDefault();
 
@@ -460,6 +466,7 @@ const addScene = (callSession, withVideo) => {
   return $newScene;
 }
 
+// Used to switch between calls in the multiple calls handler
 const switchCall = event => {
   event.stopImmediatePropagation();
 
@@ -477,6 +484,11 @@ const switchCall = event => {
   updateScenes();
 }
 
+/* 
+  Displays dots animation when calling & a timer when called
+  The timer is not functionnal yet : it works well when you have one call at a time
+  but applies to every call when you have at least 2 calls in your handler
+*/
 const updateTimer = () => {
   if (!currentSession) {
     return;
@@ -513,6 +525,7 @@ const updateScenes = status => {
   noActiveSession ? $('.dial-texts').removeClass('hidden') : $('.dial-texts').addClass('hidden');
   noActiveSession ? $('.call-btn').removeClass('mini-btns') : $('.call-btn').addClass('mini-btns');
   
+  // multiple calls handler 
   Object.keys(sessions).forEach(sessionId => {
     const callSession = sessions[sessionId];
     const newScene = addScene(callSession, callSession.cameraEnabled);

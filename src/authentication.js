@@ -28,6 +28,10 @@ const displayAuthError = error => {
   $('.login-txt').html('login');
 }
 
+/* 
+  Readiness is tested so we can still display the loader even when
+  authentication is fast
+*/
 const testReadiness = () => {
   if (ready) {
     onLogin(session);
