@@ -1,3 +1,4 @@
+/* RESPONSIVE ELEMENTS */
 @media screen and (min-width: 300px) {
   .auth-display { 
     display: flex;
@@ -103,13 +104,6 @@
 
 #root-scene .unhold, #root-scene .hold, #root-scene .mute, #root-scene .unmute, #root-scene .merge, #root-scene .unmerge, #root-scene .atxfer, #root-scene .transfer, #root-scene .video-call, #root-scene .expand, #root-scene .reduce, #root-scene video  {
   display: none;
-}
-
-#calls-handler {
-  position: absolute;
-  left: 1rem;
-  top: 5rem;
-  z-index: 10;
 }
 
 /* MAIN */
@@ -567,6 +561,13 @@ h3 {
 
 /* CALLS HANDLER */
 
+#calls-handler {
+  position: absolute;
+  left: 1rem;
+  top: 5rem;
+  z-index: 10;
+}
+
 .switch-btn {
   border: 1px solid #98c451;
   color: #98c451;
@@ -584,7 +585,6 @@ h3 {
   background: #98c451;
   color: rgb(46, 44, 41);
 }
-
 
 /* VIDEO */ 
 
@@ -859,7 +859,7 @@ h3.contact {
   animation-delay: -0.9s;
 }
 
-
+/* DOTS WAVE ANIMATION */
 @keyframes wave {
   0%,
   60%,
