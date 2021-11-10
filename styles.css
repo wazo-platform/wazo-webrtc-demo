@@ -39,6 +39,11 @@
     height: 20px;
     padding-right: 5px;
   }
+
+  .subtitle {
+    font-size: 0.5rem;
+    color: #fff;
+  }
 }
 
 @media screen and (min-width: 700px) {
@@ -64,7 +69,6 @@
     margin-left: 0 !important;
   }
 
-
   .actions-btns {
     width: 70px;
     height: 70px;
@@ -79,6 +83,11 @@
     width: 35px;
     height: 35px;
     padding-right: 0;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+    color: #fff;
   }
 
 }
@@ -428,12 +437,15 @@ main {
 }
 
 .btn-reject {
-  width: 70px;
-  height: 70px;
   border-radius: 50%;
   border: 1px solid red;
   box-shadow: inset 0 0 0 1px red;
   transition: box-shadow 1.3s;
+}
+
+.reject-call {
+  width: 70px;
+  height: 70px;
 }
 
 .btn-reject:hover {
@@ -519,10 +531,11 @@ h3 {
   padding: 0 30px;
 }
 
-.buttons-call {
+.call-commands {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 /* PHONE incoming call */
