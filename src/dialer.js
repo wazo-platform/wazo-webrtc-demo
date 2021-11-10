@@ -150,12 +150,12 @@ const accept = (callSession, withVideo) => {
 };
 
 const unhold = async callSession => {
-  await Wazo.Phone.resume(callSession);
+  await Wazo.Phone.resume(callSession, callSession.number === '9010');
   setTimeout(updateDialers, 3000);
 };
 
 const hold = async callSession => {
-  await Wazo.Phone.hold(callSession);
+  await Wazo.Phone.hold(callSession, callSession.number === '9010');
   setTimeout(updateDialers, 1000);
 };
 
@@ -328,7 +328,6 @@ function addDialer(callSession) {
   }
 
   const $localVideo = $('video.local');
-  console.log('hasLocalVideo', hasLocalVideo);
   if (hasLocalVideo) {
     $localVideo.show();
 
