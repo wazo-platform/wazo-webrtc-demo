@@ -6,7 +6,7 @@
 
 A simple demonstration of Wazo's WebRTC SDK
 
-# Running
+## Running
 
 Open `index.html` with your favorite browser.
 
@@ -20,12 +20,13 @@ And open `localhost:8000` on your browser.
 
 ![Main screenshot](/screenshots/screen1.png?raw=true "Main")
 
-Alternative installation
-------------------------
+## Alternative installation
 
 It's possible to install this demo as a plugin:
 
-    apt install wazo-plugind-cli
-    wazo-plugind-cli -c 'install git https://github.com/wazo-platform/wazo-webrtc-demo'
+```sh
+apt install wazo-plugind-cli
+wazo-plugind-cli -c 'install git https://github.com/wazo-platform/wazo-webrtc-demo'
+```
 
 Open your browser to https://server/wazo-webrtc-demo
