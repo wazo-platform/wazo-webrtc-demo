@@ -1,4 +1,9 @@
 # wazo-webrtc-demo
+
+> [!NOTE]
+> This repository is community-maintained.
+> Have questions or need help? Join us on [Mattermost](https://mm.wazo.community/wazo-platform/)
+
 A simple demonstration of Wazo's WebRTC SDK
 
 # Running
